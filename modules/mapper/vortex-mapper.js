@@ -1,5 +1,6 @@
 import { VortexGraph } from "../../vortex-graph.js";
 import { registerModelNodes } from "../../vortex-nodes.js";
+import { registerJsonNodes } from "../../vortex-json-nodes.js";
 import { vortexRegistry } from "../../vortex-registry.js";
 
 export class VortexMapperModule {
@@ -17,6 +18,7 @@ export class VortexMapperModule {
 
   init() {
     registerModelNodes();
+    registerJsonNodes();
     this.registerWheelEvent();
     this.registerMouseDownEvent();
   }
@@ -63,13 +65,15 @@ export class VortexMapperModule {
     const startH = node.offsetHeight;
 
     const onMove = (e) => {
-      node.style.width = startW + e.clientX - startX + "px";
-      node.style.height = startH + e.clientY - startY + "px";
+      node.style.width = startW + (e.clientX - startX) / this.zoomLevel + "px";
+      node.style.height = startH + (e.clientY - startY) / this.zoomLevel + "px";
+      this.graph.updateLinks();
     };
 
     const onUp = () => {
       this.canvas.removeEventListener("mousemove", onMove);
       this.canvas.removeEventListener("mouseup", onUp);
+      this.graph.updateLinks();
     };
 
     this.canvas.addEventListener("mousemove", onMove);
@@ -139,6 +143,7 @@ export class VortexMapperModule {
       this.panY = mouseY - (mouseY - this.panY) * (newZoom / this.zoomLevel);
 
       this.zoomLevel = newZoom;
+      this.graph.zoomLevel = newZoom;
       this.applyTransform();
     });
   }

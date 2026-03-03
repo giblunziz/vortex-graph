@@ -1,39 +1,66 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>VorteX Lab</title>
-    <link rel="stylesheet" href="vortex-base.css">
-</head>
+    <link rel="stylesheet" href="vortex-base.css" />
+  </head>
 
-<body>
+  <body>
     <div id="toolbar">
-        <button id="add-link" class="toolbar-btn">+ Invoice request</button>
-        <button id="add-total" class="toolbar-btn">+ TotalPart</button>
-        <button id="add-node" class="toolbar-btn">+ Invoice</button>
+      <button id="add-link" class="toolbar-btn">+ Invoice request</button>
+      <button id="add-total" class="toolbar-btn">+ TotalPart</button>
+      <button id="add-node" class="toolbar-btn">+ Invoice</button>
     </div>
-    <div id="vortex"></div>
+    <div id="layout">
+      <aside id="sidebar">
+        <input id="node-search" type="text" placeholder="Search node..." />
+        <div id="node-tree"></div>
+      </aside>
+
+      <main id="main">
+        <div id="vortex"></div>
+      </main>
+    </div>
 
     <script type="module" src="./vortex-app.js"></script>
 
     <template id="vortex-node">
-        <div class="vortex-node">
-            <div class="node-header">MonNode</div>
-            <div class="node-ports"></div>
-            <div class="node-footer">footer</div>
-            <div class="resize-handle"></div>
-        </div>
+      <div class="vortex-node">
+        <div class="node-header">MonNode</div>
+        <div class="node-ports"></div>
+        <div class="node-widgets-slot"></div>
+        <div class="node-footer">footer</div>
+        <div class="resize-handle"></div>
+      </div>
     </template>
 
     <template id="vortex-port-row">
-        <div class="node-row">
-            <span class="port in"></span>
-            <span class="field-name"></span>
-            <span class="port out"></span>
-        </div>
+      <div class="node-row">
+        <span class="port in"></span>
+        <span class="field-name"></span>
+        <span class="port out"></span>
+      </div>
     </template>
 
-</body>
+    <template id="vortex-widget-button">
+      <div class="node-widget">
+        <button class="widget-button"></button>
+      </div>
+    </template>
 
+    <template id="vortex-widget-text">
+      <div class="node-widget">
+        <label class="widget-label"></label>
+        <input class="widget-input" type="text" />
+      </div>
+    </template>
+
+    <template id="vortex-widget-readonly">
+      <div class="node-widget">
+        <label class="widget-label"></label>
+        <span class="widget-value"></span>
+      </div>
+    </template>
+  </body>
 </html>
