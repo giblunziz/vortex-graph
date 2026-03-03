@@ -445,6 +445,22 @@ body {
     opacity: 0.2;
 }
 
+/* Execution highlights */
+.vortex-node.executing {
+    border-color: #ffa500;
+    box-shadow: 0 0 20px rgba(255, 165, 0, 0.5);
+}
+
+.vortex-node.executed {
+    border-color: #7ecf7e;
+    box-shadow: 0 0 20px rgba(126, 207, 126, 0.4);
+}
+
+.vortex-node.execute-error {
+    border-color: #cf4040;
+    box-shadow: 0 0 20px rgba(207, 64, 64, 0.5);
+}
+
 .drop-selector {
     position: fixed;
     min-width: 200px;

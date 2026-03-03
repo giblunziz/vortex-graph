@@ -57,6 +57,21 @@ class JsonLoaderNode {
         input.click();
     }
 
+    execute(inputs, nodeEl) {
+        const raw = nodeEl._jsonRaw;
+        if (!raw) return {};
+
+        const data = nodeEl._jsonData;
+        const rootInput = nodeEl.querySelector('.widget-input[data-name="root"]');
+        const root = rootInput ? rootInput.value : '';
+        const output = root ? data[root] : data;
+
+        return {
+            json: JSON.stringify(output, null, 2),
+            data: output
+        };
+    }
+
     register() {
         vortexRegistry.registerNode(this.id, this);
     }
@@ -82,6 +97,15 @@ class JsonPreviewNode {
         ];
         this.cssClass = 'resizable-free';
         this.size = [350, 250];
+    }
+
+    execute(inputs, nodeEl) {
+        const json = inputs.json;
+        if (json !== undefined) {
+            const pre = nodeEl.querySelector('.node-preview');
+            if (pre) pre.textContent = typeof json === 'string' ? json : JSON.stringify(json, null, 2);
+        }
+        return {};
     }
 
     register() {

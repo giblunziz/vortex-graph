@@ -18,6 +18,8 @@ function buildContainer() {
 const { canvas, world, svg } = buildContainer();
 const mapperModule = new VortexMapperModule(canvas, world, svg);
 
+document.getElementById('execute-plan').addEventListener("click",() => mapperModule.graph.executePlan())
+
 // --- Sidebar tree ---
 function buildSidebarTree() {
   const tree = vortexRegistry.getNodeTree();
@@ -120,4 +122,6 @@ canvas.addEventListener('drop', (e) => {
     nodeEl.style.top = y + 'px';
   }
 });
+
+
 

@@ -1,7 +1,7 @@
-import { VortexGraph } from "../../vortex-graph.js";
-import { registerModelNodes } from "../../vortex-nodes.js";
-import { registerJsonNodes } from "../../vortex-json-nodes.js";
-import { vortexRegistry } from "../../vortex-registry.js";
+import { VortexGraph } from '../../vortex-graph.js';
+import { registerModelNodes } from '../../vortex-nodes.js';
+import { registerJsonNodes } from '../../vortex-json-nodes.js';
+import { vortexRegistry } from '../../vortex-registry.js';
 
 export class VortexMapperModule {
   constructor(canvas, world, svg) {
@@ -31,17 +31,20 @@ export class VortexMapperModule {
   }
 
   registerMouseDownEvent() {
-    this.canvas.addEventListener("mousedown", (e) => {
+    this.canvas.addEventListener('mousedown', (e) => {
       if (e.button !== 0) return;
 
-      const resize = e.target.closest(".resize-handle");
-      const header = e.target.closest(".node-header");
-      const port = e.target.closest(".port");
-      const node = e.target.closest(".vortex-node");
+      const resize = e.target.closest('.resize-handle');
+      const header = e.target.closest('.node-header');
+      const port = e.target.closest('.port');
+      const node = e.target.closest('.vortex-node');
 
       if (port) {
-        if (port.classList.contains("in")) {
-          const existingLink = this.graph.links.find((l) => l.toPort === port);
+        if (port.classList.contains('in')) {
+          const pd = this.portData(port);
+          const existingLink = this.graph.links.find(
+            (l) => l.toNode === pd.nodeId && l.toName === pd.portName,
+          );
           if (existingLink) {
             this.startLinkRedirect(existingLink, e);
             return;
@@ -65,19 +68,19 @@ export class VortexMapperModule {
     const startH = node.offsetHeight;
 
     const onMove = (e) => {
-      node.style.width = startW + (e.clientX - startX) / this.zoomLevel + "px";
-      node.style.height = startH + (e.clientY - startY) / this.zoomLevel + "px";
+      node.style.width = startW + (e.clientX - startX) / this.zoomLevel + 'px';
+      node.style.height = startH + (e.clientY - startY) / this.zoomLevel + 'px';
       this.graph.updateLinks();
     };
 
     const onUp = () => {
-      this.canvas.removeEventListener("mousemove", onMove);
-      this.canvas.removeEventListener("mouseup", onUp);
+      this.canvas.removeEventListener('mousemove', onMove);
+      this.canvas.removeEventListener('mouseup', onUp);
       this.graph.updateLinks();
     };
 
-    this.canvas.addEventListener("mousemove", onMove);
-    this.canvas.addEventListener("mouseup", onUp);
+    this.canvas.addEventListener('mousemove', onMove);
+    this.canvas.addEventListener('mouseup', onUp);
   }
 
   startNodeDrag(node, e) {
@@ -85,23 +88,23 @@ export class VortexMapperModule {
       x: e.clientX - node.offsetLeft * this.zoomLevel - this.panX,
       y: e.clientY - node.offsetTop * this.zoomLevel - this.panY,
     };
-    node.style.cursor = "grabbing";
+    node.style.cursor = 'grabbing';
 
     const onMove = (e) => {
       node.style.left =
-        (e.clientX - offset.x - this.panX) / this.zoomLevel + "px";
+        (e.clientX - offset.x - this.panX) / this.zoomLevel + 'px';
       node.style.top =
-        (e.clientY - offset.y - this.panY) / this.zoomLevel + "px";
+        (e.clientY - offset.y - this.panY) / this.zoomLevel + 'px';
       this.graph.updateLinks();
     };
 
     const onUp = () => {
-      node.style.cursor = "";
-      this.canvas.removeEventListener("mousemove", onMove);
-      this.canvas.removeEventListener("mouseup", onUp);
+      node.style.cursor = '';
+      this.canvas.removeEventListener('mousemove', onMove);
+      this.canvas.removeEventListener('mouseup', onUp);
     };
-    this.canvas.addEventListener("mousemove", onMove);
-    this.canvas.addEventListener("mouseup", onUp);
+    this.canvas.addEventListener('mousemove', onMove);
+    this.canvas.addEventListener('mouseup', onUp);
   }
 
   startCanvasPan(e) {
@@ -109,7 +112,7 @@ export class VortexMapperModule {
     const startY = e.clientY;
     const startPanX = this.panX;
     const startPanY = this.panY;
-    this.canvas.style.cursor = "grabbing";
+    this.canvas.style.cursor = 'grabbing';
 
     const onMove = (e) => {
       this.panX = startPanX + (e.clientX - startX);
@@ -118,17 +121,17 @@ export class VortexMapperModule {
     };
 
     const onUp = () => {
-      this.canvas.style.cursor = "";
-      this.canvas.removeEventListener("mousemove", onMove);
-      this.canvas.removeEventListener("mouseup", onUp);
+      this.canvas.style.cursor = '';
+      this.canvas.removeEventListener('mousemove', onMove);
+      this.canvas.removeEventListener('mouseup', onUp);
     };
 
-    this.canvas.addEventListener("mousemove", onMove);
-    this.canvas.addEventListener("mouseup", onUp);
+    this.canvas.addEventListener('mousemove', onMove);
+    this.canvas.addEventListener('mouseup', onUp);
   }
 
   registerWheelEvent() {
-    this.canvas.addEventListener("wheel", (e) => {
+    this.canvas.addEventListener('wheel', (e) => {
       e.preventDefault();
       const delta = e.deltaY > 0 ? -0.1 : 0.1;
       const newZoom = Math.min(2, Math.max(0.3, this.zoomLevel + delta));
@@ -150,7 +153,7 @@ export class VortexMapperModule {
 
   applyTransform() {
     this.world.style.transform = `translate(${this.panX}px, ${this.panY}px) scale(${this.zoomLevel})`;
-    this.world.style.transformOrigin = "0 0";
+    this.world.style.transformOrigin = '0 0';
 
     // La grille suit le pan et le zoom
     const gridSize = 20 * this.zoomLevel;
@@ -159,16 +162,16 @@ export class VortexMapperModule {
   }
 
   startPortDrag(port, e) {
-    const svg = this.world.querySelector("#vortex-links");
+    const svg = this.world.querySelector('#vortex-links');
     const tempPath = document.createElementNS(
-      "http://www.w3.org/2000/svg",
-      "path",
+      'http://www.w3.org/2000/svg',
+      'path',
     );
-    tempPath.classList.add("vortex-link");
-    tempPath.style.opacity = "0.5";
+    tempPath.classList.add('vortex-link');
+    tempPath.style.opacity = '0.5';
     svg.appendChild(tempPath);
 
-    const isOutput = port.classList.contains("out");
+    const isOutput = port.classList.contains('out');
     const startCenter = this.graph.getPortCenter(port);
 
     const onMove = (e) => {
@@ -180,13 +183,13 @@ export class VortexMapperModule {
       const to = isOutput ? { x: mouseX, y: mouseY } : startCenter;
       const dx = Math.abs(to.x - from.x) * 0.5;
       tempPath.setAttribute(
-        "d",
+        'd',
         `M ${from.x} ${from.y} C ${from.x + dx} ${from.y}, ${to.x - dx} ${to.y}, ${to.x} ${to.y}`,
       );
     };
 
     const onUp = (e) => {
-      const targetPort = e.target.closest(".port");
+      const targetPort = e.target.closest('.port');
 
       if (targetPort && targetPort !== port) {
         const fromPort = isOutput ? port : targetPort;
@@ -196,60 +199,91 @@ export class VortexMapperModule {
         // Drop dans le vide → drop selector
         const sourceType = port.dataset.type;
         const direction = isOutput ? 'in' : 'out';
-        this.showDropSelector(e.clientX, e.clientY, sourceType, direction, port, isOutput);
+        this.showDropSelector(
+          e.clientX,
+          e.clientY,
+          sourceType,
+          direction,
+          port,
+          isOutput,
+        );
       }
 
       tempPath.remove();
-      this.canvas.removeEventListener("mousemove", onMove);
-      this.canvas.removeEventListener("mouseup", onUp);
+      this.canvas.removeEventListener('mousemove', onMove);
+      this.canvas.removeEventListener('mouseup', onUp);
     };
 
-    this.canvas.addEventListener("mousemove", onMove);
-    this.canvas.addEventListener("mouseup", onUp);
+    this.canvas.addEventListener('mousemove', onMove);
+    this.canvas.addEventListener('mouseup', onUp);
   }
 
-startLinkRedirect(link, e) {
-    const fromPort = link.fromPort;
+  startLinkRedirect(link, e) {
+    const fromPort = link._fromPort;
 
-    // Détacher visuellement — le path existant devient le lien temporaire
-    const tempPath = link.path;
+    // Détacher visuellement — créer un path temporaire
+    const svg = this.world.querySelector('#vortex-links');
+    const tempPath = document.createElementNS(
+      'http://www.w3.org/2000/svg',
+      'path',
+    );
+    tempPath.classList.add('vortex-link');
     tempPath.style.opacity = '0.5';
+    svg.appendChild(tempPath);
 
-    // Supprimer du graph
+    // Garder les infos du lien original avant suppression
+    const originalFromNode = link.fromNode;
+    const originalFromName = link.fromName;
+
+    // Supprimer du graph (supprime aussi le path SVG)
     this.graph.removeLink(link);
 
     const startCenter = this.graph.getPortCenter(fromPort);
 
     const onMove = (e) => {
-        const rect = this.world.getBoundingClientRect();
-        const mouseX = e.clientX - rect.left;
-        const mouseY = e.clientY - rect.top;
-        const dx = Math.abs(mouseX - startCenter.x) * 0.5;
+      const rect = this.world.getBoundingClientRect();
+      const mouseX = (e.clientX - rect.left) / this.zoomLevel;
+      const mouseY = (e.clientY - rect.top) / this.zoomLevel;
+      const dx = Math.abs(mouseX - startCenter.x) * 0.5;
 
-        tempPath.setAttribute('d',
-            `M ${startCenter.x} ${startCenter.y} C ${startCenter.x + dx} ${startCenter.y}, ${mouseX - dx} ${mouseY}, ${mouseX} ${mouseY}`
-        );
+      tempPath.setAttribute(
+        'd',
+        `M ${startCenter.x} ${startCenter.y} C ${startCenter.x + dx} ${startCenter.y}, ${mouseX - dx} ${mouseY}, ${mouseX} ${mouseY}`,
+      );
     };
 
     const onUp = (e) => {
-        const targetPort = e.target.closest('.port.in');
+      const targetPort = e.target.closest('.port.in');
 
-        if (targetPort && targetPort !== link.toPort) {
-            this.graph.createLink(fromPort, targetPort);
-        } else if (!targetPort) {
-            // Drop dans le vide → drop selector (ou suppression si pas de choix)
-            const sourceType = fromPort.dataset.type;
-            this.showDropSelector(e.clientX, e.clientY, sourceType, 'in', fromPort, true);
-        }
+      if (targetPort) {
+        const to = this.portData(targetPort);
+        this.graph.createLink(
+          originalFromNode,
+          originalFromName,
+          to.nodeId,
+          to.portName,
+        );
+      } else {
+        // Drop dans le vide → drop selector
+        const sourceType = fromPort.dataset.type;
+        this.showDropSelector(
+          e.clientX,
+          e.clientY,
+          sourceType,
+          'in',
+          fromPort,
+          true,
+        );
+      }
 
-        tempPath.remove();
-        this.canvas.removeEventListener('mousemove', onMove);
-        this.canvas.removeEventListener('mouseup', onUp);
+      tempPath.remove();
+      this.canvas.removeEventListener('mousemove', onMove);
+      this.canvas.removeEventListener('mouseup', onUp);
     };
 
     this.canvas.addEventListener('mousemove', onMove);
     this.canvas.addEventListener('mouseup', onUp);
-}  
+  }
 
   showDropSelector(x, y, type, direction, sourcePort, isOutput) {
     this.dismissDropSelector();
@@ -258,7 +292,11 @@ startLinkRedirect(link, e) {
     const sourceNode = sourcePort.closest('.vortex-node');
     const sourceNodeType = sourceNode ? sourceNode.dataset.type : null;
 
-    const matches = vortexRegistry.findCompatibleNodes(type, direction, sourceNodeType);
+    const matches = vortexRegistry.findCompatibleNodes(
+      type,
+      direction,
+      sourceNodeType,
+    );
     if (matches.length === 0) return;
 
     const popup = document.createElement('div');
@@ -282,26 +320,69 @@ startLinkRedirect(link, e) {
         const nodeX = (x - worldRect.left) / this.zoomLevel;
         const nodeY = (y - worldRect.top) / this.zoomLevel;
 
-        const nodeId = this.graph.appendNode(match.nodeId);
-        const nodeEl = this.world.querySelector(`.vortex-node[data-id="${nodeId}"]`);
+        const newNodeId  = this.graph.appendNode(match.nodeId);
+        const nodeEl = this.world.querySelector(
+          `.vortex-node[data-id="${nodeId}"]`,
+        );
         nodeEl.style.left = nodeX + 'px';
         nodeEl.style.top = nodeY + 'px';
 
-        // Chercher le meilleur port pour le lien
-        const sourcePortName = sourcePort.closest('.node-row').querySelector('.field-name').textContent;
-        // 1. Matching par nom + type (ex: bu string → bu string)
-        let targetPort = this.findPortOnNode(nodeEl, sourcePortName, direction);
-        if (!targetPort || targetPort.dataset.type !== type) {
-          // 2. Matching par _Self si type composite (ex: total invoiceRequest/TotalPart → _Self invoiceRequest/TotalPart)
-          targetPort = this.findPortOnNode(nodeEl, '_Self', direction);
-          if (!targetPort || targetPort.dataset.type !== type) {
-            targetPort = null;
-          }
+        // // Chercher le meilleur port pour le lien
+        // const sourcePortName = sourcePort.closest('.node-row').querySelector('.field-name').textContent;
+        // // 1. Matching par nom + type (ex: bu string → bu string)
+        // let targetPort = this.findPortOnNode(nodeEl, sourcePortName, direction);
+        // if (!targetPort || targetPort.dataset.type !== type) {
+        //   // 2. Matching par _Self si type composite (ex: total invoiceRequest/TotalPart → _Self invoiceRequest/TotalPart)
+        //   targetPort = this.findPortOnNode(nodeEl, '_Self', direction);
+        //   if (!targetPort || targetPort.dataset.type !== type) {
+        //     targetPort = null;
+        //   }
+        // }
+        // if (targetPort) {
+        //   const fromPort = isOutput ? sourcePort : targetPort;
+        //   const toPort = isOutput ? targetPort : sourcePort;
+        //   this.graph.createLink(fromPort, toPort);
+        // }
+
+        // Chercher le meilleur port pour le lien (via le modèle)
+        const source = this.portData(sourcePort);
+        const newDesc = this.graph.nodes.get(newNodeId);
+
+        let targetName = null;
+        const matchByName = newDesc.ports.find(
+          (p) =>
+            p.name === source.portName &&
+            p.type === type &&
+            (direction === 'in' ? p.hasIn : p.hasOut),
+        );
+        if (matchByName) {
+          targetName = matchByName.name;
+        } else {
+          const matchBySelf = newDesc.ports.find(
+            (p) =>
+              p.name === '_Self' &&
+              p.type === type &&
+              (direction === 'in' ? p.hasIn : p.hasOut),
+          );
+          if (matchBySelf) targetName = '_Self';
         }
-        if (targetPort) {
-          const fromPort = isOutput ? sourcePort : targetPort;
-          const toPort = isOutput ? targetPort : sourcePort;
-          this.graph.createLink(fromPort, toPort);
+
+        if (targetName) {
+          if (isOutput) {
+            this.graph.createLink(
+              source.nodeId,
+              source.portName,
+              newNodeId,
+              targetName,
+            );
+          } else {
+            this.graph.createLink(
+              newNodeId,
+              targetName,
+              source.nodeId,
+              source.portName,
+            );
+          }
         }
 
         this.dismissDropSelector();
@@ -330,17 +411,25 @@ startLinkRedirect(link, e) {
     }
   }
 
+  // Extraire la data d'un port DOM
+  portData(port) {
+    const nodeEl = port.closest('.vortex-node');
+    const row = port.closest('.node-row');
+    return {
+      nodeId: nodeEl.dataset.id,
+      portName: row.querySelector('.field-name').textContent,
+    };
+  }
+
   tryAutoWire(fromPort, toPort) {
-    const fromName = fromPort.closest('.node-row').querySelector('.field-name').textContent;
-    const toName = toPort.closest('.node-row').querySelector('.field-name').textContent;
+    const from = this.portData(fromPort);
+    const to = this.portData(toPort);
 
     // _Self out → _Self in = auto-wire par nom/type, pas de lien sur _Self
-    if (fromName === '_Self' && toName === '_Self') {
-      const sourceNode = fromPort.closest('.vortex-node');
-      const targetNode = toPort.closest('.vortex-node');
-      this.graph.autoWire(sourceNode, targetNode);
+    if (from.portName === '_Self' && to.portName === '_Self') {
+      this.graph.autoWire(from.nodeId, to.nodeId);
     } else {
-      this.graph.createLink(fromPort, toPort);
+      this.graph.createLink(from.nodeId, from.portName, to.nodeId, to.portName);
     }
   }
 

@@ -1,4 +1,4 @@
-import { vortexRegistry } from "./vortex-registry.js";
+import { vortexRegistry } from './vortex-registry.js';
 
 // Le modèle — source de vérité
 export class VortexGraph {
@@ -27,8 +27,8 @@ export class VortexGraph {
 
   updateSelectionView() {
     // La vue se met à jour DEPUIS le modèle
-    document.querySelectorAll(".vortex-node").forEach((el) => {
-      el.classList.toggle("selected", this.selection.has(el.dataset.id));
+    document.querySelectorAll('.vortex-node').forEach((el) => {
+      el.classList.toggle('selected', this.selection.has(el.dataset.id));
     });
   }
 
@@ -41,7 +41,7 @@ export class VortexGraph {
     //   0,
     //   ...[...this.nodes.keys()].map((id) => parseInt(id.split("_")[1])),
     // );
-    return "vn_" + ++this.nodeCount;
+    return 'vn_' + ++this.nodeCount;
   }
 
   appendNode(nodeId) {
@@ -58,13 +58,13 @@ export class VortexGraph {
   }
 
   addPort(node, name, type, hasIn, hasOut) {
-    const tpl = document.getElementById("vortex-port-row");
+    const tpl = document.getElementById('vortex-port-row');
     const row = tpl.content.cloneNode(true);
 
-    this.setText(row, ".field-name", name);
+    this.setText(row, '.field-name', name);
 
-    const portIn = row.querySelector(".port.in");
-    const portOut = row.querySelector(".port.out");
+    const portIn = row.querySelector('.port.in');
+    const portOut = row.querySelector('.port.out');
 
     if (hasIn) {
       portIn.dataset.type = type;
@@ -74,7 +74,7 @@ export class VortexGraph {
       portOut.dataset.type = type;
     } else portOut.remove();
 
-    node.querySelector(".node-ports").appendChild(row);
+    node.querySelector('.node-ports').appendChild(row);
   }
 
   setText(el, selector, value) {
@@ -82,44 +82,44 @@ export class VortexGraph {
   }
 
   addWidget(container, nodeEl, widget) {
-    if (widget.type === "button") {
-      const tpl = document.getElementById("vortex-widget-button");
+    if (widget.type === 'button') {
+      const tpl = document.getElementById('vortex-widget-button');
       const clone = tpl.content.cloneNode(true);
-      const btn = clone.querySelector(".widget-button");
+      const btn = clone.querySelector('.widget-button');
       btn.textContent = widget.label;
-      btn.addEventListener("click", (e) => {
+      btn.addEventListener('click', (e) => {
         e.stopPropagation();
         if (widget.onClick) widget.onClick(nodeEl);
       });
       container.appendChild(clone);
-    } else if (widget.type === "text") {
-      const tpl = document.getElementById("vortex-widget-text");
+    } else if (widget.type === 'text') {
+      const tpl = document.getElementById('vortex-widget-text');
       const clone = tpl.content.cloneNode(true);
-      clone.querySelector(".widget-label").textContent = widget.label;
-      const input = clone.querySelector(".widget-input");
+      clone.querySelector('.widget-label').textContent = widget.label;
+      const input = clone.querySelector('.widget-input');
       input.dataset.name = widget.name;
-      input.value = widget.value || "";
-      input.placeholder = widget.placeholder || "";
-      input.addEventListener("mousedown", (e) => e.stopPropagation());
+      input.value = widget.value || '';
+      input.placeholder = widget.placeholder || '';
+      input.addEventListener('mousedown', (e) => e.stopPropagation());
       container.appendChild(clone);
-    } else if (widget.type === "readonly") {
-      const tpl = document.getElementById("vortex-widget-readonly");
+    } else if (widget.type === 'readonly') {
+      const tpl = document.getElementById('vortex-widget-readonly');
       const clone = tpl.content.cloneNode(true);
-      clone.querySelector(".widget-label").textContent = widget.label;
-      const val = clone.querySelector(".widget-value");
+      clone.querySelector('.widget-label').textContent = widget.label;
+      const val = clone.querySelector('.widget-value');
       val.dataset.name = widget.name;
-      val.textContent = widget.value || "";
+      val.textContent = widget.value || '';
       container.appendChild(clone);
-    } else if (widget.type === "preview") {
-      const wrapper = document.createElement("div");
-      wrapper.className = "node-preview-wrapper";
-      const pre = document.createElement("pre");
-      pre.className = "node-preview";
+    } else if (widget.type === 'preview') {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'node-preview-wrapper';
+      const pre = document.createElement('pre');
+      pre.className = 'node-preview';
       pre.dataset.name = widget.name;
-      pre.textContent = widget.value || "";
+      pre.textContent = widget.value || '';
       wrapper.appendChild(pre);
-      wrapper.addEventListener("wheel", (e) => e.stopPropagation());
-      wrapper.addEventListener("mousedown", (e) => e.stopPropagation());
+      wrapper.addEventListener('wheel', (e) => e.stopPropagation());
+      wrapper.addEventListener('mousedown', (e) => e.stopPropagation());
       container.appendChild(wrapper);
     }
   }
@@ -130,18 +130,18 @@ export class VortexGraph {
       alert(`Invalid graph, node ${id} missing!`);
       return;
     }
-    const tpl = document.getElementById("vortex-node");
+    const tpl = document.getElementById('vortex-node');
     const clone = tpl.content.cloneNode(true);
-    const nodeEl = clone.querySelector(".vortex-node");
+    const nodeEl = clone.querySelector('.vortex-node');
 
     nodeEl.dataset.id = id;
     nodeEl.dataset.type = descriptor.id;
-    this.setText(nodeEl, ".node-header", descriptor.properties.type);
+    this.setText(nodeEl, '.node-header', descriptor.properties.type);
 
     if (descriptor.cssClass) nodeEl.classList.add(descriptor.cssClass);
     if (descriptor.size) {
-      nodeEl.style.width = descriptor.size[0] + "px";
-      nodeEl.style.height = descriptor.size[1] + "px";
+      nodeEl.style.width = descriptor.size[0] + 'px';
+      nodeEl.style.height = descriptor.size[1] + 'px';
     }
 
     for (const port of descriptor.ports) {
@@ -149,8 +149,8 @@ export class VortexGraph {
     }
 
     if (descriptor.widgets && descriptor.widgets.length > 0) {
-      const slot = nodeEl.querySelector(".node-widgets-slot");
-      slot.className = "node-widgets";
+      const slot = nodeEl.querySelector('.node-widgets-slot');
+      slot.className = 'node-widgets';
       for (const widget of descriptor.widgets) {
         this.addWidget(slot, nodeEl, widget);
       }
@@ -159,32 +159,53 @@ export class VortexGraph {
     this.world.appendChild(nodeEl);
   }
 
-  createLink(fromPortEl, toPortEl) {
+  createLink(fromNode, fromName, toNode, toName) {
     // Guard : un port in ne reçoit qu'un seul lien
-    if (toPortEl.classList.contains("in")) {
-      const alreadyLinked = this.links.some((l) => l.toPort === toPortEl);
-      if (alreadyLinked) return null;
-    }
+    const alreadyLinked = this.links.some(l => l.toNode === toNode && l.toName === toName);
+    if (alreadyLinked) return null;
 
-    const svg = this.world.querySelector("#vortex-links");
-    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    path.classList.add("vortex-link");
-    svg.appendChild(path);
-
-    const link = { path, fromPort: fromPortEl, toPort: toPortEl };
+    const link = { fromNode, fromName, toNode, toName };
     this.links.push(link);
-    this.updateLink(link);
-    console.log("links", this.links);
+    this.drawLink(link);
     return link;
   }
 
+  drawLink(link) {
+    const fromPort = this.findPort(link.fromNode, link.fromName, 'out');
+    const toPort = this.findPort(link.toNode, link.toName, 'in');
+    if (!fromPort || !toPort) return;
+
+    const svg = this.world.querySelector('#vortex-links');
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.classList.add('vortex-link');
+    svg.appendChild(path);
+
+    link._path = path;
+    link._fromPort = fromPort;
+    link._toPort = toPort;
+    this.updateLink(link);
+  }
+
+  findPort(nodeId, portName, direction) {
+    const nodeEl = this.world.querySelector(`.vortex-node[data-id="${nodeId}"]`);
+    if (!nodeEl) return null;
+    for (const row of nodeEl.querySelectorAll('.node-row')) {
+      const name = row.querySelector('.field-name')?.textContent;
+      if (name === portName) {
+        return row.querySelector(`.port.${direction}`);
+      }
+    }
+    return null;
+  }
+
   updateLink(link) {
-    const from = this.getPortCenter(link.fromPort);
-    const to = this.getPortCenter(link.toPort);
+    if (!link._fromPort || !link._toPort || !link._path) return;
+    const from = this.getPortCenter(link._fromPort);
+    const to = this.getPortCenter(link._toPort);
     const dx = Math.abs(to.x - from.x) * 0.5;
 
-    link.path.setAttribute(
-      "d",
+    link._path.setAttribute(
+      'd',
       `M ${from.x} ${from.y} C ${from.x + dx} ${from.y}, ${to.x - dx} ${to.y}, ${to.x} ${to.y}`,
     );
   }
@@ -192,6 +213,7 @@ export class VortexGraph {
   removeLink(link) {
     const idx = this.links.indexOf(link);
     if (idx !== -1) this.links.splice(idx, 1);
+    if (link._path) link._path.remove();
   }
 
   updateLinks() {
@@ -210,36 +232,136 @@ export class VortexGraph {
     };
   }
 
-  autoWire(sourceNodeEl, targetNodeEl) {
-    const sourceRows = sourceNodeEl.querySelectorAll(".node-row");
-    const targetRows = targetNodeEl.querySelectorAll(".node-row");
+  // --- Execution engine ---
 
-    // Indexer les ports in du target par nom
-    const targetPortsByName = new Map();
-    for (const row of targetRows) {
-      const name = row.querySelector(".field-name")?.textContent;
-      const portIn = row.querySelector(".port.in");
-      if (name && portIn && name !== "_Self") {
-        targetPortsByName.set(name, portIn);
+  buildExecutionPlan() {
+    // Construire le graphe de dépendances depuis les liens
+    const nodeIds = [...this.nodes.keys()];
+    const inDegree = new Map();    // nodeId → nombre de liens entrants
+    const dependents = new Map();  // nodeId → [nodeIds qui en dépendent]
+
+    for (const id of nodeIds) {
+      inDegree.set(id, 0);
+      dependents.set(id, []);
+    }
+
+    for (const link of this.links) {
+      if (link.fromNode === link.toNode) continue;
+
+      inDegree.set(link.toNode, inDegree.get(link.toNode) + 1);
+      dependents.get(link.fromNode).push(link.toNode);
+    }
+
+    // Kahn — les sources (inDegree 0) en premier
+    const queue = [];
+    for (const [id, degree] of inDegree) {
+      if (degree === 0) queue.push(id);
+    }
+
+    const plan = [];
+    while (queue.length > 0) {
+      const id = queue.shift();
+      plan.push(id);
+
+      for (const depId of dependents.get(id)) {
+        const newDegree = inDegree.get(depId) - 1;
+        inDegree.set(depId, newDegree);
+        if (newDegree === 0) queue.push(depId);
       }
     }
 
-    for (const row of sourceRows) {
-      const name = row.querySelector(".field-name")?.textContent;
-      const portOut = row.querySelector(".port.out");
-      if (!name || !portOut || name === "_Self") continue;
+    if (plan.length !== nodeIds.length) {
+      const missing = nodeIds.filter(id => !plan.includes(id));
+      console.error('Cycle detected! Nodes stuck:', missing);
+    }
 
-      const targetIn = targetPortsByName.get(name);
-      if (!targetIn) continue;
+    return plan;
+  }
+
+  async executePlan() {
+    console.log('executePlan started')
+    const plan = this.buildExecutionPlan();
+    console.log(plan)
+    const nodeData = new Map(); // nodeId → { inputs: {}, outputs: {} }
+
+    for (const nodeId of plan) {
+      const nodeEl = this.world.querySelector(`.vortex-node[data-id="${nodeId}"]`);
+      const descriptor = this.nodes.get(nodeId);
+      if (!nodeEl || !descriptor) continue;
+
+      // 1. Résoudre les inputs depuis les liens
+      const inputs = {};
+      for (const link of this.links) {
+        if (link.toNode !== nodeId) continue;
+        const sourceData = nodeData.get(link.fromNode);
+        if (sourceData && sourceData.outputs[link.fromName] !== undefined) {
+          inputs[link.toName] = sourceData.outputs[link.fromName];
+        }
+      }
+
+      // 2. onBeforeExecute → highlight
+      nodeEl.classList.add('executing');
+      await this.wait(50);
+
+      // 3. Execute
+      let outputs = {};
+      try {
+        if (descriptor.execute) {
+          const result = descriptor.execute(inputs, nodeEl);
+          outputs = result instanceof Promise ? await result : result;
+        }
+        nodeEl.classList.remove('executing');
+        nodeEl.classList.add('executed');
+      } catch (err) {
+        console.error(`Error executing ${nodeId}:`, err);
+        nodeEl.classList.remove('executing');
+        nodeEl.classList.add('execute-error');
+      }
+
+      // 4. Stocker les outputs
+      nodeData.set(nodeId, { inputs, outputs: outputs || {} });
+
+      await this.wait(50);
+    }
+
+    // Cleanup highlights après 2s
+    setTimeout(() => {
+      this.world.querySelectorAll('.executed, .execute-error').forEach(el => {
+        el.classList.remove('executed', 'execute-error');
+      });
+    }, 2000);
+
+    return nodeData;
+  }
+
+  wait(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  autoWire(sourceNodeId, targetNodeId) {
+    const sourceDesc = this.nodes.get(sourceNodeId);
+    const targetDesc = this.nodes.get(targetNodeId);
+    if (!sourceDesc || !targetDesc) return;
+
+    // Indexer les ports in du target par nom
+    const targetPorts = new Map();
+    for (const port of targetDesc.ports) {
+      if (port.hasIn && port.name !== '_Self') {
+        targetPorts.set(port.name, port);
+      }
+    }
+
+    for (const port of sourceDesc.ports) {
+      if (!port.hasOut || port.name === '_Self') continue;
+
+      const target = targetPorts.get(port.name);
+      if (!target) continue;
 
       // Même type ?
-      if (portOut.dataset.type !== targetIn.dataset.type) continue;
+      if (port.type !== target.type) continue;
 
-      // Déjà linké ? On ne touche pas
-      const alreadyLinked = this.links.some((l) => l.toPort === targetIn);
-      if (alreadyLinked) continue;
-
-      this.createLink(portOut, targetIn);
+      // createLink gère le guard alreadyLinked
+      this.createLink(sourceNodeId, port.name, targetNodeId, target.name);
     }
   }
 }
