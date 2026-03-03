@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>VorteX Lab</title>
+    <link rel="stylesheet" href="vortex-base.css">
+</head>
+
+<body>
+    <div id="toolbar">
+        <button id="add-link" class="toolbar-btn">+ Invoice request</button>
+        <button id="add-total" class="toolbar-btn">+ TotalPart</button>
+        <button id="add-node" class="toolbar-btn">+ Invoice</button>
+    </div>
+    <div id="vortex"></div>
+
+    <script type="module" src="./vortex-app.js"></script>
+
+    <template id="vortex-node">
+        <div class="vortex-node">
+            <div class="node-header">MonNode</div>
+            <div class="node-ports"></div>
+            <div class="node-footer">footer</div>
+            <div class="resize-handle"></div>
+        </div>
+    </template>
+
+    <template id="vortex-port-row">
+        <div class="node-row">
+            <span class="port in"></span>
+            <span class="field-name"></span>
+            <span class="port out"></span>
+        </div>
+    </template>
+
+</body>
+
+</html>
