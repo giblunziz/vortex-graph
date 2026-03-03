@@ -1,0 +1,14 @@
+# IDE
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Node (si npx serve crée un cache)
+node_modules/
+
+# Notes perso
+notes.md
+backlog.md
