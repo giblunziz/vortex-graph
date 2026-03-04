@@ -77,6 +77,7 @@ export class VortexMapperModule {
       this.canvas.removeEventListener('mousemove', onMove);
       this.canvas.removeEventListener('mouseup', onUp);
       this.graph.updateLinks();
+      this.graph.fitWorld();
     };
 
     this.canvas.addEventListener('mousemove', onMove);
@@ -91,10 +92,10 @@ export class VortexMapperModule {
     node.style.cursor = 'grabbing';
 
     const onMove = (e) => {
-      node.style.left =
-        (e.clientX - offset.x - this.panX) / this.zoomLevel + 'px';
-      node.style.top =
-        (e.clientY - offset.y - this.panY) / this.zoomLevel + 'px';
+      const x = Math.max(0, (e.clientX - offset.x - this.panX) / this.zoomLevel);
+      const y = Math.max(0, (e.clientY - offset.y - this.panY) / this.zoomLevel);
+      node.style.left = x + 'px';
+      node.style.top = y + 'px';
       this.graph.updateLinks();
     };
 
@@ -102,6 +103,7 @@ export class VortexMapperModule {
       node.style.cursor = '';
       this.canvas.removeEventListener('mousemove', onMove);
       this.canvas.removeEventListener('mouseup', onUp);
+      this.graph.fitWorld();
     };
     this.canvas.addEventListener('mousemove', onMove);
     this.canvas.addEventListener('mouseup', onUp);

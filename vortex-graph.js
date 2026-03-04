@@ -232,6 +232,18 @@ export class VortexGraph {
     };
   }
 
+  fitWorld() {
+    let maxX = 0, maxY = 0;
+    for (const node of this.world.querySelectorAll('.vortex-node')) {
+      const right = node.offsetLeft + node.offsetWidth + 200;
+      const bottom = node.offsetTop + node.offsetHeight + 200;
+      if (right > maxX) maxX = right;
+      if (bottom > maxY) maxY = bottom;
+    }
+    this.world.style.width = Math.max(maxX, this.world.parentElement.offsetWidth) + 'px';
+    this.world.style.height = Math.max(maxY, this.world.parentElement.offsetHeight) + 'px';
+  }
+
   // --- Execution engine ---
 
   buildExecutionPlan() {
