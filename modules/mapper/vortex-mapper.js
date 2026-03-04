@@ -324,27 +324,10 @@ export class VortexMapperModule {
 
         const newNodeId  = this.graph.appendNode(match.nodeId);
         const nodeEl = this.world.querySelector(
-          `.vortex-node[data-id="${nodeId}"]`,
+          `.vortex-node[data-id="${newNodeId}"]`,
         );
         nodeEl.style.left = nodeX + 'px';
         nodeEl.style.top = nodeY + 'px';
-
-        // // Chercher le meilleur port pour le lien
-        // const sourcePortName = sourcePort.closest('.node-row').querySelector('.field-name').textContent;
-        // // 1. Matching par nom + type (ex: bu string → bu string)
-        // let targetPort = this.findPortOnNode(nodeEl, sourcePortName, direction);
-        // if (!targetPort || targetPort.dataset.type !== type) {
-        //   // 2. Matching par _Self si type composite (ex: total invoiceRequest/TotalPart → _Self invoiceRequest/TotalPart)
-        //   targetPort = this.findPortOnNode(nodeEl, '_Self', direction);
-        //   if (!targetPort || targetPort.dataset.type !== type) {
-        //     targetPort = null;
-        //   }
-        // }
-        // if (targetPort) {
-        //   const fromPort = isOutput ? sourcePort : targetPort;
-        //   const toPort = isOutput ? targetPort : sourcePort;
-        //   this.graph.createLink(fromPort, toPort);
-        // }
 
         // Chercher le meilleur port pour le lien (via le modèle)
         const source = this.portData(sourcePort);
