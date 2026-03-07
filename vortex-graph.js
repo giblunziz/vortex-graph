@@ -312,6 +312,122 @@ export class VortexGraph {
       Math.max(maxY, this.world.parentElement.offsetHeight) + "px";
   }
 
+  // --- Serialization ---
+
+  serialize(viewport) {
+    const nodes = [];
+    for (const [id, descriptor] of this.nodes) {
+      const nodeEl = this.world.querySelector(`.vortex-node[data-id="${id}"]`);
+      if (!nodeEl) continue;
+
+      const nodeData = {
+        id,
+        type: descriptor.id,
+        x: parseFloat(nodeEl.style.left) || 0,
+        y: parseFloat(nodeEl.style.top) || 0,
+        width: nodeEl.style.width ? parseFloat(nodeEl.style.width) : null,
+        height: nodeEl.style.height ? parseFloat(nodeEl.style.height) : null,
+      };
+
+      // Collecter les valeurs des widgets depuis le DOM
+      const widgetData = {};
+      nodeEl.querySelectorAll('.widget-input').forEach(input => {
+        widgetData[input.dataset.name] = input.value;
+      });
+      nodeEl.querySelectorAll('.widget-value').forEach(val => {
+        widgetData[val.dataset.name] = val.textContent;
+      });
+
+      // Données spécifiques du node (serialize custom)
+      if (descriptor.serialize) {
+        nodeData.data = descriptor.serialize(nodeEl);
+      }
+
+      nodeData.widgets = widgetData;
+      nodes.push(nodeData);
+    }
+
+    // Links — déjà de la data pure
+    const links = this.links.map(l => ({
+      fromNode: l.fromNode,
+      fromName: l.fromName,
+      toNode: l.toNode,
+      toName: l.toName,
+    }));
+
+    return {
+      version: 1,
+      viewport,
+      nodeCount: this.nodeCount,
+      nodes,
+      links,
+    };
+  }
+
+  deserialize(data) {
+    // Clear le graph actuel
+    this.clearGraph();
+
+    // Restaurer le compteur
+    this.nodeCount = data.nodeCount || 0;
+
+    // Recréer les nodes
+    for (const nodeData of data.nodes) {
+      const descriptor = vortexRegistry.getNode(nodeData.type);
+      if (!descriptor) {
+        console.error(`Node type not found: ${nodeData.type}`);
+        continue;
+      }
+
+      this.nodes.set(nodeData.id, descriptor);
+      this.drawNode(nodeData.id);
+
+      const nodeEl = this.world.querySelector(`.vortex-node[data-id="${nodeData.id}"]`);
+      if (!nodeEl) continue;
+
+      // Restaurer position et taille
+      nodeEl.style.left = nodeData.x + 'px';
+      nodeEl.style.top = nodeData.y + 'px';
+      if (nodeData.width) nodeEl.style.width = nodeData.width + 'px';
+      if (nodeData.height) nodeEl.style.height = nodeData.height + 'px';
+
+      // Restaurer les widgets
+      if (nodeData.widgets) {
+        for (const [name, value] of Object.entries(nodeData.widgets)) {
+          const input = nodeEl.querySelector(`.widget-input[data-name="${name}"]`);
+          if (input) { input.value = value; continue; }
+          const readonly = nodeEl.querySelector(`.widget-value[data-name="${name}"]`);
+          if (readonly) readonly.textContent = value;
+        }
+      }
+
+      // Données spécifiques du node (deserialize custom)
+      if (descriptor.deserialize && nodeData.data) {
+        descriptor.deserialize(nodeEl, nodeData.data);
+      }
+    }
+
+    // Recréer les liens
+    for (const linkData of data.links) {
+      this.createLink(linkData.fromNode, linkData.fromName, linkData.toNode, linkData.toName);
+    }
+
+    return data.viewport;
+  }
+
+  clearGraph() {
+    // Supprimer tous les liens
+    for (const link of [...this.links]) {
+      this.removeLink(link);
+    }
+    // Supprimer tous les nodes du DOM
+    this.world.querySelectorAll('.vortex-node').forEach(el => el.remove());
+    // Vider le modèle
+    this.nodes.clear();
+    this.selection.clear();
+    this.nodeCount = 0;
+  }
+
   // --- Execution engine ---
 
   buildExecutionPlan() {

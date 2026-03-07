@@ -80,6 +80,20 @@ class JsonLoaderNode {
     };
   }
 
+  serialize(nodeEl) {
+    return {
+      jsonRaw: nodeEl._jsonRaw || null,
+      jsonData: nodeEl._jsonData || null,
+    };
+  }
+
+  deserialize(nodeEl, data) {
+    if (data.jsonRaw) {
+      nodeEl._jsonRaw = data.jsonRaw;
+      nodeEl._jsonData = data.jsonData;
+    }
+  }
+
   register() {
     vortexRegistry.registerNode(this.id, this);
   }

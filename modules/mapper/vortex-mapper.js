@@ -49,20 +49,87 @@ export class VortexMapperModule {
         const link = this.graph.links.find(l => l._path === linkPath);
         if (link) showRadialMenu(e.clientX, e.clientY, getLinkActions(this.graph, link));
       } else {
-        showRadialMenu(e.clientX, e.clientY, getCanvasActions(this.graph));
+        showRadialMenu(e.clientX, e.clientY, getCanvasActions(this.graph, this));
       }
     });
   }
 
   registerKeyboardEvents() {
     document.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
       if (e.key === 'Delete' || e.key === 'Backspace') {
-        // Ne pas intercepter si on est dans un input
-        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
         e.preventDefault();
         this.graph.deleteSelectedNodes();
+      } else if (e.ctrlKey && e.key === 's') {
+        e.preventDefault();
+        this.save();
+      } else if (e.ctrlKey && e.key === 'o') {
+        e.preventDefault();
+        this.load();
       }
     });
+  }
+
+  async save() {
+    const viewport = {
+      panX: this.panX,
+      panY: this.panY,
+      zoomLevel: this.zoomLevel,
+    };
+    const data = this.graph.serialize(viewport);
+    const json = JSON.stringify(data, null, 2);
+
+    try {
+      // Réutiliser le fileHandle existant si déjà ouvert
+      if (!this._fileHandle) {
+        this._fileHandle = await window.showSaveFilePicker({
+          suggestedName: 'graph.json',
+          types: [{
+            description: 'VorteX Graph',
+            accept: { 'application/json': ['.json'] },
+          }],
+        });
+      }
+      const writable = await this._fileHandle.createWritable();
+      await writable.write(json);
+      await writable.close();
+      console.log('Graph saved:', this._fileHandle.name);
+    } catch (err) {
+      if (err.name !== 'AbortError') console.error('Save failed:', err);
+    }
+  }
+
+  async load() {
+    try {
+      const [fileHandle] = await window.showOpenFilePicker({
+        types: [{
+          description: 'VorteX Graph',
+          accept: { 'application/json': ['.json'] },
+        }],
+      });
+      this._fileHandle = fileHandle;
+      const file = await fileHandle.getFile();
+      const json = await file.text();
+      const data = JSON.parse(json);
+
+      const viewport = this.graph.deserialize(data);
+
+      // Restaurer le viewport
+      if (viewport) {
+        this.panX = viewport.panX || 0;
+        this.panY = viewport.panY || 0;
+        this.zoomLevel = viewport.zoomLevel || 1;
+        this.graph.zoomLevel = this.zoomLevel;
+        this.applyTransform();
+      }
+
+      this.graph.updateLinks();
+      this.graph.fitWorld();
+      console.log('Graph loaded:', fileHandle.name);
+    } catch (err) {
+      if (err.name !== 'AbortError') console.error('Load failed:', err);
+    }
   }
   appendNode(nodeId) {
     this.graph.appendNode(nodeId);

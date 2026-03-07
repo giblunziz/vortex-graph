@@ -1,13 +1,25 @@
 // vortex-context-actions.js — Actions contextuelles pour le radial menu
 
 // Actions sur le canvas (clic droit dans le vide)
-export function getCanvasActions(graph) {
+export function getCanvasActions(graph, mapper) {
   return [
     {
       id: "run",
       label: "Run",
       icon: "▶",
       callback: () => graph.executePlan(),
+    },
+    {
+      id: "save",
+      label: "Save",
+      icon: "💾",
+      callback: () => mapper.save(),
+    },
+    {
+      id: "load",
+      label: "Load",
+      icon: "📂",
+      callback: () => mapper.load(),
     },
   ];
 }
