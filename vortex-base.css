@@ -214,6 +214,50 @@ body {
     overflow: hidden;
 }
 
+/* Numeric family — orange variations */
+.port[data-type="integer"] {
+    background: #cf8f3e;
+    border-color: #cf8f3e;
+}
+
+.port[data-type="long"] {
+    background: #cf7a2e;
+    border-color: #cf7a2e;
+}
+
+.port[data-type="float"] {
+    background: #cfaa4e;
+    border-color: #cfaa4e;
+}
+
+.port[data-type="double"] {
+    background: #cf9a3e;
+    border-color: #cf9a3e;
+}
+
+/* Date family — cyan variations */
+.port[data-type="date"] {
+    background: #3ecfcf;
+    border-color: #3ecfcf;
+}
+
+.port[data-type="datetime"] {
+    background: #3eafcf;
+    border-color: #3eafcf;
+}
+
+/* Boolean */
+.port[data-type="boolean"] {
+    background: #cf5050;
+    border-color: #cf5050;
+}
+
+/* Object (unknown type) */
+.port[data-type="object"] {
+    background: #888;
+    border-color: #888;
+}
+
 .port[data-type="raw"] {
     background: #999;
     border-color: #999;
@@ -571,7 +615,7 @@ body {
 }
 
 .radial-menu::before {
-    content: '';
+    content: "";
     position: absolute;
     width: 160px;
     height: 160px;
@@ -580,7 +624,9 @@ body {
     border-radius: 50%;
     background: rgba(20, 20, 40, 0.85);
     border: 1px solid rgba(100, 100, 255, 0.4);
-    box-shadow: 0 0 25px rgba(100, 100, 255, 0.3), inset 0 0 30px rgba(0, 0, 0, 0.5);
+    box-shadow:
+        0 0 25px rgba(100, 100, 255, 0.3),
+        inset 0 0 30px rgba(0, 0, 0, 0.5);
     pointer-events: none;
     opacity: 0;
     transform: scale(0.5);
@@ -590,6 +636,26 @@ body {
 .radial-menu.open::before {
     opacity: 1;
     transform: scale(1);
+}
+
+.radial-menu::after {
+    content: "";
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    left: -30px;
+    top: -30px;
+    background: url("./images/vortex_circular_swirl.png") center / contain
+        no-repeat;
+    pointer-events: none;
+    opacity: 0;
+    transform: scale(0.5) rotate(-180deg);
+    transition: all 0.4s ease-out;
+}
+
+.radial-menu.open::after {
+    opacity: 0.8;
+    transform: scale(1) rotate(0deg);
 }
 
 .radial-item {
@@ -608,14 +674,17 @@ body {
     cursor: pointer;
     text-decoration: none;
     font-size: 18px;
-    transform: rotate(calc(var(--index) * (360deg / var(--count)))) translateX(0) rotate(calc(-1 * var(--index) * (360deg / var(--count))));
+    transform: rotate(calc(var(--index) * (360deg / var(--count))))
+        translateX(0) rotate(calc(-1 * var(--index) * (360deg / var(--count))));
     transition: all 0.3s ease-out;
     opacity: 0;
     pointer-events: none;
 }
 
 .radial-menu.open .radial-item {
-    transform: rotate(calc(var(--index) * (360deg / var(--count)))) translateX(65px) rotate(calc(-1 * var(--index) * (360deg / var(--count))));
+    transform: rotate(calc(var(--index) * (360deg / var(--count))))
+        translateX(65px)
+        rotate(calc(-1 * var(--index) * (360deg / var(--count))));
     opacity: 1;
     pointer-events: auto;
 }
@@ -625,7 +694,9 @@ body {
     border-color: rgba(100, 100, 255, 0.8);
     box-shadow: 0 0 15px rgba(100, 100, 255, 0.5);
     color: #fff;
-    transform: rotate(calc(var(--index) * (360deg / var(--count)))) translateX(70px) rotate(calc(-1 * var(--index) * (360deg / var(--count)))) scale(1.15);
+    transform: rotate(calc(var(--index) * (360deg / var(--count))))
+        translateX(70px)
+        rotate(calc(-1 * var(--index) * (360deg / var(--count)))) scale(1.15);
 }
 
 .radial-item svg {

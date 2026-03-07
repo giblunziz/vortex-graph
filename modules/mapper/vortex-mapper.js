@@ -1,6 +1,7 @@
 import { VortexGraph } from '../../vortex-graph.js';
 import { registerModelNodes } from '../../vortex-nodes.js';
 import { registerJsonNodes } from '../../vortex-json-nodes.js';
+import { loadModelsFromApi } from '../../vortex-api-loader.js';
 import { vortexRegistry } from '../../vortex-registry.js';
 import { showRadialMenu, dismissRadialMenu } from '../../vortex-radial-menu.js';
 import { getCanvasActions, getNodeActions, getSelectionActions, getLinkActions } from '../../vortex-context-actions.js';
@@ -15,12 +16,13 @@ export class VortexMapperModule {
     this.panY = 0;
     this.graph = new VortexGraph(this.world);
 
-    this.init();
+    this.ready = this.init();
   }
 
-  init() {
-    registerModelNodes();
+  async init() {
     registerJsonNodes();
+    await loadModelsFromApi();
+    registerModelNodes(); // fallback statique si l'API est indisponible
     this.registerWheelEvent();
     this.registerMouseDownEvent();
     this.registerKeyboardEvents();
@@ -108,10 +110,15 @@ export class VortexMapperModule {
           accept: { 'application/json': ['.json'] },
         }],
       });
-      this._fileHandle = fileHandle;
       const file = await fileHandle.getFile();
       const json = await file.text();
       const data = JSON.parse(json);
+
+      // Validation du format
+      if (data.application !== 'VorteX' || data.module !== 'Mapper') {
+        alert('Invalid file: not a VorteX Mapper graph.');
+        return;
+      }
 
       const viewport = this.graph.deserialize(data);
 

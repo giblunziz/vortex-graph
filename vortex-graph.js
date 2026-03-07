@@ -357,6 +357,8 @@ export class VortexGraph {
 
     return {
       version: 1,
+      application: "VorteX",
+      module: "Mapper",
       viewport,
       nodeCount: this.nodeCount,
       nodes,

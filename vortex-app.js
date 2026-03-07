@@ -18,6 +18,12 @@ function buildContainer() {
 const { canvas, world, svg } = buildContainer();
 const mapperModule = new VortexMapperModule(canvas, world, svg);
 
+// Attendre que le mapper soit prêt (chargement API) avant de construire la sidebar
+mapperModule.ready.then(() => {
+  buildSidebarTree();
+  console.log('VorteX ready');
+});
+
 document.getElementById('execute-plan').addEventListener("click",() => mapperModule.graph.executePlan())
 
 // --- Sidebar tree ---
@@ -75,8 +81,6 @@ function buildSidebarTree() {
     container.appendChild(domainGroup);
   }
 }
-
-buildSidebarTree();
 
 // --- Search filter ---
 document.getElementById('node-search').addEventListener('input', (e) => {
