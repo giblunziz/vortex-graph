@@ -21,6 +21,18 @@ export class VortexMapperModule {
     registerJsonNodes();
     this.registerWheelEvent();
     this.registerMouseDownEvent();
+    this.registerKeyboardEvents();
+  }
+
+  registerKeyboardEvents() {
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Delete' || e.key === 'Backspace') {
+        // Ne pas intercepter si on est dans un input
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+        e.preventDefault();
+        this.graph.deleteSelectedNodes();
+      }
+    });
   }
   appendNode(nodeId) {
     this.graph.appendNode(nodeId);
@@ -54,8 +66,12 @@ export class VortexMapperModule {
       } else if (resize) {
         this.startResize(node, e);
       } else if (header) {
+        this.graph.selectNode(node.dataset.id, e.ctrlKey || e.metaKey);
         this.startNodeDrag(node, e);
-      } else if (!node) {
+      } else if (node) {
+        this.graph.selectNode(node.dataset.id, e.ctrlKey || e.metaKey);
+      } else {
+        this.graph.clearSelection();
         this.startCanvasPan(e);
       }
     });
