@@ -2,6 +2,8 @@ import { VortexGraph } from '../../vortex-graph.js';
 import { registerModelNodes } from '../../vortex-nodes.js';
 import { registerJsonNodes } from '../../vortex-json-nodes.js';
 import { vortexRegistry } from '../../vortex-registry.js';
+import { showRadialMenu, dismissRadialMenu } from '../../vortex-radial-menu.js';
+import { getCanvasActions, getNodeActions, getSelectionActions, getLinkActions } from '../../vortex-context-actions.js';
 
 export class VortexMapperModule {
   constructor(canvas, world, svg) {
@@ -22,6 +24,34 @@ export class VortexMapperModule {
     this.registerWheelEvent();
     this.registerMouseDownEvent();
     this.registerKeyboardEvents();
+    this.registerContextMenu();
+  }
+
+  registerContextMenu() {
+    this.canvas.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+
+      // Priorité 1 : sélection multiple active
+      const selected = this.graph.getSelectedNodes();
+      if (selected.length > 1) {
+        showRadialMenu(e.clientX, e.clientY, getSelectionActions(this.graph, selected));
+        return;
+      }
+
+      // Priorité 2 : élément sous le curseur
+      const node = e.target.closest('.vortex-node');
+      const linkPath = e.target.closest('.vortex-link');
+
+      if (node) {
+        const nodeId = node.dataset.id;
+        showRadialMenu(e.clientX, e.clientY, getNodeActions(this.graph, nodeId));
+      } else if (linkPath) {
+        const link = this.graph.links.find(l => l._path === linkPath);
+        if (link) showRadialMenu(e.clientX, e.clientY, getLinkActions(this.graph, link));
+      } else {
+        showRadialMenu(e.clientX, e.clientY, getCanvasActions(this.graph));
+      }
+    });
   }
 
   registerKeyboardEvents() {
