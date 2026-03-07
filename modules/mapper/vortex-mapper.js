@@ -170,7 +170,11 @@ export class VortexMapperModule {
       } else if (resize) {
         this.startResize(node, e);
       } else if (header) {
-        this.graph.selectNode(node.dataset.id, e.ctrlKey || e.metaKey);
+        if (e.ctrlKey || e.metaKey) {
+          this.graph.selectNode(node.dataset.id, true);
+        } else if (!this.graph.selection.has(node.dataset.id)) {
+          this.graph.selectNode(node.dataset.id, false);
+        }
         this.startNodeDrag(node, e);
       } else if (node) {
         this.graph.selectNode(node.dataset.id, e.ctrlKey || e.metaKey);
@@ -205,17 +209,32 @@ export class VortexMapperModule {
   }
 
   startNodeDrag(node, e) {
-    const offset = {
-      x: e.clientX - node.offsetLeft * this.zoomLevel - this.panX,
-      y: e.clientY - node.offsetTop * this.zoomLevel - this.panY,
-    };
+    // Collecter les nodes à déplacer : sélection ou node sous la souris
+    const selected = this.graph.getSelectedNodes();
+    const nodeIds = selected.includes(node.dataset.id)
+      ? selected
+      : [node.dataset.id];
+
+    const nodeEls = nodeIds.map(id =>
+      this.world.querySelector(`.vortex-node[data-id="${id}"]`)
+    ).filter(Boolean);
+
+    // Calculer les offsets pour chaque node
+    const offsets = nodeEls.map(el => ({
+      el,
+      x: e.clientX - el.offsetLeft * this.zoomLevel - this.panX,
+      y: e.clientY - el.offsetTop * this.zoomLevel - this.panY,
+    }));
+
     node.style.cursor = 'grabbing';
 
     const onMove = (e) => {
-      const x = Math.max(0, (e.clientX - offset.x - this.panX) / this.zoomLevel);
-      const y = Math.max(0, (e.clientY - offset.y - this.panY) / this.zoomLevel);
-      node.style.left = x + 'px';
-      node.style.top = y + 'px';
+      for (const o of offsets) {
+        const x = Math.max(0, (e.clientX - o.x - this.panX) / this.zoomLevel);
+        const y = Math.max(0, (e.clientY - o.y - this.panY) / this.zoomLevel);
+        o.el.style.left = x + 'px';
+        o.el.style.top = y + 'px';
+      }
       this.graph.updateLinks();
     };
 

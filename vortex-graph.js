@@ -30,6 +30,13 @@ export class VortexGraph {
     document.querySelectorAll(".vortex-node").forEach((el) => {
       el.classList.toggle("selected", this.selection.has(el.dataset.id));
     });
+
+    // Highlight des liens connectés aux nodes sélectionnés
+    for (const link of this.links) {
+      if (!link._path) continue;
+      const connected = this.selection.has(link.fromNode) || this.selection.has(link.toNode);
+      link._path.classList.toggle("link-selected", connected);
+    }
   }
 
   getSelectedNodes() {
@@ -147,6 +154,21 @@ export class VortexGraph {
       val.dataset.name = widget.name;
       val.textContent = widget.value || "";
       container.appendChild(clone);
+    } else if (widget.type === "dropdown") {
+      const tpl = document.getElementById("vortex-widget-dropdown");
+      const clone = tpl.content.cloneNode(true);
+      clone.querySelector(".widget-label").textContent = widget.label;
+      const select = clone.querySelector(".widget-dropdown");
+      select.dataset.name = widget.name;
+      for (const val of widget.options || []) {
+        const opt = document.createElement("option");
+        opt.value = val;
+        opt.textContent = val;
+        select.appendChild(opt);
+      }
+      if (widget.value) select.value = widget.value;
+      select.addEventListener("mousedown", (e) => e.stopPropagation());
+      container.appendChild(clone);
     } else if (widget.type === "preview") {
       const wrapper = document.createElement("div");
       wrapper.className = "node-preview-wrapper";
@@ -241,6 +263,13 @@ export class VortexGraph {
     const svg = this.world.querySelector("#vortex-links");
     const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
     path.classList.add("vortex-link");
+
+    // Couleur du lien = couleur du port source
+    const portColor = getComputedStyle(fromPort).backgroundColor;
+    if (portColor && portColor !== 'rgba(0, 0, 0, 0)') {
+      path.style.stroke = portColor;
+    }
+
     svg.appendChild(path);
 
     link._path = path;

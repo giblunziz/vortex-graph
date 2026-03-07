@@ -327,6 +327,29 @@ body {
     border-color: rgba(100, 100, 255, 0.6);
 }
 
+.widget-dropdown {
+    flex: 1;
+    padding: 2px 6px;
+    background: rgba(40, 40, 70, 0.9);
+    border: 1px solid rgba(100, 100, 255, 0.2);
+    border-radius: 3px;
+    color: #eee;
+    font-family: system-ui;
+    font-size: 12px;
+    outline: none;
+    min-width: 0;
+    cursor: pointer;
+}
+
+.widget-dropdown:focus {
+    border-color: rgba(100, 100, 255, 0.6);
+}
+
+.widget-dropdown option {
+    background: rgba(30, 30, 50, 0.95);
+    color: #eee;
+}
+
 .widget-value {
     flex: 1;
     font-size: 12px;
@@ -534,6 +557,11 @@ body {
 .vortex-link:hover {
     stroke: rgba(150, 150, 255, 0.8);
     stroke-width: 3;
+}
+
+.vortex-link.link-selected {
+    stroke-width: 3;
+    filter: drop-shadow(0 0 4px currentColor);
 }
 
 /* Pendant le drag d'un lien */

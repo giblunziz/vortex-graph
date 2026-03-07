@@ -47,6 +47,18 @@ function apiModelToNode(model) {
       field.hasOut,
       type || "object",
     );
+
+    // Enum → widget dropdown
+    if (field.enumValues && field.enumValues.length > 0) {
+      if (!node.widgets) node.widgets = [];
+      node.widgets.push({
+        type: "dropdown",
+        name: field.name,
+        label: field.name,
+        options: field.enumValues,
+        value: field.enumValues[0],
+      });
+    }
   }
 
   return node;
