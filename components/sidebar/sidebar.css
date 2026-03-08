@@ -1,0 +1,98 @@
+/* components/sidebar/sidebar.css */
+
+#sidebar {
+    width: 240px;
+    min-width: 240px;
+    background: rgba(20, 20, 40, 0.95);
+    border-right: 1px solid rgba(100, 100, 255, 0.15);
+    display: flex;
+    flex-direction: column;
+    font-family: system-ui;
+    font-size: 13px;
+    color: #ccc;
+    z-index: 50;
+}
+
+#node-search {
+    margin: 8px;
+    padding: 6px 10px;
+    background: rgba(40, 40, 70, 0.9);
+    border: 1px solid rgba(100, 100, 255, 0.2);
+    border-radius: 6px;
+    color: #eee;
+    font-family: system-ui;
+    font-size: 13px;
+    outline: none;
+}
+
+#node-search:focus {
+    border-color: rgba(100, 100, 255, 0.6);
+}
+
+#node-search::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+#node-tree {
+    flex: 1;
+    overflow-y: auto;
+    padding: 4px 0;
+}
+
+.tree-category {
+    padding: 4px 12px;
+    font-weight: 600;
+    color: #aab;
+    cursor: pointer;
+    user-select: none;
+}
+
+.tree-category::before {
+    content: "\25BC ";
+    font-size: 10px;
+}
+
+.tree-category.collapsed::before {
+    content: "\25B6 ";
+}
+
+.tree-category.collapsed + .tree-domain-group {
+    display: none;
+}
+
+.tree-domain {
+    padding: 3px 24px;
+    color: #99a;
+    cursor: pointer;
+    user-select: none;
+}
+
+.tree-domain::before {
+    content: "\25B8 ";
+    font-size: 10px;
+}
+
+.tree-domain.collapsed + .tree-node-group {
+    display: none;
+}
+
+.tree-node-group {
+    padding: 0;
+}
+
+.tree-leaf {
+    padding: 3px 40px;
+    cursor: grab;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tree-leaf:hover {
+    background: rgba(100, 100, 255, 0.15);
+    color: #fff;
+}
+
+.tree-leaf.dragging {
+    opacity: 0.5;
+}

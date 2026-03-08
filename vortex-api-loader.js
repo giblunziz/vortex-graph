@@ -1,4 +1,4 @@
-import { ModelNode } from "./vortex-nodes.js";
+import { ModelNode } from "./common/vortex-model-node.js";
 
 // Charge les ModelNodes depuis l'API backend
 export async function loadModelsFromApi(baseUrl = "http://localhost:8080") {
@@ -53,7 +53,6 @@ function apiModelToNode(model) {
 
     // Enum → widget dropdown
     if (field.enumValues && field.enumValues.length > 0) {
-      if (!node.widgets) node.widgets = [];
       node.widgets.push({
         type: "dropdown",
         name: field.name,

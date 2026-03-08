@@ -1,0 +1,21 @@
+/* nodes/vortex-json-nodes.css */
+
+.node-preview-wrapper {
+    flex: 1;
+    overflow: auto;
+    margin: 0 4px 4px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    min-height: 0;
+    min-width: 0;
+}
+
+.node-preview {
+    margin: 0;
+    padding: 6px;
+    font-family: monospace;
+    font-size: 11px;
+    color: #aaa;
+    white-space: pre;
+    tab-size: 2;
+}

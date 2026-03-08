@@ -1,10 +1,11 @@
 import { VortexGraph } from '../../vortex-graph.js';
-import { registerModelNodes } from '../../vortex-nodes.js';
-import { registerJsonNodes } from '../../vortex-json-nodes.js';
+import { registerModelNodes } from '../../common/vortex-model-node.js';
+import { registerJsonNodes } from '../../nodes/vortex-json-nodes.js';
 import { loadModelsFromApi } from '../../vortex-api-loader.js';
 import { vortexRegistry } from '../../vortex-registry.js';
 import { showRadialMenu, dismissRadialMenu } from '../../vortex-radial-menu.js';
 import { getCanvasActions, getNodeActions, getSelectionActions, getLinkActions } from '../../vortex-context-actions.js';
+import * as sidebar from '../../components/sidebar/sidebar.js';
 
 export class VortexMapperModule {
   constructor(canvas, world, svg) {
@@ -16,6 +17,7 @@ export class VortexMapperModule {
     this.panY = 0;
     this.graph = new VortexGraph(this.world);
 
+    this.graph.onChange = () => this.scheduleAutoSave();
     this.ready = this.init();
   }
 
@@ -27,6 +29,57 @@ export class VortexMapperModule {
     this.registerMouseDownEvent();
     this.registerKeyboardEvents();
     this.registerContextMenu();
+    this.autoLoad();
+    sidebar.install(this);
+    console.log('VorteX Mapper ready');
+  }
+
+  // --- Auto-save / Auto-load ---
+
+  scheduleAutoSave() {
+    if (this._autoSaveTimer) clearTimeout(this._autoSaveTimer);
+    this._autoSaveTimer = setTimeout(() => {
+      const data = this.serializeModule();
+      localStorage.setItem('vortex-autosave', JSON.stringify(data));
+    }, 500);
+  }
+
+  autoLoad() {
+    const json = localStorage.getItem('vortex-autosave');
+    if (!json) return;
+    try {
+      const data = JSON.parse(json);
+      if (data.application !== 'VorteX' || data.module !== 'Mapper') return;
+      const viewport = this.graph.deserialize(data);
+      if (viewport) {
+        this.panX = viewport.panX || 0;
+        this.panY = viewport.panY || 0;
+        this.zoomLevel = viewport.zoomLevel || 1;
+        this.graph.zoomLevel = this.zoomLevel;
+        this.applyTransform();
+      }
+      this.graph.updateLinks();
+      this.graph.fitWorld();
+      console.log('Auto-load: graph restored from localStorage');
+    } catch (err) {
+      console.error('Auto-load failed:', err);
+    }
+  }
+
+  clearAutoSave() {
+    localStorage.removeItem('vortex-autosave');
+  }
+
+  newGraph() {
+    this.graph.clearGraph();
+    this.panX = 0;
+    this.panY = 0;
+    this.zoomLevel = 1;
+    this.graph.zoomLevel = 1;
+    this.applyTransform();
+    this._fileHandle = null;
+    this.clearAutoSave();
+    console.log('New graph created');
   }
 
   registerContextMenu() {
@@ -73,13 +126,18 @@ export class VortexMapperModule {
     });
   }
 
-  async save() {
-    const viewport = {
-      panX: this.panX,
-      panY: this.panY,
-      zoomLevel: this.zoomLevel,
+  serializeModule() {
+    const viewport = { panX: this.panX, panY: this.panY, zoomLevel: this.zoomLevel };
+    const graphData = this.graph.serialize(viewport);
+    return {
+      application: 'VorteX',
+      module: 'Mapper',
+      ...graphData,
     };
-    const data = this.graph.serialize(viewport);
+  }
+
+  async save() {
+    const data = this.serializeModule();
     const json = JSON.stringify(data, null, 2);
 
     try {
@@ -205,6 +263,7 @@ export class VortexMapperModule {
       this.canvas.removeEventListener('mouseup', onUp);
       this.graph.updateLinks();
       this.graph.fitWorld();
+      this.scheduleAutoSave();
     };
 
     this.canvas.addEventListener('mousemove', onMove);
@@ -246,6 +305,7 @@ export class VortexMapperModule {
       this.canvas.removeEventListener('mousemove', onMove);
       this.canvas.removeEventListener('mouseup', onUp);
       this.graph.fitWorld();
+      this.scheduleAutoSave();
     };
     this.canvas.addEventListener('mousemove', onMove);
     this.canvas.addEventListener('mouseup', onUp);

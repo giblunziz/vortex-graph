@@ -1,17 +1,15 @@
-import { vortexRegistry } from './vortex-registry.js';
+import { AbstractNode } from '../common/vortex-abstract-node.js';
 
-class JsonLoaderNode {
+class JsonLoaderNode extends AbstractNode {
   constructor() {
-    this.id = 'vortex/JsonLoader';
+    super('vortex/JsonLoader');
     this.properties = {
       type: 'JsonLoader',
       domain: 'json',
       category: 'vortex',
     };
-    this.ports = [
-      { name: 'json', hasIn: false, hasOut: true, type: 'json' },
-      { name: 'data', hasIn: false, hasOut: true, type: 'raw' },
-    ];
+    this.addPort('json', false, true, 'json');
+    this.addPort('data', false, true, 'raw');
     this.widgets = [
       {
         type: 'button',
@@ -42,7 +40,6 @@ class JsonLoaderNode {
       const file = e.target.files[0];
       if (!file) return;
 
-      // Mettre à jour le widget file (readonly)
       const fileWidget = nodeEl.querySelector(
         '.widget-value[data-name="file"]',
       );
@@ -93,21 +90,17 @@ class JsonLoaderNode {
       nodeEl._jsonData = data.jsonData;
     }
   }
-
-  register() {
-    vortexRegistry.registerNode(this.id, this);
-  }
 }
 
-class JsonPreviewNode {
+class JsonPreviewNode extends AbstractNode {
   constructor() {
-    this.id = 'vortex/JsonPreview';
+    super('vortex/JsonPreview');
     this.properties = {
       type: 'JsonPreview',
       domain: 'json',
       category: 'vortex',
     };
-    this.ports = [{ name: 'json', hasIn: true, hasOut: false, type: 'json' }];
+    this.addPort('json', true, false, 'json');
     this.widgets = [
       {
         type: 'preview',
@@ -129,13 +122,14 @@ class JsonPreviewNode {
     }
     return {};
   }
-
-  register() {
-    vortexRegistry.registerNode(this.id, this);
-  }
 }
 
 export function registerJsonNodes() {
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = './nodes/vortex-json-nodes.css';
+  document.head.appendChild(link);
+
   new JsonLoaderNode().register();
   new JsonPreviewNode().register();
 }

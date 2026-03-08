@@ -21,6 +21,12 @@ export function getCanvasActions(graph, mapper) {
       icon: "📂",
       callback: () => mapper.load(),
     },
+    {
+      id: "new",
+      label: "New Graph",
+      icon: "➕",
+      callback: () => mapper.newGraph(),
+    },
   ];
 }
 

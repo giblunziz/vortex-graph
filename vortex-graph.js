@@ -8,6 +8,11 @@ export class VortexGraph {
     this.links = [];
     this.nodeCount = 0;
     this.world = world;
+    this.onChange = null; // callback appelé à chaque modification
+  }
+
+  notifyChange() {
+    if (this.onChange) this.onChange();
   }
 
   selectNode(id, addToSelection) {
@@ -69,6 +74,7 @@ export class VortexGraph {
       // Supprimer du modèle
       this.nodes.delete(nodeId);
     }
+    this.notifyChange();
   }
 
   nextId() {
@@ -89,6 +95,7 @@ export class VortexGraph {
     this.nodes.set(id, descriptor);
 
     this.drawNode(id);
+    this.notifyChange();
     return id;
   }
 
@@ -206,6 +213,7 @@ export class VortexGraph {
       requestAnimationFrame(() => {
         this.updateLinks();
         this.fitWorld();
+        this.notifyChange();
       });
     });
 
@@ -264,6 +272,7 @@ export class VortexGraph {
     const link = { fromNode, fromName, toNode, toName };
     this.links.push(link);
     this.drawLink(link);
+    this.notifyChange();
     return link;
   }
 
@@ -320,6 +329,7 @@ export class VortexGraph {
     const idx = this.links.indexOf(link);
     if (idx !== -1) this.links.splice(idx, 1);
     if (link._path) link._path.remove();
+    this.notifyChange();
   }
 
   updateLinks() {
@@ -412,8 +422,6 @@ export class VortexGraph {
 
     return {
       version: 1,
-      application: "VorteX",
-      module: "Mapper",
       viewport,
       nodeCount: this.nodeCount,
       nodes,
