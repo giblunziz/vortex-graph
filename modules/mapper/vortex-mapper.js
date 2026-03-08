@@ -274,6 +274,7 @@ export class VortexMapperModule {
     const onUp = () => {
       this.canvas.removeEventListener('mousemove', onMove);
       this.canvas.removeEventListener('mouseup', onUp);
+      this.graph.syncNodePosition(node.dataset.id);
       this.graph.updateLinks();
       this.graph.fitWorld();
       this.scheduleAutoSave();
@@ -317,6 +318,9 @@ export class VortexMapperModule {
       node.style.cursor = '';
       this.canvas.removeEventListener('mousemove', onMove);
       this.canvas.removeEventListener('mouseup', onUp);
+      for (const id of nodeIds) {
+        this.graph.syncNodePosition(id);
+      }
       this.graph.fitWorld();
       this.scheduleAutoSave();
     };

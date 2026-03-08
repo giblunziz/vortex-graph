@@ -14,7 +14,7 @@ class JsonLoaderNode extends AbstractNode {
       {
         type: 'button',
         label: 'Load File',
-        onClick: (nodeEl) => this.onLoadFile(nodeEl),
+        onClick: (nodeEl, node) => this.onLoadFile(nodeEl, node),
       },
       {
         type: 'readonly',
@@ -32,7 +32,7 @@ class JsonLoaderNode extends AbstractNode {
     ];
   }
 
-  onLoadFile(nodeEl) {
+  onLoadFile(nodeEl, node) {
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = '.json';
@@ -40,55 +40,37 @@ class JsonLoaderNode extends AbstractNode {
       const file = e.target.files[0];
       if (!file) return;
 
-      const fileWidget = nodeEl.querySelector(
-        '.widget-value[data-name="file"]',
-      );
+      const fileWidget = nodeEl.querySelector('.widget-value[data-name="file"]');
       if (fileWidget) fileWidget.textContent = file.name;
 
       const reader = new FileReader();
       reader.onload = (ev) => {
-        nodeEl._jsonRaw = ev.target.result;
-        nodeEl._jsonData = JSON.parse(ev.target.result);
-        console.log(
-          'JsonLoader: loaded',
-          file.name,
-          Object.keys(nodeEl._jsonData),
-        );
+        node.data.jsonRaw = ev.target.result;
+        node.data.jsonData = JSON.parse(ev.target.result);
+        node.data.widgetValues = node.data.widgetValues || {};
+        node.data.widgetValues.file = file.name;
+        console.log('JsonLoader: loaded', file.name, Object.keys(node.data.jsonData));
       };
       reader.readAsText(file);
     };
     input.click();
   }
 
-  execute(inputs, nodeEl) {
-    const raw = nodeEl._jsonRaw;
+  execute(inputs, nodeEl, node) {
+    const raw = node.data.jsonRaw;
     if (!raw) return {};
 
-    const data = nodeEl._jsonData;
-    const rootInput = nodeEl.querySelector('.widget-input[data-name="root"]');
-    const root = rootInput ? rootInput.value : '';
+    const jsonData = node.data.jsonData;
+    const wv = node.data.widgetValues || {};
+    const root = wv.root || '';
     const output = root
-      ? root.split('.').reduce((obj, key) => obj?.[key], data)
-      : data;
+      ? root.split('.').reduce((obj, key) => obj?.[key], jsonData)
+      : jsonData;
 
     return {
       json: JSON.stringify(output, null, 2),
       data: output,
     };
-  }
-
-  serialize(nodeEl) {
-    return {
-      jsonRaw: nodeEl._jsonRaw || null,
-      jsonData: nodeEl._jsonData || null,
-    };
-  }
-
-  deserialize(nodeEl, data) {
-    if (data.jsonRaw) {
-      nodeEl._jsonRaw = data.jsonRaw;
-      nodeEl._jsonData = data.jsonData;
-    }
   }
 }
 
@@ -112,7 +94,7 @@ class JsonPreviewNode extends AbstractNode {
     this.size = [350, 250];
   }
 
-  execute(inputs, nodeEl) {
+  execute(inputs, nodeEl, node) {
     const json = inputs.json;
     if (json !== undefined) {
       const pre = nodeEl.querySelector('.node-preview');
