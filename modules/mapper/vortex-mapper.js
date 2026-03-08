@@ -3,9 +3,8 @@ import { registerModelNodes } from '../../common/vortex-model-node.js';
 import { registerJsonNodes } from '../../nodes/vortex-json-nodes.js';
 import { loadModelsFromApi } from '../../vortex-api-loader.js';
 import { vortexRegistry } from '../../vortex-registry.js';
-import { showRadialMenu, dismissRadialMenu } from '../../vortex-radial-menu.js';
-import { getCanvasActions, getNodeActions, getSelectionActions, getLinkActions } from '../../vortex-context-actions.js';
 import * as sidebar from '../../components/sidebar/sidebar.js';
+import * as radial from '../../components/radial/radial.js';
 
 export class VortexMapperModule {
   constructor(canvas, world, svg) {
@@ -28,9 +27,9 @@ export class VortexMapperModule {
     this.registerWheelEvent();
     this.registerMouseDownEvent();
     this.registerKeyboardEvents();
-    this.registerContextMenu();
     this.autoLoad();
     sidebar.install(this);
+    radial.install(this);
     console.log('VorteX Mapper ready');
   }
 
@@ -82,31 +81,45 @@ export class VortexMapperModule {
     console.log('New graph created');
   }
 
-  registerContextMenu() {
-    this.canvas.addEventListener('contextmenu', (e) => {
-      e.preventDefault();
+  getContextActions(target) {
+    const graph = this.graph;
 
-      // Priorité 1 : sélection multiple active
-      const selected = this.graph.getSelectedNodes();
-      if (selected.length > 1) {
-        showRadialMenu(e.clientX, e.clientY, getSelectionActions(this.graph, selected));
-        return;
+    switch (target.type) {
+      case 'canvas':
+        return [
+          { id: 'run',  label: 'Run',       icon: '▶', callback: () => graph.executePlan() },
+          { id: 'save', label: 'Save',      icon: '💾', callback: () => this.save() },
+          { id: 'load', label: 'Load',      icon: '📂', callback: () => this.load() },
+          { id: 'new',  label: 'New Graph', icon: '➕', callback: () => this.newGraph() },
+        ];
+
+      case 'node': {
+        const actions = [
+          { id: 'delete', label: 'Delete', icon: '✕', callback: () => {
+            graph.selection.add(target.nodeId);
+            graph.deleteSelectedNodes();
+          }},
+        ];
+        const descriptor = graph.nodes.get(target.nodeId);
+        if (descriptor && descriptor.contextActions) {
+          actions.push(...descriptor.contextActions(target.nodeId, graph));
+        }
+        return actions;
       }
 
-      // Priorité 2 : élément sous le curseur
-      const node = e.target.closest('.vortex-node');
-      const linkPath = e.target.closest('.vortex-link');
+      case 'selection':
+        return [
+          { id: 'delete', label: 'Delete', icon: '✕', callback: () => graph.deleteSelectedNodes() },
+        ];
 
-      if (node) {
-        const nodeId = node.dataset.id;
-        showRadialMenu(e.clientX, e.clientY, getNodeActions(this.graph, nodeId));
-      } else if (linkPath) {
-        const link = this.graph.links.find(l => l._path === linkPath);
-        if (link) showRadialMenu(e.clientX, e.clientY, getLinkActions(this.graph, link));
-      } else {
-        showRadialMenu(e.clientX, e.clientY, getCanvasActions(this.graph, this));
-      }
-    });
+      case 'link':
+        return [
+          { id: 'delete', label: 'Delete', icon: '✕', callback: () => graph.removeLink(target.link) },
+        ];
+
+      default:
+        return [];
+    }
   }
 
   registerKeyboardEvents() {
