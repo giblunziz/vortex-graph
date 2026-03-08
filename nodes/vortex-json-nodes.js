@@ -79,7 +79,7 @@ class JsonPreviewNode extends AbstractNode {
     super('vortex/JsonPreview');
     this.properties = {
       type: 'JsonPreview',
-      domain: 'json',
+      domain: 'preview',
       category: 'vortex',
     };
     this.addPort('json', true, false, 'json');

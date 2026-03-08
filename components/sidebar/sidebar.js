@@ -112,8 +112,8 @@ function registerDragDrop(canvas, world, module) {
     if (!nodeId) return;
 
     const worldRect = world.getBoundingClientRect();
-    const x = (e.clientX - worldRect.left) / module.zoomLevel;
-    const y = (e.clientY - worldRect.top) / module.zoomLevel;
+    const x = (e.clientX - worldRect.left) / module.viewport.zoomLevel;
+    const y = (e.clientY - worldRect.top) / module.viewport.zoomLevel;
 
     const id = module.graph.appendNode(nodeId);
     const nodeEl = world.querySelector(`.vortex-node[data-id="${id}"]`);

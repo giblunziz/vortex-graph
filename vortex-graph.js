@@ -1,14 +1,25 @@
 import { vortexRegistry } from "./vortex-registry.js";
+import * as dropSelector from "./components/drop-selector/drop-selector.js";
 
 // Le modèle — source de vérité
 export class VortexGraph {
-  constructor(world) {
-    this.nodes = new Map(); // id → node instance (clonée)
+  constructor(world, canvas, viewport) {
+    this.nodes = new Map();
     this.selection = new Set();
     this.links = [];
     this.nodeCount = 0;
     this.world = world;
+    this.canvas = canvas;
+    this.viewport = viewport;
     this.onChange = null;
+
+    // Callback module : résout le wiring après un drop port→port
+    // Signature : onLinkDrop(fromPortData, toPortData) → liens créés par le module
+    // Si null → createLink simple
+    this.onLinkDrop = null;
+
+    dropSelector.install();
+    this.registerMouseDownEvent();
   }
 
   notifyChange() {
@@ -18,9 +29,7 @@ export class VortexGraph {
   // --- Selection ---
 
   selectNode(id, addToSelection) {
-    if (!addToSelection) {
-      this.selection.clear();
-    }
+    if (!addToSelection) this.selection.clear();
     if (this.selection.has(id)) {
       this.selection.delete(id);
     } else {
@@ -49,19 +58,21 @@ export class VortexGraph {
     this.updateSelectionView();
   }
 
+  selectAll() {
+    for (const id of this.nodes.keys()) this.selection.add(id);
+    this.updateSelectionView();
+  }
+
   // --- Node management ---
 
   deleteSelectedNodes() {
     if (this.selection.size === 0) return;
-
     for (const nodeId of [...this.selection]) {
       this.selection.delete(nodeId);
       const connectedLinks = this.links.filter(
         (l) => l.fromNode === nodeId || l.toNode === nodeId,
       );
-      for (const link of connectedLinks) {
-        this.removeLink(link);
-      }
+      for (const link of connectedLinks) this.removeLink(link);
       const nodeEl = this.world.querySelector(`.vortex-node[data-id="${nodeId}"]`);
       if (nodeEl) nodeEl.remove();
       this.nodes.delete(nodeId);
@@ -70,7 +81,6 @@ export class VortexGraph {
   }
 
   nextId() {
-    // Guard : s'assurer que le compteur dépasse toujours le max existant
     const maxExisting = Math.max(0, ...[...this.nodes.keys()].map(id => parseInt(id.split('_')[1]) || 0));
     if (this.nodeCount <= maxExisting) this.nodeCount = maxExisting;
     return "vn_" + ++this.nodeCount;
@@ -88,6 +98,274 @@ export class VortexGraph {
     this.drawNode(id);
     this.notifyChange();
     return id;
+  }
+
+  // --- Interactions ---
+
+  registerMouseDownEvent() {
+    this.canvas.addEventListener('mousedown', (e) => {
+      if (e.button !== 0) return;
+
+      const resize = e.target.closest('.resize-handle');
+      const collapseToggle = e.target.closest('.collapse-toggle');
+      const header = e.target.closest('.node-header');
+      const port = e.target.closest('.port');
+      const node = e.target.closest('.vortex-node');
+
+      if (collapseToggle) return;
+
+      if (port) {
+        if (port.classList.contains('in')) {
+          const pd = this.portData(port);
+          const existingLink = this.links.find(
+            (l) => l.toNode === pd.nodeId && l.toName === pd.portName,
+          );
+          if (existingLink) {
+            this.startLinkRedirect(existingLink, e);
+            return;
+          }
+        }
+        this.startPortDrag(port, e);
+      } else if (resize) {
+        this.startResize(node, e);
+      } else if (header) {
+        if (e.ctrlKey || e.metaKey) {
+          this.selectNode(node.dataset.id, true);
+        } else if (!this.selection.has(node.dataset.id)) {
+          this.selectNode(node.dataset.id, false);
+        }
+        this.startNodeDrag(node, e);
+      } else if (node) {
+        this.selectNode(node.dataset.id, e.ctrlKey || e.metaKey);
+      } else {
+        this.clearSelection();
+        this.viewport.startPan(e);
+      }
+    });
+  }
+
+  startResize(node, e) {
+    const startX = e.clientX;
+    const startY = e.clientY;
+    const startW = node.offsetWidth;
+    const startH = node.offsetHeight;
+
+    const onMove = (ev) => {
+      node.style.width = startW + (ev.clientX - startX) / this.viewport.zoomLevel + 'px';
+      node.style.height = startH + (ev.clientY - startY) / this.viewport.zoomLevel + 'px';
+      this.updateLinks();
+    };
+
+    const onUp = () => {
+      this.canvas.removeEventListener('mousemove', onMove);
+      this.canvas.removeEventListener('mouseup', onUp);
+      this.syncNodePosition(node.dataset.id);
+      this.updateLinks();
+      this.fitWorld();
+      this.notifyChange();
+    };
+
+    this.canvas.addEventListener('mousemove', onMove);
+    this.canvas.addEventListener('mouseup', onUp);
+  }
+
+  startNodeDrag(node, e) {
+    const selected = this.getSelectedNodes();
+    const nodeIds = selected.includes(node.dataset.id) ? selected : [node.dataset.id];
+
+    const nodeEls = nodeIds.map(id =>
+      this.world.querySelector(`.vortex-node[data-id="${id}"]`)
+    ).filter(Boolean);
+
+    const vp = this.viewport;
+    const offsets = nodeEls.map(el => ({
+      el,
+      x: e.clientX - el.offsetLeft * vp.zoomLevel - vp.panX,
+      y: e.clientY - el.offsetTop * vp.zoomLevel - vp.panY,
+    }));
+
+    node.style.cursor = 'grabbing';
+
+    const onMove = (ev) => {
+      for (const o of offsets) {
+        const x = Math.max(0, (ev.clientX - o.x - vp.panX) / vp.zoomLevel);
+        const y = Math.max(0, (ev.clientY - o.y - vp.panY) / vp.zoomLevel);
+        o.el.style.left = x + 'px';
+        o.el.style.top = y + 'px';
+      }
+      this.updateLinks();
+    };
+
+    const onUp = () => {
+      node.style.cursor = '';
+      this.canvas.removeEventListener('mousemove', onMove);
+      this.canvas.removeEventListener('mouseup', onUp);
+      for (const id of nodeIds) this.syncNodePosition(id);
+      this.fitWorld();
+      this.notifyChange();
+    };
+
+    this.canvas.addEventListener('mousemove', onMove);
+    this.canvas.addEventListener('mouseup', onUp);
+  }
+
+  startPortDrag(port, e) {
+    const svg = this.world.querySelector('#vortex-links');
+    const tempPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    tempPath.classList.add('vortex-link');
+    tempPath.style.opacity = '0.5';
+    svg.appendChild(tempPath);
+
+    const isOutput = port.classList.contains('out');
+    const startCenter = this.getPortCenter(port);
+
+    const onMove = (ev) => {
+      const rect = this.world.getBoundingClientRect();
+      const mouseX = ev.clientX - rect.left;
+      const mouseY = ev.clientY - rect.top;
+
+      const from = isOutput ? startCenter : { x: mouseX, y: mouseY };
+      const to = isOutput ? { x: mouseX, y: mouseY } : startCenter;
+      const dx = Math.abs(to.x - from.x) * 0.5;
+      tempPath.setAttribute('d',
+        `M ${from.x} ${from.y} C ${from.x + dx} ${from.y}, ${to.x - dx} ${to.y}, ${to.x} ${to.y}`);
+    };
+
+    const onUp = (ev) => {
+      const targetPort = ev.target.closest('.port');
+
+      if (targetPort && targetPort !== port) {
+        const fromPort = isOutput ? port : targetPort;
+        const toPort = isOutput ? targetPort : port;
+        this.handleLinkDrop(fromPort, toPort);
+      } else if (!targetPort) {
+        const sourceType = port.dataset.type;
+        const direction = isOutput ? 'in' : 'out';
+        this.showDropSelector(ev.clientX, ev.clientY, sourceType, direction, port, isOutput);
+      }
+
+      tempPath.remove();
+      this.canvas.removeEventListener('mousemove', onMove);
+      this.canvas.removeEventListener('mouseup', onUp);
+    };
+
+    this.canvas.addEventListener('mousemove', onMove);
+    this.canvas.addEventListener('mouseup', onUp);
+  }
+
+  startLinkRedirect(link, e) {
+    const fromPort = link._fromPort;
+    const svg = this.world.querySelector('#vortex-links');
+    const tempPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    tempPath.classList.add('vortex-link');
+    tempPath.style.opacity = '0.5';
+    svg.appendChild(tempPath);
+
+    const originalFromNode = link.fromNode;
+    const originalFromName = link.fromName;
+    this.removeLink(link);
+
+    const startCenter = this.getPortCenter(fromPort);
+
+    const onMove = (ev) => {
+      const rect = this.world.getBoundingClientRect();
+      const mouseX = (ev.clientX - rect.left) / this.viewport.zoomLevel;
+      const mouseY = (ev.clientY - rect.top) / this.viewport.zoomLevel;
+      const dx = Math.abs(mouseX - startCenter.x) * 0.5;
+      tempPath.setAttribute('d',
+        `M ${startCenter.x} ${startCenter.y} C ${startCenter.x + dx} ${startCenter.y}, ${mouseX - dx} ${mouseY}, ${mouseX} ${mouseY}`);
+    };
+
+    const onUp = (ev) => {
+      const targetPort = ev.target.closest('.port.in');
+
+      if (targetPort) {
+        const to = this.portData(targetPort);
+        this.createLink(originalFromNode, originalFromName, to.nodeId, to.portName);
+      } else {
+        const sourceType = fromPort.dataset.type;
+        this.showDropSelector(ev.clientX, ev.clientY, sourceType, 'in', fromPort, true);
+      }
+
+      tempPath.remove();
+      this.canvas.removeEventListener('mousemove', onMove);
+      this.canvas.removeEventListener('mouseup', onUp);
+    };
+
+    this.canvas.addEventListener('mousemove', onMove);
+    this.canvas.addEventListener('mouseup', onUp);
+  }
+
+  // --- Link drop strategy ---
+
+  handleLinkDrop(fromPort, toPort) {
+    const from = this.portData(fromPort);
+    const to = this.portData(toPort);
+
+    if (this.onLinkDrop) {
+      // Le module décide — retourne [] ou une liste de { fromNode, fromName, toNode, toName }
+      const links = this.onLinkDrop(from, to);
+      if (links && links.length > 0) {
+        for (const l of links) this.createLink(l.fromNode, l.fromName, l.toNode, l.toName);
+      }
+    } else {
+      // Pas de callback module — lien simple
+      this.createLink(from.nodeId, from.portName, to.nodeId, to.portName);
+    }
+  }
+
+  // --- Drop selector ---
+
+  showDropSelector(x, y, type, direction, sourcePort, isOutput) {
+    const sourceNode = sourcePort.closest('.vortex-node');
+    const sourceNodeType = sourceNode ? sourceNode.dataset.type : null;
+
+    dropSelector.show(x, y, type, direction, sourceNodeType, (match) => {
+      const vp = this.viewport;
+      const worldRect = this.world.getBoundingClientRect();
+      const nodeX = (x - worldRect.left) / vp.zoomLevel;
+      const nodeY = (y - worldRect.top) / vp.zoomLevel;
+
+      const newNodeId = this.appendNode(match.nodeId);
+      const nodeEl = this.world.querySelector(`.vortex-node[data-id="${newNodeId}"]`);
+      nodeEl.style.left = nodeX + 'px';
+      nodeEl.style.top = nodeY + 'px';
+
+      const source = this.portData(sourcePort);
+      const newDesc = this.nodes.get(newNodeId);
+
+      let targetName = null;
+      const matchByName = newDesc.ports.find(
+        (p) => p.name === source.portName && p.type === type && (direction === 'in' ? p.hasIn : p.hasOut),
+      );
+      if (matchByName) {
+        targetName = matchByName.name;
+      } else {
+        const matchBySelf = newDesc.ports.find(
+          (p) => p.name === '_Self' && p.type === type && (direction === 'in' ? p.hasIn : p.hasOut),
+        );
+        if (matchBySelf) targetName = '_Self';
+      }
+
+      if (targetName) {
+        if (isOutput) {
+          this.createLink(source.nodeId, source.portName, newNodeId, targetName);
+        } else {
+          this.createLink(newNodeId, targetName, source.nodeId, source.portName);
+        }
+      }
+    });
+  }
+
+  // --- Helpers ---
+
+  portData(port) {
+    const nodeEl = port.closest('.vortex-node');
+    const row = port.closest('.node-row');
+    return {
+      nodeId: nodeEl.dataset.id,
+      portName: row.querySelector('.field-name').textContent,
+    };
   }
 
   // --- DOM rendering ---
@@ -117,7 +395,7 @@ export class VortexGraph {
     el.querySelector(selector).textContent = value;
   }
 
-  addWidget(container, nodeEl, node, widget) {
+  addWidget(container, nodeEl, node, widget, instanceId) {
     const wv = node.data.widgetValues = node.data.widgetValues || {};
 
     if (widget.type === "button") {
@@ -165,6 +443,30 @@ export class VortexGraph {
       select.addEventListener("mousedown", (e) => e.stopPropagation());
       select.addEventListener("change", () => { wv[widget.name] = select.value; });
       container.appendChild(clone);
+    } else if (widget.type === "checkbox") {
+      const div = document.createElement("div");
+      div.className = "widget-checkbox";
+      const input = document.createElement("input");
+      input.type = "checkbox";
+      input.id = instanceId + "_" + widget.name;
+      input.dataset.name = widget.name;
+      input.checked = wv[widget.name] ?? widget.value ?? false;
+      const label = document.createElement("label");
+      label.htmlFor = input.id;
+      label.textContent = widget.label;
+      input.addEventListener("mousedown", (e) => e.stopPropagation());
+      input.addEventListener("click", (e) => e.stopPropagation());
+      input.addEventListener("change", (e) => {
+        wv[widget.name] = e.target.checked;
+        const node = this.nodes.get(instanceId);
+        if (node.updatePreview) {
+          node.updatePreview(nodeEl, node);
+        }
+        this.notifyChange();
+      });
+      div.appendChild(input);
+      div.appendChild(label);
+      container.appendChild(div);
     } else if (widget.type === "preview") {
       const wrapper = document.createElement("div");
       wrapper.className = "node-preview-wrapper";
@@ -194,14 +496,12 @@ export class VortexGraph {
     this.setText(nodeEl, ".node-title", node.properties.type);
     this.setText(nodeEl, ".node-footer", node.properties.domain || '');
 
-    // États depuis le modèle
     if (node.collapsed) nodeEl.classList.add("collapsed");
     if (node.x) nodeEl.style.left = node.x + "px";
     if (node.y) nodeEl.style.top = node.y + "px";
     if (node.width) nodeEl.style.width = node.width + "px";
     if (node.height) nodeEl.style.height = node.height + "px";
 
-    // Collapse toggle → met à jour le modèle
     nodeEl.querySelector(".collapse-toggle").addEventListener("click", (e) => {
       e.stopPropagation();
       node.collapsed = !node.collapsed;
@@ -213,19 +513,16 @@ export class VortexGraph {
       });
     });
 
-    // Propriétés visuelles spécifiques (sur le prototype, pas copiées)
     if (node.cssClass) nodeEl.classList.add(node.cssClass);
     if (node.size) {
       nodeEl.style.width = node.size[0] + "px";
       nodeEl.style.height = node.size[1] + "px";
     }
 
-    // Ports
     for (const port of node.ports) {
       this.addPort(nodeEl, port.name, port.type, port.hasIn, port.hasOut, port.businessTerm);
     }
 
-    // BT hover cross-highlight
     nodeEl.addEventListener("mouseenter", (e) => {
       const bt = e.target.closest(".business-term");
       if (bt && bt.textContent) {
@@ -241,12 +538,11 @@ export class VortexGraph {
       }
     }, true);
 
-    // Widgets
     if (node.widgets && node.widgets.length > 0) {
       const slot = nodeEl.querySelector(".node-widgets-slot");
       slot.className = "node-widgets";
       for (const widget of node.widgets) {
-        this.addWidget(slot, nodeEl, node, widget);
+        this.addWidget(slot, nodeEl, node, widget, id);
       }
     }
 
@@ -333,7 +629,7 @@ export class VortexGraph {
 
   getPortCenter(port) {
     const nodeEl = port.closest(".vortex-node");
-    const zoom = this.zoomLevel || 1;
+    const zoom = this.viewport.zoomLevel;
     const worldRect = this.world.getBoundingClientRect();
 
     if (nodeEl && nodeEl.classList.contains("collapsed")) {
@@ -367,7 +663,7 @@ export class VortexGraph {
 
   // --- Serialization ---
 
-  serialize(viewport) {
+  serialize() {
     const nodes = [];
     for (const [id, node] of this.nodes) {
       this.syncNodePosition(id);
@@ -379,7 +675,6 @@ export class VortexGraph {
 
     return {
       version: 1,
-      viewport,
       nodeCount: this.nodeCount,
       nodes,
       links: this.links.map(l => ({
@@ -408,8 +703,6 @@ export class VortexGraph {
     for (const l of data.links) {
       this.createLink(l.fromNode, l.fromName, l.toNode, l.toName);
     }
-
-    return data.viewport;
   }
 
   clearGraph() {

@@ -1,0 +1,102 @@
+/* nodes/vortex-preview-nodes.css */
+
+/* Toggle checkbox widget — iOS style */
+.widget-checkbox {
+  display: flex;
+  align-items: center;
+  padding: 4px 0;
+  gap: 8px;
+}
+
+.widget-checkbox input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 32px;
+  height: 18px;
+  background: rgba(100, 100, 255, 0.2);
+  border: 1px solid rgba(100, 100, 255, 0.3);
+  border-radius: 9px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 2px;
+  box-sizing: border-box;
+  pointer-events: auto;
+  flex-shrink: 0;
+}
+
+.widget-checkbox input[type="checkbox"]::before {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 7px;
+  top: 2px;
+  left: 2px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.widget-checkbox input[type="checkbox"]:hover {
+  background: rgba(100, 100, 255, 0.3);
+  border-color: rgba(100, 100, 255, 0.5);
+}
+
+.widget-checkbox input[type="checkbox"]:checked {
+  background: rgba(100, 150, 255, 0.6);
+  border-color: rgba(100, 150, 255, 0.8);
+}
+
+.widget-checkbox input[type="checkbox"]:checked::before {
+  left: 16px;
+  background: rgba(100, 200, 255, 0.9);
+  box-shadow: 0 2px 6px rgba(100, 150, 255, 0.5);
+}
+
+.widget-checkbox label {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  user-select: none;
+  font-weight: 500;
+  flex: 1;
+}
+
+/* Preview wrapper — same as json-nodes */
+.node-preview-wrapper {
+  flex: 1;
+  overflow: auto;
+  margin: 0 4px 4px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  min-height: 0;
+  min-width: 0;
+  position: relative;
+}
+
+.node-preview {
+  margin: 0;
+  padding: 6px;
+  font-family: monospace;
+  font-size: 11px;
+  color: #aaa;
+  white-space: pre;
+  tab-size: 2;
+  user-select: text;
+}
+
+/* Hover effect on preview for copy hint */
+.node-preview-wrapper:hover {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.node-preview-wrapper:hover::after {
+  content: "Right-click for menu";
+  position: absolute;
+  bottom: 4px;
+  right: 6px;
+  font-size: 10px;
+  color: rgba(100, 100, 255, 0.5);
+  pointer-events: none;
+}

@@ -26,6 +26,8 @@ export class AbstractNode {
   clone() {
     const instance = new this.constructor();
     instance.id = this.id;
+    // Ports partagés par ref — OK tant qu'ils sont statiques (déclarés au constructeur)
+    // Si un node a des ports dynamiques (ex: GeneratedMapper), override clone() avec deep copy
     instance.ports = this.ports;
     instance.properties = { ...this.properties };
     // widgets sont recréés par le constructeur (callbacks préservés)

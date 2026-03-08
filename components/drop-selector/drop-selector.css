@@ -1,0 +1,42 @@
+/* components/drop-selector/drop-selector.css */
+
+.drop-selector {
+    position: fixed;
+    min-width: 200px;
+    max-height: 300px;
+    overflow-y: auto;
+    background: rgba(30, 30, 50, 0.95);
+    border: 1px solid rgba(100, 100, 255, 0.5);
+    border-radius: 8px;
+    padding: 4px 0;
+    z-index: 1000;
+    font-family: system-ui;
+    font-size: 13px;
+    color: #eee;
+    box-shadow: 0 0 20px rgba(100, 100, 255, 0.3);
+}
+
+.drop-selector-item {
+    padding: 6px 12px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.drop-selector-item:hover {
+    background: rgba(100, 100, 255, 0.2);
+}
+
+.drop-selector-item .port-name {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 11px;
+    margin-left: 12px;
+}
+
+.drop-selector-title {
+    padding: 6px 12px;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
