@@ -34,6 +34,9 @@ function apiModelToNode(model) {
     model.identity.category,
   );
 
+  // Le header affiche le name, pas le title complet
+  node.properties.type = model.identity.name;
+
   for (const field of model.fields) {
     // Nettoyer le vortexType (retirer model_output si encore présent)
     let type = field.vortexType;

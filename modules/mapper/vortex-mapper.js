@@ -151,9 +151,12 @@ export class VortexMapperModule {
       if (e.button !== 0) return;
 
       const resize = e.target.closest('.resize-handle');
+      const collapseToggle = e.target.closest('.collapse-toggle');
       const header = e.target.closest('.node-header');
       const port = e.target.closest('.port');
       const node = e.target.closest('.vortex-node');
+
+      if (collapseToggle) return; // Géré par le click handler du toggle
 
       if (port) {
         if (port.classList.contains('in')) {

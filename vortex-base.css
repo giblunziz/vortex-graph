@@ -62,6 +62,36 @@ body {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     cursor: grab;
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.collapse-toggle {
+    font-size: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    user-select: none;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.collapse-toggle:hover {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.vortex-node.collapsed .collapse-toggle {
+    transform: rotate(-90deg);
+}
+
+.vortex-node.collapsed .node-ports,
+.vortex-node.collapsed .node-widgets,
+.vortex-node.collapsed .node-widgets-slot,
+.vortex-node.collapsed .resize-handle {
+    display: none;
+}
+
+.vortex-node.collapsed .node-header {
+    border-bottom: none;
 }
 
 .vortex-node:hover {

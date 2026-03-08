@@ -195,7 +195,19 @@ export class VortexGraph {
 
     nodeEl.dataset.id = id;
     nodeEl.dataset.type = descriptor.id;
-    this.setText(nodeEl, ".node-header", descriptor.properties.type);
+    this.setText(nodeEl, ".node-title", descriptor.properties.type);
+    this.setText(nodeEl, ".node-footer", descriptor.properties.domain || '');
+
+    // Collapse toggle
+    const toggle = nodeEl.querySelector(".collapse-toggle");
+    toggle.addEventListener("click", (e) => {
+      e.stopPropagation();
+      nodeEl.classList.toggle("collapsed");
+      requestAnimationFrame(() => {
+        this.updateLinks();
+        this.fitWorld();
+      });
+    });
 
     if (descriptor.cssClass) nodeEl.classList.add(descriptor.cssClass);
     if (descriptor.size) {
@@ -317,9 +329,22 @@ export class VortexGraph {
   }
 
   getPortCenter(port) {
-    const rect = port.getBoundingClientRect();
-    const worldRect = this.world.getBoundingClientRect();
+    const nodeEl = port.closest(".vortex-node");
     const zoom = this.zoomLevel || 1;
+    const worldRect = this.world.getBoundingClientRect();
+
+    // Si le node est collapsed, fallback sur les bords du header
+    if (nodeEl && nodeEl.classList.contains("collapsed")) {
+      const header = nodeEl.querySelector(".node-header");
+      const headerRect = header.getBoundingClientRect();
+      const isOut = port.classList.contains("out");
+      return {
+        x: ((isOut ? headerRect.right : headerRect.left) - worldRect.left) / zoom,
+        y: ((headerRect.top + headerRect.bottom) / 2 - worldRect.top) / zoom,
+      };
+    }
+
+    const rect = port.getBoundingClientRect();
     return {
       x: (rect.left + rect.width / 2 - worldRect.left) / zoom,
       y: (rect.top + rect.height / 2 - worldRect.top) / zoom,
@@ -356,6 +381,7 @@ export class VortexGraph {
         y: parseFloat(nodeEl.style.top) || 0,
         width: nodeEl.style.width ? parseFloat(nodeEl.style.width) : null,
         height: nodeEl.style.height ? parseFloat(nodeEl.style.height) : null,
+        collapsed: nodeEl.classList.contains('collapsed'),
       };
 
       // Collecter les valeurs des widgets depuis le DOM
@@ -421,6 +447,7 @@ export class VortexGraph {
       nodeEl.style.top = nodeData.y + 'px';
       if (nodeData.width) nodeEl.style.width = nodeData.width + 'px';
       if (nodeData.height) nodeEl.style.height = nodeData.height + 'px';
+      if (nodeData.collapsed) nodeEl.classList.add('collapsed');
 
       // Restaurer les widgets
       if (nodeData.widgets) {
