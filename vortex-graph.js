@@ -70,6 +70,9 @@ export class VortexGraph {
   }
 
   nextId() {
+    // Guard : s'assurer que le compteur dépasse toujours le max existant
+    const maxExisting = Math.max(0, ...[...this.nodes.keys()].map(id => parseInt(id.split('_')[1]) || 0));
+    if (this.nodeCount <= maxExisting) this.nodeCount = maxExisting;
     return "vn_" + ++this.nodeCount;
   }
 
