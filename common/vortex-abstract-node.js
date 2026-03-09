@@ -1,4 +1,4 @@
-import { vortexRegistry } from "../vortex-registry.js";
+import { vortexRegistry } from '../vortex-registry.js';
 
 export class AbstractNode {
   constructor(id) {
@@ -8,14 +8,17 @@ export class AbstractNode {
     this.width = null;
     this.height = null;
     this.collapsed = false;
-    this.mode = "active"; // active, inactive, bypass
+    this.mode = 'active'; // active, inactive, bypass
     this.ports = [];
     this.properties = {};
     this.data = {};
+    this.widget = null;
   }
 
-  addPort(name, hasIn, hasOut, type, businessTerm) {
-    this.ports.push({ name, hasIn, hasOut, type, businessTerm: businessTerm || null });
+  addPort(name, hasIn, hasOut, type, businessTerm, widget) {
+    const port = {name,hasIn,hasOut,type,businessTerm: businessTerm || null,widget: widget || null};
+    this.ports.push(port);
+    return port; // ← Retourner l'objet directement
   }
 
   register() {
@@ -60,7 +63,7 @@ export class AbstractNode {
     this.width = saved.width || null;
     this.height = saved.height || null;
     this.collapsed = saved.collapsed || false;
-    this.mode = saved.mode || "active";
+    this.mode = saved.mode || 'active';
     if (saved.properties) this.properties = { ...saved.properties };
     if (saved.data) this.deserializeData(saved.data);
   }

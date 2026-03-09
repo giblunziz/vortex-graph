@@ -221,8 +221,9 @@ export class VortexGraph {
 
     const onMove = (ev) => {
       const rect = this.world.getBoundingClientRect();
-      const mouseX = ev.clientX - rect.left;
-      const mouseY = ev.clientY - rect.top;
+      const zoom = this.viewport.zoomLevel;
+      const mouseX = (ev.clientX - rect.left) / zoom;
+      const mouseY = (ev.clientY - rect.top) / zoom;
 
       const from = isOutput ? startCenter : { x: mouseX, y: mouseY };
       const to = isOutput ? { x: mouseX, y: mouseY } : startCenter;
@@ -370,7 +371,7 @@ export class VortexGraph {
 
   // --- DOM rendering ---
 
-  addPort(nodeEl, name, type, hasIn, hasOut, businessTerm) {
+  addPort(node, port, nodeEl, name, type, hasIn, hasOut, businessTerm, widget) {
     const tpl = document.getElementById("vortex-port-row");
     const row = tpl.content.cloneNode(true);
 
@@ -388,97 +389,18 @@ export class VortexGraph {
     if (hasIn) { portIn.dataset.type = type; } else portIn.remove();
     if (hasOut) { portOut.dataset.type = type; } else portOut.remove();
 
+    if( widget) {
+      const widgetSlot = row.querySelector(".port-widgets-slot");
+      if( node.drawWidgetPort) {
+        node.drawWidgetPort(port, widgetSlot)
+      }
+    }
+
     nodeEl.querySelector(".node-ports").appendChild(row);
   }
 
   setText(el, selector, value) {
     el.querySelector(selector).textContent = value;
-  }
-
-  addWidget(container, nodeEl, node, widget, instanceId) {
-    const wv = node.data.widgetValues = node.data.widgetValues || {};
-
-    if (widget.type === "button") {
-      const tpl = document.getElementById("vortex-widget-button");
-      const clone = tpl.content.cloneNode(true);
-      const btn = clone.querySelector(".widget-button");
-      btn.textContent = widget.label;
-      btn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        if (widget.onClick) widget.onClick(nodeEl, node);
-      });
-      container.appendChild(clone);
-    } else if (widget.type === "text") {
-      const tpl = document.getElementById("vortex-widget-text");
-      const clone = tpl.content.cloneNode(true);
-      clone.querySelector(".widget-label").textContent = widget.label;
-      const input = clone.querySelector(".widget-input");
-      input.dataset.name = widget.name;
-      input.value = wv[widget.name] ?? widget.value ?? "";
-      input.placeholder = widget.placeholder || "";
-      input.addEventListener("mousedown", (e) => e.stopPropagation());
-      input.addEventListener("input", () => { wv[widget.name] = input.value; });
-      container.appendChild(clone);
-    } else if (widget.type === "readonly") {
-      const tpl = document.getElementById("vortex-widget-readonly");
-      const clone = tpl.content.cloneNode(true);
-      clone.querySelector(".widget-label").textContent = widget.label;
-      const val = clone.querySelector(".widget-value");
-      val.dataset.name = widget.name;
-      val.textContent = wv[widget.name] ?? widget.value ?? "";
-      container.appendChild(clone);
-    } else if (widget.type === "dropdown") {
-      const tpl = document.getElementById("vortex-widget-dropdown");
-      const clone = tpl.content.cloneNode(true);
-      clone.querySelector(".widget-label").textContent = widget.label;
-      const select = clone.querySelector(".widget-dropdown");
-      select.dataset.name = widget.name;
-      for (const val of widget.options || []) {
-        const opt = document.createElement("option");
-        opt.value = val;
-        opt.textContent = val;
-        select.appendChild(opt);
-      }
-      select.value = wv[widget.name] ?? widget.value ?? "";
-      select.addEventListener("mousedown", (e) => e.stopPropagation());
-      select.addEventListener("change", () => { wv[widget.name] = select.value; });
-      container.appendChild(clone);
-    } else if (widget.type === "checkbox") {
-      const div = document.createElement("div");
-      div.className = "widget-checkbox";
-      const input = document.createElement("input");
-      input.type = "checkbox";
-      input.id = instanceId + "_" + widget.name;
-      input.dataset.name = widget.name;
-      input.checked = wv[widget.name] ?? widget.value ?? false;
-      const label = document.createElement("label");
-      label.htmlFor = input.id;
-      label.textContent = widget.label;
-      input.addEventListener("mousedown", (e) => e.stopPropagation());
-      input.addEventListener("click", (e) => e.stopPropagation());
-      input.addEventListener("change", (e) => {
-        wv[widget.name] = e.target.checked;
-        const node = this.nodes.get(instanceId);
-        if (node.updatePreview) {
-          node.updatePreview(nodeEl, node);
-        }
-        this.notifyChange();
-      });
-      div.appendChild(input);
-      div.appendChild(label);
-      container.appendChild(div);
-    } else if (widget.type === "preview") {
-      const wrapper = document.createElement("div");
-      wrapper.className = "node-preview-wrapper";
-      const pre = document.createElement("pre");
-      pre.className = "node-preview";
-      pre.dataset.name = widget.name;
-      pre.textContent = widget.value || "";
-      wrapper.appendChild(pre);
-      wrapper.addEventListener("wheel", (e) => e.stopPropagation());
-      wrapper.addEventListener("mousedown", (e) => e.stopPropagation());
-      container.appendChild(wrapper);
-    }
   }
 
   drawNode(id) {
@@ -520,7 +442,7 @@ export class VortexGraph {
     }
 
     for (const port of node.ports) {
-      this.addPort(nodeEl, port.name, port.type, port.hasIn, port.hasOut, port.businessTerm);
+      this.addPort(node,port, nodeEl, port.name, port.type, port.hasIn, port.hasOut, port.businessTerm, port.widget);
     }
 
     nodeEl.addEventListener("mouseenter", (e) => {
@@ -538,12 +460,10 @@ export class VortexGraph {
       }
     }, true);
 
-    if (node.widgets && node.widgets.length > 0) {
+    if (node.drawWidgets) {
       const slot = nodeEl.querySelector(".node-widgets-slot");
       slot.className = "node-widgets";
-      for (const widget of node.widgets) {
-        this.addWidget(slot, nodeEl, node, widget, id);
-      }
+      node.drawWidgets(slot, nodeEl);
     }
 
     this.world.appendChild(nodeEl);

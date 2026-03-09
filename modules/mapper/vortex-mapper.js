@@ -1,5 +1,6 @@
 import { VortexGraph } from '../../vortex-graph.js';
 import { VortexViewport } from '../../vortex-viewport.js';
+import { WidgetFactory } from '../../common/vortex-widget-factory.js';
 import { registerJsonNodes } from '../../nodes/vortex-json-nodes.js';
 import { registerPreviewNodes } from '../../nodes/vortex-preview-nodes.js';
 import { loadModelsFromApi } from '../../vortex-api-loader.js';
@@ -21,6 +22,7 @@ export class VortexMapperModule {
   }
 
   async init() {
+    this.bootstrapWidgets();
     registerJsonNodes();
     registerPreviewNodes();
     await loadModelsFromApi();
@@ -31,6 +33,17 @@ export class VortexMapperModule {
     radial.install(this);
     console.log('VorteX Mapper ready');
   }
+
+  bootstrapWidgets() {
+    WidgetFactory.registerTemplate('button', 'vortex-widget-button');
+    WidgetFactory.registerTemplate('text', 'vortex-widget-text');
+    WidgetFactory.registerTemplate('readonly', 'vortex-widget-readonly');
+    WidgetFactory.registerTemplate('dropdown', 'vortex-widget-dropdown');
+    WidgetFactory.registerTemplate('checkbox', 'vortex-widget-checkbox');
+    WidgetFactory.registerTemplate('preview', 'vortex-widget-preview');
+  }
+
+  // --- Widget bootstrap ---
 
   // --- Link drop strategy (métier mapper) ---
 

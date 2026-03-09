@@ -1,4 +1,5 @@
 import { AbstractNode } from '../common/vortex-abstract-node.js';
+import { WidgetFactory } from '../common/vortex-widget-factory.js';
 
 class ModelPreviewNode extends AbstractNode {
   constructor() {
@@ -26,7 +27,41 @@ class ModelPreviewNode extends AbstractNode {
     this.size = [350, 250];
   }
 
-execute(inputs, nodeEl, node) {
+drawWidgets(container, nodeEl) {
+    if (!this.data) this.data = {};
+    const wv = this.data.widgetValues = this.data.widgetValues || {};
+
+    // Widget 1: Checkbox "Hide empty"
+    const checkboxDom = WidgetFactory.createWidget('checkbox');
+    const input = checkboxDom.querySelector('input');
+    input.id = nodeEl.dataset.id + '_hideEmpty';
+    input.checked = wv.hideEmpty ?? false;
+    const label = checkboxDom.querySelector('label');
+    label.htmlFor = input.id;
+    label.textContent = 'Hide empty';
+    input.addEventListener('mousedown', (e) => e.stopPropagation());
+    input.addEventListener('click', (e) => e.stopPropagation());
+    input.addEventListener('change', (e) => {
+      wv.hideEmpty = e.target.checked;
+      this.updatePreview(nodeEl);
+    });
+    container.appendChild(checkboxDom);
+
+    // Widget 2: Preview (JSON display)
+    const previewDom = WidgetFactory.createWidget('preview');
+    const wrapper = previewDom.querySelector('.node-preview-wrapper');
+    const pre = previewDom.querySelector('.node-preview');
+    pre.textContent = '';
+    this.previewEl = pre;  // Cache pour updatePreview()
+    
+    // Stoppage wheel event pour éviter zoom du viewport
+    wrapper.addEventListener('wheel', (e) => e.stopPropagation());
+    wrapper.addEventListener('mousedown', (e) => e.stopPropagation());
+    
+    container.appendChild(previewDom);
+  }
+
+  execute(inputs, nodeEl, node) {
     // Traiter tous les inputs (ports) — pas de _Self, on prend ce qui est connecté
     let input = undefined;
     for (const key in inputs) {
@@ -43,26 +78,27 @@ execute(inputs, nodeEl, node) {
     node.data._rawInput = input;
 
     // Appliquer le filtre et afficher
-    this.updatePreview(nodeEl, node);
+    this.updatePreview(nodeEl);
 
     return {};
   }
 
-  updatePreview(nodeEl, node) {
-    const input = node.data._rawInput;
-    if (input === undefined) return;
+  updatePreview(nodeEl) {
+    if (!this.previewEl) return;
+    const input = this.data?._rawInput;
+    if (input === undefined) {
+      this.previewEl.textContent = '';
+      return;
+    }
 
-    const wv = node.data.widgetValues || {};
+    const wv = this.data.widgetValues || {};
     const hideEmpty = wv.hideEmpty || false;
 
     const filtered = hideEmpty ? this.filterEmpty(input) : input;
     const jsonStr = JSON.stringify(filtered, null, 2);
 
-    const pre = nodeEl.querySelector('.node-preview');
-    if (pre) {
-      pre.textContent = jsonStr;
-      pre.dataset.content = jsonStr;
-    }
+    this.previewEl.textContent = jsonStr;
+    this.previewEl.dataset.content = jsonStr;
   }
 
   filterEmpty(obj) {
@@ -103,7 +139,10 @@ execute(inputs, nodeEl, node) {
   }
 
   serializeData() {
-    return this.data && Object.keys(this.data).length > 0 ? { ...this.data } : null;
+    if (!this.data) return null;
+    // Exclure _rawInput (transitoire), garder widgetValues (persisté)
+    const { _rawInput, ...persistedData } = this.data;
+    return Object.keys(persistedData).length > 0 ? persistedData : null;
   }
 
   deserializeData(data) {

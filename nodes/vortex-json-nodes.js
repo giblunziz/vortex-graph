@@ -1,4 +1,5 @@
 import { AbstractNode } from '../common/vortex-abstract-node.js';
+import { WidgetFactory } from '../common/vortex-widget-factory.js';
 
 class JsonLoaderNode extends AbstractNode {
   constructor() {
@@ -10,29 +11,44 @@ class JsonLoaderNode extends AbstractNode {
     };
     this.addPort('json', false, true, 'json');
     this.addPort('data', false, true, 'raw');
-    this.widgets = [
-      {
-        type: 'button',
-        label: 'Load File',
-        onClick: (nodeEl, node) => this.onLoadFile(nodeEl, node),
-      },
-      {
-        type: 'readonly',
-        name: 'file',
-        label: 'file',
-        value: '',
-      },
-      {
-        type: 'text',
-        name: 'root',
-        label: 'root',
-        value: '',
-        placeholder: 'ex: seller',
-      },
-    ];
   }
 
-  onLoadFile(nodeEl, node) {
+  drawWidgets(container, nodeEl) {
+    if (!this.data) this.data = {};
+    const wv = this.data.widgetValues = this.data.widgetValues || {};
+
+    // Widget 1: Button "Load File"
+    const buttonDom = WidgetFactory.createWidget('button');
+    const btn = buttonDom.querySelector('.widget-button');
+    btn.textContent = 'Load File';
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.onLoadFile(nodeEl);
+    });
+    container.appendChild(buttonDom);
+
+    // Widget 2: Readonly "file"
+    const fileDom = WidgetFactory.createWidget('readonly');
+    const fileLabel = fileDom.querySelector('.widget-label');
+    fileLabel.textContent = 'file';
+    this.fileWidget = fileDom.querySelector('.widget-value');
+    this.fileWidget.textContent = wv.file || '';
+    container.appendChild(fileDom);
+
+    // Widget 3: Text "root"
+    const textDom = WidgetFactory.createWidget('text');
+    const textLabel = textDom.querySelector('.widget-label');
+    textLabel.textContent = 'root';
+    const textInput = textDom.querySelector('.widget-input');
+    textInput.placeholder = 'ex: seller';
+    textInput.value = wv.root || '';
+    textInput.addEventListener('input', (e) => {
+      wv.root = e.target.value;
+    });
+    container.appendChild(textDom);
+  }
+
+  onLoadFile(nodeEl) {
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = '.json';
@@ -40,16 +56,18 @@ class JsonLoaderNode extends AbstractNode {
       const file = e.target.files[0];
       if (!file) return;
 
-      const fileWidget = nodeEl.querySelector('.widget-value[data-name="file"]');
-      if (fileWidget) fileWidget.textContent = file.name;
-
       const reader = new FileReader();
       reader.onload = (ev) => {
-        node.data.jsonRaw = ev.target.result;
-        node.data.jsonData = JSON.parse(ev.target.result);
-        node.data.widgetValues = node.data.widgetValues || {};
-        node.data.widgetValues.file = file.name;
-        console.log('JsonLoader: loaded', file.name, Object.keys(node.data.jsonData));
+        // Stocker PERSISTENTES dans node.data
+        this.data.jsonRaw = ev.target.result;
+        this.data.jsonData = JSON.parse(ev.target.result);
+        this.data.widgetValues = this.data.widgetValues || {};
+        this.data.widgetValues.file = file.name;
+        
+        // Mettre à jour le widget readonly
+        if (this.fileWidget) this.fileWidget.textContent = file.name;
+        
+        console.log('JsonLoader: loaded', file.name, Object.keys(this.data.jsonData));
       };
       reader.readAsText(file);
     };
@@ -57,11 +75,11 @@ class JsonLoaderNode extends AbstractNode {
   }
 
   execute(inputs, nodeEl, node) {
-    const raw = node.data.jsonRaw;
+    const raw = this.data?.jsonRaw;
     if (!raw) return {};
 
-    const jsonData = node.data.jsonData;
-    const wv = node.data.widgetValues || {};
+    const jsonData = this.data.jsonData;
+    const wv = this.data.widgetValues || {};
     const root = wv.root || '';
     const output = root
       ? root.split('.').reduce((obj, key) => obj?.[key], jsonData)
@@ -71,6 +89,16 @@ class JsonLoaderNode extends AbstractNode {
       json: JSON.stringify(output, null, 2),
       data: output,
     };
+  }
+
+  serializeData() {
+    if (!this.data) return null;
+    // Persister widgetValues ET jsonData/jsonRaw
+    return Object.keys(this.data).length > 0 ? { ...this.data } : null;
+  }
+
+  deserializeData(data) {
+    if (data) this.data = { ...data };
   }
 }
 
@@ -83,24 +111,30 @@ class JsonPreviewNode extends AbstractNode {
       category: 'vortex',
     };
     this.addPort('json', true, false, 'json');
-    this.widgets = [
-      {
-        type: 'preview',
-        name: 'content',
-        value: '',
-      },
-    ];
     this.cssClass = 'resizable-free';
     this.size = [350, 250];
   }
 
+  drawWidgets(container, nodeEl) {
+    // Widget: Preview (JSON display)
+    const previewDom = WidgetFactory.createWidget('preview');
+    const wrapper = previewDom.querySelector('.node-preview-wrapper');
+    const pre = previewDom.querySelector('.node-preview');
+    pre.textContent = '';
+    this.previewEl = pre;  // Cache pour updates rapides
+    
+    // Stoppage wheel event pour éviter zoom du viewport
+    wrapper.addEventListener('wheel', (e) => e.stopPropagation());
+    wrapper.addEventListener('mousedown', (e) => e.stopPropagation());
+    
+    container.appendChild(previewDom);
+  }
+
   execute(inputs, nodeEl, node) {
     const json = inputs.json;
-    if (json !== undefined) {
-      const pre = nodeEl.querySelector('.node-preview');
-      if (pre)
-        pre.textContent =
-          typeof json === 'string' ? json : JSON.stringify(json, null, 2);
+    if (json !== undefined && this.previewEl) {
+      this.previewEl.textContent =
+        typeof json === 'string' ? json : JSON.stringify(json, null, 2);
     }
     return {};
   }

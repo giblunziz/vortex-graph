@@ -44,22 +44,20 @@ function apiModelToNode(model) {
       type = type.split(",")[0];
     }
 
-    node.addPort(
+    const port = node.addPort(
       field.name,
       field.hasIn,
       field.hasOut,
       type || "object",
     );
 
-    // Enum → widget dropdown
+    // Enum → widget dropdown inline sur le port
     if (field.enumValues && field.enumValues.length > 0) {
-      node.widgets.push({
-        type: "dropdown",
-        name: field.name,
-        label: field.name,
+      port.widget = {
+        type: 'dropdown',
         options: field.enumValues,
         value: field.enumValues[0],
-      });
+      };
     }
   }
 
