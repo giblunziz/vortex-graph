@@ -39,7 +39,15 @@ function apiModelToNode(model) {
 
   for (const field of model.fields) {
     // Nettoyer le vortexType (retirer model_output si encore présent)
+    let collection = null;
     let type = field.vortexType;
+    if( type && type.startsWith("list:") ) {
+      collection = 'list';
+      type = type.replace("list:", "");
+    } else if (type && type.startsWith("map:")) {
+      collection = 'map';
+      type = type.replace("map:", "");
+    }
     if (type && type.includes(",")) {
       type = type.split(",")[0];
     }
@@ -50,6 +58,7 @@ function apiModelToNode(model) {
       field.hasOut,
       type || "object",
     );
+    port.collection = collection;
 
     // Enum → widget dropdown inline sur le port
     if (field.enumValues && field.enumValues.length > 0) {

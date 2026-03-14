@@ -16,6 +16,7 @@
 /* Scrollbar globale */
 ::-webkit-scrollbar {
     width: 6px;
+    width: 6px;
     height: 6px;
 }
 
@@ -121,11 +122,13 @@ body {
 .vortex-node:hover {
     border-color: rgba(100, 100, 255, 0.8);
     box-shadow: 0 0 15px rgba(100, 100, 255, 0.3);
+    z-index: 100;
 }
 
 .vortex-node.selected {
     border-color: rgba(100, 200, 255, 0.8);
     box-shadow: 0 0 12px rgba(100, 200, 255, 0.3);
+    z-index: 100;
 }
 
 .node-footer {

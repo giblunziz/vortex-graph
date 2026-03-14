@@ -81,9 +81,7 @@ class JsonLoaderNode extends AbstractNode {
     const jsonData = this.data.jsonData;
     const wv = this.data.widgetValues || {};
     const root = wv.root || '';
-    const output = root
-      ? root.split('.').reduce((obj, key) => obj?.[key], jsonData)
-      : jsonData;
+    const output = root === '' ? jsonData : resolvePath(jsonData, root);
 
     return {
       json: JSON.stringify(output, null, 2),
@@ -140,6 +138,90 @@ class JsonPreviewNode extends AbstractNode {
   }
 }
 
+class JsonPathNode extends AbstractNode {
+  constructor() {
+    super('vortex/JsonPath');
+    this.properties = {
+      type: 'JsonPath',
+      domain: 'json',
+      category: 'vortex',
+    };
+    this.addPort('data', true, false, 'raw');
+    this.addPort('out', false, true, 'raw');
+  }
+
+  drawWidgets(container, nodeEl) {
+    if (!this.data) this.data = {};
+    const wv = this.data.widgetValues = this.data.widgetValues || {};
+
+    const textDom = WidgetFactory.createWidget('text');
+    const textLabel = textDom.querySelector('.widget-label');
+    textLabel.textContent = 'path';
+    const textInput = textDom.querySelector('.widget-input');
+    textInput.placeholder = 'ex: buyer.address.city';
+    textInput.value = wv.path || '';
+    textInput.addEventListener('mousedown', (e) => e.stopPropagation());
+    textInput.addEventListener('input', (e) => {
+      wv.path = e.target.value;
+    });
+    container.appendChild(textDom);
+  }
+
+  execute(inputs, nodeEl, node) {
+    const data = inputs.data;
+    if (data == null) return {};
+
+    const wv = this.data?.widgetValues || {};
+    const path = wv.path || '';
+    if (!path) return { out: data };
+
+    const result = resolvePath(data, path);
+    return { out: result };
+  }
+}
+
+/**
+ * Résout un chemin JSONPath simplifié sur un objet.
+ * Supporte :
+ *   - dot notation : "buyer.address.city"
+ *   - index array  : "lines[0].amount"
+ *   - wildcard     : "lines[*].noteSubject" → retourne un array
+ */
+function resolvePath(obj, path) {
+  // Tokenize : "lines[0].notes[*].subject" → ["lines", "[0]", "notes", "[*]", "subject"]
+  const tokens = path.match(/([^.\[\]]+|\[\d+\]|\[\*\])/g);
+  if (!tokens) return undefined;
+
+  let current = obj;
+
+  for (let i = 0; i < tokens.length; i++) {
+    if (current == null) return undefined;
+    const token = tokens[i];
+
+    // Wildcard [*] — map sur tous les éléments, continue le chemin restant
+    if (token === '[*]') {
+      if (!Array.isArray(current)) return undefined;
+      const remaining = tokens.slice(i + 1);
+      if (remaining.length === 0) return current;
+      const subPath = remaining.join('.');
+      return current.map(item => resolvePath(item, subPath)).filter(v => v !== undefined);
+    }
+
+    // Index [N]
+    const indexMatch = token.match(/^\[(\d+)\]$/);
+    if (indexMatch) {
+      const idx = parseInt(indexMatch[1]);
+      current = Array.isArray(current) ? current[idx] : undefined;
+      continue;
+    }
+
+    // Champ simple
+    current = typeof current === 'object' ? current[token] : undefined;
+  }
+
+  return current;
+}
+
 export function registerJsonNodes() {
   const link = document.createElement('link');
   link.rel = 'stylesheet';
@@ -148,4 +230,5 @@ export function registerJsonNodes() {
 
   new JsonLoaderNode().register();
   new JsonPreviewNode().register();
+  new JsonPathNode().register();
 }
