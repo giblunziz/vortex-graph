@@ -1,0 +1,5472 @@
+[
+    {
+        "title": "error/ErrorCatalog",
+        "identity": {
+            "name": "ErrorCatalog",
+            "domain": "error",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.error.ErrorCatalog",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.error.ErrorCatalog",
+                "vortexType": "error/ErrorCatalog",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": [
+                    "LEDGER_DOOR_CLOSED",
+                    "LEDGER_RETRY_NOT_ALLOWED",
+                    "LEDGER_PARKED",
+                    "LEDGER_STATUS_NOT_FOUND",
+                    "ASSERTION_PREREQUISITE_NOT_MET",
+                    "ASSERTION_VALIDITY_FAILED",
+                    "LEDGER_WORKFLOW_NOT_VALID",
+                    "INVOICE_MAPPING_ERROR",
+                    "INVOICE_REQUEST_UNAVAILABLE",
+                    "SEQUENCE_MAX_EXCEEDED",
+                    "NOT_YET_IMPLEMENTED",
+                    "INVOICE_NOT_FOUND",
+                    "DOCUMENT_REFERENCE_NOT_FOUND",
+                    "MAPPING_INVOICE",
+                    "BY_CODE",
+                    "code",
+                    "message"
+                ]
+            }
+        ]
+    },
+    {
+        "title": "error/RuleViolationError",
+        "identity": {
+            "name": "RuleViolationError",
+            "domain": "error",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.error.RuleViolationError",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.error.RuleViolationError",
+                "vortexType": "error/RuleViolationError,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "code",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "description",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "path",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "internal/ProcessEvent",
+        "identity": {
+            "name": "ProcessEvent",
+            "domain": "internal",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.internal.ProcessEvent",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.internal.ProcessEvent",
+                "vortexType": "internal/ProcessEvent,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "businessUnit",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "origin",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "identifier",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "internal/ProcessingRc",
+        "identity": {
+            "name": "ProcessingRc",
+            "domain": "internal",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.internal.ProcessingRc",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.internal.ProcessingRc",
+                "vortexType": "internal/ProcessingRc",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": [
+                    "OK",
+                    "KO"
+                ]
+            }
+        ]
+    },
+    {
+        "title": "invoice/AdditionalItemProperty",
+        "identity": {
+            "name": "AdditionalItemProperty",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.AdditionalItemProperty",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.AdditionalItemProperty",
+                "vortexType": "invoice/AdditionalItemProperty,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "name",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "value",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/BankTransfer",
+        "identity": {
+            "name": "BankTransfer",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.BankTransfer",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.BankTransfer",
+                "vortexType": "invoice/BankTransfer,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "accountId",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "accountName",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "providerIdentifier",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/BillingDocument",
+        "identity": {
+            "name": "BillingDocument",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.BillingDocument",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.BillingDocument",
+                "vortexType": "invoice/BillingDocument,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/CardAccount",
+        "identity": {
+            "name": "CardAccount",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.CardAccount",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.CardAccount",
+                "vortexType": "invoice/CardAccount,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "primaryAccountNumber",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "accountHolderName",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/ChargePart",
+        "identity": {
+            "name": "ChargePart",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.ChargePart",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.ChargePart",
+                "vortexType": "invoice/ChargePart,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "amount",
+                "javaType": "java.lang.Float",
+                "vortexType": "float",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "baseAmount",
+                "javaType": "java.lang.Float",
+                "vortexType": "float",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "percentage",
+                "javaType": "java.lang.Float",
+                "vortexType": "float",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "vatTypeCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "vatRate",
+                "javaType": "java.lang.Float",
+                "vortexType": "float",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "reason",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "reasonCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/DeliveryPart",
+        "identity": {
+            "name": "DeliveryPart",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.DeliveryPart",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.DeliveryPart",
+                "vortexType": "invoice/DeliveryPart,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "deliveryPartyName",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "deliveryLocationId",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "deliveryPartySchema",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "actualDeliveryDate",
+                "javaType": "java.time.LocalDate",
+                "vortexType": "date",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/DiscountPart",
+        "identity": {
+            "name": "DiscountPart",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.DiscountPart",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.DiscountPart",
+                "vortexType": "invoice/DiscountPart,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "amount",
+                "javaType": "java.lang.Float",
+                "vortexType": "float",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "baseAmount",
+                "javaType": "java.lang.Float",
+                "vortexType": "float",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "percentage",
+                "javaType": "java.lang.Float",
+                "vortexType": "float",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "vatTypeCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "vatRate",
+                "javaType": "java.lang.Float",
+                "vortexType": "float",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "reason",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "reasonCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/ExtraNotePart",
+        "identity": {
+            "name": "ExtraNotePart",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.ExtraNotePart",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.ExtraNotePart",
+                "vortexType": "invoice/ExtraNotePart,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "type",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "key",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "noteOrder",
+                "javaType": "java.lang.Integer",
+                "vortexType": "integer",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "lineReference",
+                "javaType": "java.lang.Integer",
+                "vortexType": "integer",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "domain",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "code",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "note",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/GoodsInformation",
+        "identity": {
+            "name": "GoodsInformation",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.GoodsInformation",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.GoodsInformation",
+                "vortexType": "invoice/GoodsInformation,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "numberOfParcels",
+                "javaType": "java.lang.Integer",
+                "vortexType": "integer",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "totalShippingWeight",
+                "javaType": "java.lang.Float",
+                "vortexType": "float",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "totalNetShippingWeight",
+                "javaType": "java.lang.Float",
+                "vortexType": "float",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "totalShippingVolume",
+                "javaType": "java.lang.Float",
+                "vortexType": "float",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "incotermCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "incotermPlace",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/InvoiceBase",
+        "identity": {
+            "name": "InvoiceBase",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.InvoiceBase",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.InvoiceBase",
+                "vortexType": "invoice/InvoiceBase,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "invoiceIdentifier",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "businessUnitCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "invoiceEffectiveDate",
+                "javaType": "java.time.LocalDate",
+                "vortexType": "date",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "origin",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "documentType",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "systemTypeCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "currencyCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "taxCurrencyCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "taxPointDate",
+                "javaType": "java.time.LocalDate",
+                "vortexType": "date",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "taxPointCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "dueDate",
+                "javaType": "java.time.LocalDate",
+                "vortexType": "date",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "buyerReference",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "projectReference",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "contractReference",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "contractType",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "buyerOrderNumber",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "buyerOrderDate",
+                "javaType": "java.time.LocalDate",
+                "vortexType": "date",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "sellerOrderNumber",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "shippingNoteReference",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "tenderNumber",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "receiptNumber",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "shippingNoteDate",
+                "javaType": "java.time.LocalDate",
+                "vortexType": "date",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "goodsInformations",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.GoodsInformation",
+                "vortexType": "invoice/GoodsInformation",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "identifier",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "identifierSchema",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "paymentTerms",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "notes",
+                "javaType": "java.util.List",
+                "vortexType": "list:invoice/NoteSubjectCommentHolder",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "processControl",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.ProcessControl",
+                "vortexType": "invoice/ProcessControl",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "previousInvoice",
+                "javaType": "java.util.List",
+                "vortexType": "list:invoice/InvoicePreviousInvoice",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "departureVatEconomicalZone",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "arrivalVatEconomicalZone",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "issuingInstructions",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.IssuingInstructions",
+                "vortexType": "invoice/IssuingInstructions",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "delivery",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.DeliveryPart",
+                "vortexType": "invoice/DeliveryPart",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "invoicePeriod",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.InvoicePeriodPart",
+                "vortexType": "invoice/InvoicePeriodPart",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "payment",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PaymentPart",
+                "vortexType": "invoice/PaymentPart",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "parties",
+                "javaType": "java.util.List",
+                "vortexType": "list:invoice/PartyHolder",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "discounts",
+                "javaType": "java.util.List",
+                "vortexType": "list:invoice/DiscountPart",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "charges",
+                "javaType": "java.util.List",
+                "vortexType": "list:invoice/ChargePart",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "total",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.TotalPart",
+                "vortexType": "invoice/TotalPart",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "taxSubtotal",
+                "javaType": "java.util.List",
+                "vortexType": "list:invoice/TaxSubtotalPart",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "additionalNotes",
+                "javaType": "java.util.List",
+                "vortexType": "list:invoice/ExtraNotePart",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "lines",
+                "javaType": "java.util.List",
+                "vortexType": "list:invoice/LinePart",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/InvoiceIdentifierSchemaHolder",
+        "identity": {
+            "name": "InvoiceIdentifierSchemaHolder",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.InvoiceIdentifierSchemaHolder",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.InvoiceIdentifierSchemaHolder",
+                "vortexType": "invoice/InvoiceIdentifierSchemaHolder,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "identifier",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "schema",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/InvoicePeriodPart",
+        "identity": {
+            "name": "InvoicePeriodPart",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.InvoicePeriodPart",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.InvoicePeriodPart",
+                "vortexType": "invoice/InvoicePeriodPart,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "startDate",
+                "javaType": "java.time.LocalDate",
+                "vortexType": "date",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "endDate",
+                "javaType": "java.time.LocalDate",
+                "vortexType": "date",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/InvoicePreviousInvoice",
+        "identity": {
+            "name": "InvoicePreviousInvoice",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.InvoicePreviousInvoice",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.InvoicePreviousInvoice",
+                "vortexType": "invoice/InvoicePreviousInvoice,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "referenceOfPreviousInvoice",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "issueDateOfPreviousInvoice",
+                "javaType": "java.time.LocalDate",
+                "vortexType": "date",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "previousInvoiceType",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/IssuingInstructions",
+        "identity": {
+            "name": "IssuingInstructions",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.IssuingInstructions",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.IssuingInstructions",
+                "vortexType": "invoice/IssuingInstructions,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "transactionType",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "customerDeliveryMethod",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/LineAllowanceCharge",
+        "identity": {
+            "name": "LineAllowanceCharge",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.LineAllowanceCharge",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.LineAllowanceCharge",
+                "vortexType": "invoice/LineAllowanceCharge,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "amountExcludingTaxes",
+                "javaType": "java.lang.Double",
+                "vortexType": "double",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "reasonCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/LineBillingReference",
+        "identity": {
+            "name": "LineBillingReference",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.LineBillingReference",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.LineBillingReference",
+                "vortexType": "invoice/LineBillingReference,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "invoiceDocumentReference",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "invoiceDocumentReferenceTypeCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "invoiceDocumentReferenceIssueDate",
+                "javaType": "java.time.LocalDate",
+                "vortexType": "date",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "billingReferenceLine",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/LineBuyerAccounting",
+        "identity": {
+            "name": "LineBuyerAccounting",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.LineBuyerAccounting",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.LineBuyerAccounting",
+                "vortexType": "invoice/LineBuyerAccounting,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "accountingCost",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "analyticAxis5",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "analyticAxis6",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/LineDeliveryInformation",
+        "identity": {
+            "name": "LineDeliveryInformation",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.LineDeliveryInformation",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.LineDeliveryInformation",
+                "vortexType": "invoice/LineDeliveryInformation,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "effectiveDateOfDelivery",
+                "javaType": "java.time.LocalDate",
+                "vortexType": "date",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/LineDiscount",
+        "identity": {
+            "name": "LineDiscount",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.LineDiscount",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.LineDiscount",
+                "vortexType": "invoice/LineDiscount,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "discountAmountExcludingTaxes",
+                "javaType": "java.lang.Double",
+                "vortexType": "double",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "discountPercentage",
+                "javaType": "java.lang.Double",
+                "vortexType": "double",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "discountReason",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "discountReasonCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/LineInvoicingPeriod",
+        "identity": {
+            "name": "LineInvoicingPeriod",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.LineInvoicingPeriod",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.LineInvoicingPeriod",
+                "vortexType": "invoice/LineInvoicingPeriod,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "startDate",
+                "javaType": "java.time.LocalDate",
+                "vortexType": "date",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "endDate",
+                "javaType": "java.time.LocalDate",
+                "vortexType": "date",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/LineItemClassificationInformation",
+        "identity": {
+            "name": "LineItemClassificationInformation",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.LineItemClassificationInformation",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.LineItemClassificationInformation",
+                "vortexType": "invoice/LineItemClassificationInformation,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "itemClassificationCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "itemClassificationSchema",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/LineItemInformation",
+        "identity": {
+            "name": "LineItemInformation",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.LineItemInformation",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.LineItemInformation",
+                "vortexType": "invoice/LineItemInformation,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "itemName",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "itemDescription",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "itemSellerCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "itemBuyerCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "itemCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "itemSchema",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "classificationInformation",
+                "javaType": "java.util.List",
+                "vortexType": "list:invoice/LineItemClassificationInformation",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "originCountry",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "additionalItemProperties",
+                "javaType": "java.util.List",
+                "vortexType": "list:invoice/AdditionalItemProperty",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/LinePart",
+        "identity": {
+            "name": "LinePart",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.LinePart",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.LinePart",
+                "vortexType": "invoice/LinePart,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "identifier",
+                "javaType": "java.lang.Integer",
+                "vortexType": "integer",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "notes",
+                "javaType": "java.util.List",
+                "vortexType": "list:invoice/NoteSubjectCommentHolder",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "itemQuantity",
+                "javaType": "java.lang.Float",
+                "vortexType": "float",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "itemUnit",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "excludingTaxesAmount",
+                "javaType": "java.lang.Double",
+                "vortexType": "double",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "orderNumberFromBuyer",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "orderLineReference",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "buyerAccounting",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.LineBuyerAccounting",
+                "vortexType": "invoice/LineBuyerAccounting",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "sellerAccounting",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.LineSellerAccounting",
+                "vortexType": "invoice/LineSellerAccounting",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "billingReference",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.LineBillingReference",
+                "vortexType": "invoice/LineBillingReference",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "shipmentDetail",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.LineShipmentDetail",
+                "vortexType": "invoice/LineShipmentDetail",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "deliveryInformation",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.LineDeliveryInformation",
+                "vortexType": "invoice/LineDeliveryInformation",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "lineInvoicingPeriod",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.LineInvoicingPeriod",
+                "vortexType": "invoice/LineInvoicingPeriod",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "discounts",
+                "javaType": "java.util.List",
+                "vortexType": "list:invoice/LineDiscount",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "allowanceCharge",
+                "javaType": "java.util.List",
+                "vortexType": "list:invoice/LineAllowanceCharge",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "priceDetail",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.LinePriceDetail",
+                "vortexType": "invoice/LinePriceDetail",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "taxesInformation",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.LineTaxesInformation",
+                "vortexType": "invoice/LineTaxesInformation",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "itemInformation",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.LineItemInformation",
+                "vortexType": "invoice/LineItemInformation",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/LinePriceDetail",
+        "identity": {
+            "name": "LinePriceDetail",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.LinePriceDetail",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.LinePriceDetail",
+                "vortexType": "invoice/LinePriceDetail,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "priceAmount",
+                "javaType": "java.lang.Double",
+                "vortexType": "double",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "allowanceChargeAmount",
+                "javaType": "java.lang.Double",
+                "vortexType": "double",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "allowanceChargeAmountBase",
+                "javaType": "java.lang.Double",
+                "vortexType": "double",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "baseQuantity",
+                "javaType": "java.lang.Integer",
+                "vortexType": "integer",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "baseUnitCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/LineSellerAccounting",
+        "identity": {
+            "name": "LineSellerAccounting",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.LineSellerAccounting",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.LineSellerAccounting",
+                "vortexType": "invoice/LineSellerAccounting,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "analyticAxis1",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "analyticAxis2",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "analyticAxis3",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/LineShipmentDetail",
+        "identity": {
+            "name": "LineShipmentDetail",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.LineShipmentDetail",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.LineShipmentDetail",
+                "vortexType": "invoice/LineShipmentDetail,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "identifier",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "lineNumber",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "lineShippingVolume",
+                "javaType": "java.lang.Float",
+                "vortexType": "float",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "lineShippingWeight",
+                "javaType": "java.lang.Float",
+                "vortexType": "float",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "lineNetShippingWeight",
+                "javaType": "java.lang.Float",
+                "vortexType": "float",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/LineTaxesInformation",
+        "identity": {
+            "name": "LineTaxesInformation",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.LineTaxesInformation",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.LineTaxesInformation",
+                "vortexType": "invoice/LineTaxesInformation,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "taxCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "taxRate",
+                "javaType": "java.lang.Double",
+                "vortexType": "double",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "vatCodeDescription",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/NoteSubjectCommentHolder",
+        "identity": {
+            "name": "NoteSubjectCommentHolder",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.NoteSubjectCommentHolder",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.NoteSubjectCommentHolder",
+                "vortexType": "invoice/NoteSubjectCommentHolder,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "noteSubject",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "noteComment",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/PartyAdditionalIdentifier",
+        "identity": {
+            "name": "PartyAdditionalIdentifier",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PartyAdditionalIdentifier",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PartyAdditionalIdentifier",
+                "vortexType": "invoice/PartyAdditionalIdentifier,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "identifier",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "identifierSchema",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/PartyAddress",
+        "identity": {
+            "name": "PartyAddress",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PartyAddress",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PartyAddress",
+                "vortexType": "invoice/PartyAddress,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "addressLine1",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "addressLine2",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "addressLine3",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "addressLocality",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "addressPostalCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "addressCountrySubdivision",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "addressCountryCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/PartyContact",
+        "identity": {
+            "name": "PartyContact",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PartyContact",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PartyContact",
+                "vortexType": "invoice/PartyContact,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "contactPoint",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "contactPhone",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "contactEmail",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/PartyEndPoint",
+        "identity": {
+            "name": "PartyEndPoint",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PartyEndPoint",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PartyEndPoint",
+                "vortexType": "invoice/PartyEndPoint,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "endPointId",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "schema",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/PartyExtendedAttribute",
+        "identity": {
+            "name": "PartyExtendedAttribute",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PartyExtendedAttribute",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PartyExtendedAttribute",
+                "vortexType": "invoice/PartyExtendedAttribute,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "key",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "value",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/PartyExtendedPart",
+        "identity": {
+            "name": "PartyExtendedPart",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PartyExtendedPart",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PartyExtendedPart",
+                "vortexType": "invoice/PartyExtendedPart,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "economicZone",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "customerCategory",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "commercialSign",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "parentCompany",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "groupIndicator",
+                "javaType": "java.lang.Boolean",
+                "vortexType": "boolean",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "legalStatus",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "shareCapital",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "commercialRegisterCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "activityCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "parentBusinessUnit",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "headword",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "accountingCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "extendedAttributes",
+                "javaType": "java.util.List",
+                "vortexType": "list:invoice/PartyExtendedAttribute",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/PartyFiscalIdentifier",
+        "identity": {
+            "name": "PartyFiscalIdentifier",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PartyFiscalIdentifier",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PartyFiscalIdentifier",
+                "vortexType": "invoice/PartyFiscalIdentifier,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "fiscalReference",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "fiscalSchema",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/PartyHolder",
+        "identity": {
+            "name": "PartyHolder",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PartyHolder",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PartyHolder",
+                "vortexType": "invoice/PartyHolder,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "role",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PartyRoleEnum",
+                "vortexType": "invoice/PartyRoleEnum",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": [
+                    "INVOICING_COMPANY",
+                    "INVOICING_ESTABLISHMENT",
+                    "INVOICED_COMPANY",
+                    "INVOICED_ESTABLISHMENT",
+                    "INVOICED_DELIVERY",
+                    "INVOICING_TAX_REPRESENTATIVE",
+                    "INVOICED_TAX_REPRESENTATIVE",
+                    "BILLING_THIRD_PARTY"
+                ]
+            },
+            {
+                "name": "party",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PartyPart",
+                "vortexType": "invoice/PartyPart",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/PartyLegalIdentifier",
+        "identity": {
+            "name": "PartyLegalIdentifier",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PartyLegalIdentifier",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PartyLegalIdentifier",
+                "vortexType": "invoice/PartyLegalIdentifier,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "identifier",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "identifierSchema",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/PartyPart",
+        "identity": {
+            "name": "PartyPart",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PartyPart",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PartyPart",
+                "vortexType": "invoice/PartyPart,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "companyName",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "tradingName",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "additionalIdentifiers",
+                "javaType": "java.util.List",
+                "vortexType": "list:invoice/PartyAdditionalIdentifier",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "subLegalIdentifiers",
+                "javaType": "java.util.List",
+                "vortexType": "list:invoice/InvoiceIdentifierSchemaHolder",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "routing",
+                "javaType": "java.util.List",
+                "vortexType": "list:invoice/PartyRouting",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "legalIdentifier",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PartyLegalIdentifier",
+                "vortexType": "invoice/PartyLegalIdentifier",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "taxScheme",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PartyTaxScheme",
+                "vortexType": "invoice/PartyTaxScheme",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "fiscalIdentifier",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PartyFiscalIdentifier",
+                "vortexType": "invoice/PartyFiscalIdentifier",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "companyLegalForm",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "endPoint",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PartyEndPoint",
+                "vortexType": "invoice/PartyEndPoint",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "address",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PartyAddress",
+                "vortexType": "invoice/PartyAddress",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "contact",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PartyContact",
+                "vortexType": "invoice/PartyContact",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "extra",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PartyExtendedPart",
+                "vortexType": "invoice/PartyExtendedPart",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/PartyRoleEnum",
+        "identity": {
+            "name": "PartyRoleEnum",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PartyRoleEnum",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PartyRoleEnum",
+                "vortexType": "invoice/PartyRoleEnum",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": [
+                    "INVOICING_COMPANY",
+                    "INVOICING_ESTABLISHMENT",
+                    "INVOICED_COMPANY",
+                    "INVOICED_ESTABLISHMENT",
+                    "INVOICED_DELIVERY",
+                    "INVOICING_TAX_REPRESENTATIVE",
+                    "INVOICED_TAX_REPRESENTATIVE",
+                    "BILLING_THIRD_PARTY"
+                ]
+            }
+        ]
+    },
+    {
+        "title": "invoice/PartyRouting",
+        "identity": {
+            "name": "PartyRouting",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PartyRouting",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PartyRouting",
+                "vortexType": "invoice/PartyRouting,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "code",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "schema",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/PartyTaxScheme",
+        "identity": {
+            "name": "PartyTaxScheme",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PartyTaxScheme",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PartyTaxScheme",
+                "vortexType": "invoice/PartyTaxScheme,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "taxIdentifier",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "taxSchema",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/PaymentMandate",
+        "identity": {
+            "name": "PaymentMandate",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PaymentMandate",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PaymentMandate",
+                "vortexType": "invoice/PaymentMandate,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "mandateId",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "partyIdentification",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "accountId",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/PaymentPart",
+        "identity": {
+            "name": "PaymentPart",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PaymentPart",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PaymentPart",
+                "vortexType": "invoice/PaymentPart,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "methodTypeCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "methodName",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "paymentId",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "bankTransfer",
+                "javaType": "java.util.List",
+                "vortexType": "list:invoice/BankTransfer",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "cardAccount",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.CardAccount",
+                "vortexType": "invoice/CardAccount",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "paymentMandate",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.PaymentMandate",
+                "vortexType": "invoice/PaymentMandate",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/ProcessControl",
+        "identity": {
+            "name": "ProcessControl",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.ProcessControl",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.ProcessControl",
+                "vortexType": "invoice/ProcessControl,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "businessProcessType",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "businessProfileType",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/TaxSubtotalPart",
+        "identity": {
+            "name": "TaxSubtotalPart",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.TaxSubtotalPart",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.TaxSubtotalPart",
+                "vortexType": "invoice/TaxSubtotalPart,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "taxableAmount",
+                "javaType": "java.lang.Float",
+                "vortexType": "float",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "taxAmount",
+                "javaType": "java.lang.Float",
+                "vortexType": "float",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "taxCategoryId",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "vatCodeDescription",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "taxCategoryPercent",
+                "javaType": "java.lang.Float",
+                "vortexType": "float",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "taxExemptionReason",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "taxExemptionReasonCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoice/TotalPart",
+        "identity": {
+            "name": "TotalPart",
+            "domain": "invoice",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.TotalPart",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoice.TotalPart",
+                "vortexType": "invoice/TotalPart,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "netAmountOfInvoiceLines",
+                "javaType": "java.lang.Float",
+                "vortexType": "float",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "discounts",
+                "javaType": "java.lang.Float",
+                "vortexType": "float",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "chargesOrFees",
+                "javaType": "java.lang.Float",
+                "vortexType": "float",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "amountExcludingVat",
+                "javaType": "java.lang.Float",
+                "vortexType": "float",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "vatAmount",
+                "javaType": "java.lang.Float",
+                "vortexType": "float",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "vatAmountCurrency",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "vatAmountInAccountingCurrency",
+                "javaType": "java.lang.Float",
+                "vortexType": "float",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "vatAmountInAccountingCurrencyCurrency",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "amountIncludingVat",
+                "javaType": "java.lang.Float",
+                "vortexType": "float",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "prepaidAmount",
+                "javaType": "java.lang.Float",
+                "vortexType": "float",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "payableRoundingAmount",
+                "javaType": "java.lang.Float",
+                "vortexType": "float",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "payableAmount",
+                "javaType": "java.lang.Float",
+                "vortexType": "float",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/AdditionalItemProperty",
+        "identity": {
+            "name": "AdditionalItemProperty",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.AdditionalItemProperty",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.AdditionalItemProperty",
+                "vortexType": "invoiceRequest/AdditionalItemProperty,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "name",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "value",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/BuyerAddress",
+        "identity": {
+            "name": "BuyerAddress",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.BuyerAddress",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.BuyerAddress",
+                "vortexType": "invoiceRequest/BuyerAddress,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "addressLine1",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "addressLine2",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "addressLine3",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "addressLocality",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "addressPostalCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "addressCountrySubdivision",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "addressCountryCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/BuyerContact",
+        "identity": {
+            "name": "BuyerContact",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.BuyerContact",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.BuyerContact",
+                "vortexType": "invoiceRequest/BuyerContact,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "contactPoint",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "contactPhone",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "contactEmail",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/BuyerEndPoint",
+        "identity": {
+            "name": "BuyerEndPoint",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.BuyerEndPoint",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.BuyerEndPoint",
+                "vortexType": "invoiceRequest/BuyerEndPoint,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "endpointId",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "endpointSchema",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/BuyerRouting",
+        "identity": {
+            "name": "BuyerRouting",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.BuyerRouting",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.BuyerRouting",
+                "vortexType": "invoiceRequest/BuyerRouting,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "code",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "schema",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/Delivery",
+        "identity": {
+            "name": "Delivery",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.Delivery",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.Delivery",
+                "vortexType": "invoiceRequest/Delivery,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "partyName",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "locationId",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "partySchema",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "actualDeliveryDate",
+                "javaType": "java.time.LocalDate",
+                "vortexType": "date",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/DeliveryAddress",
+        "identity": {
+            "name": "DeliveryAddress",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.DeliveryAddress",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.DeliveryAddress",
+                "vortexType": "invoiceRequest/DeliveryAddress,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "addressLine1",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "addressLine2",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "addressLine3",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "addressLocality",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "addressPostalCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "addressCountrySubdivision",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "addressCountryCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/DiscountPart",
+        "identity": {
+            "name": "DiscountPart",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.DiscountPart",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.DiscountPart",
+                "vortexType": "invoiceRequest/DiscountPart,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "amount",
+                "javaType": "double",
+                "vortexType": "double",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "baseAmount",
+                "javaType": "java.lang.Double",
+                "vortexType": "double",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "percentage",
+                "javaType": "java.lang.Double",
+                "vortexType": "double",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "vatTypeCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "vatRate",
+                "javaType": "java.lang.Float",
+                "vortexType": "float",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "reason",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "reasonCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/GoodsInformation",
+        "identity": {
+            "name": "GoodsInformation",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.GoodsInformation",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.GoodsInformation",
+                "vortexType": "invoiceRequest/GoodsInformation,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "numberOfParcels",
+                "javaType": "java.lang.Integer",
+                "vortexType": "integer",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "totalShippingWeight",
+                "javaType": "java.lang.Float",
+                "vortexType": "float",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "totalNetShippingWeight",
+                "javaType": "java.lang.Float",
+                "vortexType": "float",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "totalShippingVolume",
+                "javaType": "java.lang.Float",
+                "vortexType": "float",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "incotermCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "incotermPlace",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/IdentifierIdentifierSchemaHolder",
+        "identity": {
+            "name": "IdentifierIdentifierSchemaHolder",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.IdentifierIdentifierSchemaHolder",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.IdentifierIdentifierSchemaHolder",
+                "vortexType": "invoiceRequest/IdentifierIdentifierSchemaHolder,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "identifier",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "schemaIdentifier",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/IdentifierSchemaHolder",
+        "identity": {
+            "name": "IdentifierSchemaHolder",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.IdentifierSchemaHolder",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.IdentifierSchemaHolder",
+                "vortexType": "invoiceRequest/IdentifierSchemaHolder,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "identifier",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "schema",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/InvoicePeriod",
+        "identity": {
+            "name": "InvoicePeriod",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.InvoicePeriod",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.InvoicePeriod",
+                "vortexType": "invoiceRequest/InvoicePeriod,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "startDate",
+                "javaType": "java.time.LocalDate",
+                "vortexType": "date",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "endDate",
+                "javaType": "java.time.LocalDate",
+                "vortexType": "date",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/InvoiceRequest",
+        "identity": {
+            "name": "InvoiceRequest",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.InvoiceRequest",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.InvoiceRequest",
+                "vortexType": "invoiceRequest/InvoiceRequest,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "invoiceRequestDate",
+                "javaType": "java.time.LocalDate",
+                "vortexType": "date",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "desiredInvoicingDate",
+                "javaType": "java.time.LocalDate",
+                "vortexType": "date",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "buyerOrderDate",
+                "javaType": "java.time.LocalDate",
+                "vortexType": "date",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "businessUnitCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "origin",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "documentType",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "currencyCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "dueDate",
+                "javaType": "java.time.LocalDate",
+                "vortexType": "date",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "buyerReference",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "projectReference",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "projectReferenceDocumentTypeCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "contractReference",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "buyerOrderNumber",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "sellerOrderNumber",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "shippingNoteReference",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "tenderNumber",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "receiptNumber",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "shippingNoteDate",
+                "javaType": "java.time.LocalDate",
+                "vortexType": "date",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "goodsInformations",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.GoodsInformation",
+                "vortexType": "invoiceRequest/GoodsInformation",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "identifier",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "identifierSchema",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "identifierDocumentTypeCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "paymentTerms",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "arrivalVatEconomicalZone",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "departureVatEconomicalZone",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "notes",
+                "javaType": "java.util.List",
+                "vortexType": "list:invoiceRequest/InvoiceRequestNote",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "processControl",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.ProcessControl",
+                "vortexType": "invoiceRequest/ProcessControl",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "previousInvoice",
+                "javaType": "java.util.List",
+                "vortexType": "list:invoiceRequest/InvoiceRequestPreviousInvoice",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "seller",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.InvoiceRequestSeller",
+                "vortexType": "invoiceRequest/InvoiceRequestSeller",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "buyer",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.InvoiceRequestBuyer",
+                "vortexType": "invoiceRequest/InvoiceRequestBuyer",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "billingThirdParty",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.IdentifierSchemaHolder",
+                "vortexType": "invoiceRequest/IdentifierSchemaHolder",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "delivery",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.Delivery",
+                "vortexType": "invoiceRequest/Delivery",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "payment",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.InvoiceRequestPayment",
+                "vortexType": "invoiceRequest/InvoiceRequestPayment",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "total",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.TotalPart",
+                "vortexType": "invoiceRequest/TotalPart",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "taxSubtotal",
+                "javaType": "java.util.List",
+                "vortexType": "list:invoiceRequest/TaxSubtotalPart",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "invoicePeriod",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.InvoicePeriod",
+                "vortexType": "invoiceRequest/InvoicePeriod",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "deliveryAddress",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.DeliveryAddress",
+                "vortexType": "invoiceRequest/DeliveryAddress",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "discounts",
+                "javaType": "java.util.List",
+                "vortexType": "list:invoiceRequest/DiscountPart",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "lines",
+                "javaType": "java.util.List",
+                "vortexType": "list:invoiceRequest/InvoiceRequestLine",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/InvoiceRequestBuyer",
+        "identity": {
+            "name": "InvoiceRequestBuyer",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.InvoiceRequestBuyer",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.InvoiceRequestBuyer",
+                "vortexType": "invoiceRequest/InvoiceRequestBuyer,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "companyName",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "tradingName",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "additionalIdentifiers",
+                "javaType": "java.util.List",
+                "vortexType": "list:invoiceRequest/IdentifierSchemaHolder",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "taxIdentifier",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "routing",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.InvoiceRequestPartyRouting",
+                "vortexType": "invoiceRequest/InvoiceRequestPartyRouting",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "buyerCompany",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.IdentifierSchemaHolder",
+                "vortexType": "invoiceRequest/IdentifierSchemaHolder",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "establishment",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.IdentifierSchemaHolder",
+                "vortexType": "invoiceRequest/IdentifierSchemaHolder",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "buyerRoutingSiret",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "buyerRoutingSiren",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "endPoint",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.BuyerEndPoint",
+                "vortexType": "invoiceRequest/BuyerEndPoint",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "buyerAddress",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.BuyerAddress",
+                "vortexType": "invoiceRequest/BuyerAddress",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "buyerContact",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.BuyerContact",
+                "vortexType": "invoiceRequest/BuyerContact",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/InvoiceRequestLine",
+        "identity": {
+            "name": "InvoiceRequestLine",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.InvoiceRequestLine",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.InvoiceRequestLine",
+                "vortexType": "invoiceRequest/InvoiceRequestLine,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "notes",
+                "javaType": "java.util.List",
+                "vortexType": "list:invoiceRequest/InvoiceRequestLineNote",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "itemQuantity",
+                "javaType": "float",
+                "vortexType": "float",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "excludingTaxesAmount",
+                "javaType": "java.lang.Double",
+                "vortexType": "double",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "orderNumberFromBuyer",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "buyerAccounting",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.LineBuyerAccounting",
+                "vortexType": "invoiceRequest/LineBuyerAccounting",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "sellerAccounting",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.LineSellerAccounting",
+                "vortexType": "invoiceRequest/LineSellerAccounting",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "billingReference",
+                "javaType": "java.util.List",
+                "vortexType": "list:invoiceRequest/LineBillingReference",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "shipmentDetail",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.LineShipmentDetail",
+                "vortexType": "invoiceRequest/LineShipmentDetail",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "deliveryInformation",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.InvoiceRequestLineDeliveryInformation",
+                "vortexType": "invoiceRequest/InvoiceRequestLineDeliveryInformation",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "lineInvoicingPeriod",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.LineInvoicingPeriod",
+                "vortexType": "invoiceRequest/LineInvoicingPeriod",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "discounts",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.LineDiscount",
+                "vortexType": "invoiceRequest/LineDiscount",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "priceDetail",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.LinePriceDetail",
+                "vortexType": "invoiceRequest/LinePriceDetail",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "taxesInformation",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.LineTaxesInformation",
+                "vortexType": "invoiceRequest/LineTaxesInformation",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "itemInformation",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.LineItemInformation",
+                "vortexType": "invoiceRequest/LineItemInformation",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/InvoiceRequestLineDeliveryInformation",
+        "identity": {
+            "name": "InvoiceRequestLineDeliveryInformation",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.InvoiceRequestLineDeliveryInformation",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.InvoiceRequestLineDeliveryInformation",
+                "vortexType": "invoiceRequest/InvoiceRequestLineDeliveryInformation,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "effectiveDateOfDelivery",
+                "javaType": "java.time.LocalDate",
+                "vortexType": "date",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/InvoiceRequestLineNote",
+        "identity": {
+            "name": "InvoiceRequestLineNote",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.InvoiceRequestLineNote",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.InvoiceRequestLineNote",
+                "vortexType": "invoiceRequest/InvoiceRequestLineNote,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "noteSubject",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "noteComment",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/InvoiceRequestNote",
+        "identity": {
+            "name": "InvoiceRequestNote",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.InvoiceRequestNote",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.InvoiceRequestNote",
+                "vortexType": "invoiceRequest/InvoiceRequestNote,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "noteSubject",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "noteComment",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/InvoiceRequestPartyRouting",
+        "identity": {
+            "name": "InvoiceRequestPartyRouting",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.InvoiceRequestPartyRouting",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.InvoiceRequestPartyRouting",
+                "vortexType": "invoiceRequest/InvoiceRequestPartyRouting,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "code",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "schema",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/InvoiceRequestPayment",
+        "identity": {
+            "name": "InvoiceRequestPayment",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.InvoiceRequestPayment",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.InvoiceRequestPayment",
+                "vortexType": "invoiceRequest/InvoiceRequestPayment,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "methodTypeCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "methodName",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "bankTransfers",
+                "javaType": "java.util.List",
+                "vortexType": "list:invoiceRequest/PaymentBankTransfer",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "card",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.PaymentCard",
+                "vortexType": "invoiceRequest/PaymentCard",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "paymentMandate",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.InvoiceRequestPaymentMandate",
+                "vortexType": "invoiceRequest/InvoiceRequestPaymentMandate",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/InvoiceRequestPaymentMandate",
+        "identity": {
+            "name": "InvoiceRequestPaymentMandate",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.InvoiceRequestPaymentMandate",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.InvoiceRequestPaymentMandate",
+                "vortexType": "invoiceRequest/InvoiceRequestPaymentMandate,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "mandateId",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "partyIdentification",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "accountId",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/InvoiceRequestPreviousInvoice",
+        "identity": {
+            "name": "InvoiceRequestPreviousInvoice",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.InvoiceRequestPreviousInvoice",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.InvoiceRequestPreviousInvoice",
+                "vortexType": "invoiceRequest/InvoiceRequestPreviousInvoice,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "referenceOfPreviousInvoice",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "issueDateOfPreviousInvoice",
+                "javaType": "java.time.LocalDate",
+                "vortexType": "date",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "previousInvoiceType",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/InvoiceRequestSeller",
+        "identity": {
+            "name": "InvoiceRequestSeller",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.InvoiceRequestSeller",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.InvoiceRequestSeller",
+                "vortexType": "invoiceRequest/InvoiceRequestSeller,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "companyName",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "tradingName",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "companySubdivision",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.IdentifierIdentifierSchemaHolder",
+                "vortexType": "invoiceRequest/IdentifierIdentifierSchemaHolder",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "additionalIdentifiers",
+                "javaType": "java.util.List",
+                "vortexType": "list:invoiceRequest/IdentifierSchemaHolder",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "establishment",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.SellerEstablishment",
+                "vortexType": "invoiceRequest/SellerEstablishment",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "routing",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.InvoiceRequestPartyRouting",
+                "vortexType": "invoiceRequest/InvoiceRequestPartyRouting",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "siren",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "taxIdentifier",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "companyLegalForm",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "invoicingCompany",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.SellerInvoicingCompany",
+                "vortexType": "invoiceRequest/SellerInvoicingCompany",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "sellerAddress",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.SellerAddress",
+                "vortexType": "invoiceRequest/SellerAddress",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "sellerContact",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.SellerContact",
+                "vortexType": "invoiceRequest/SellerContact",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/LineBillingReference",
+        "identity": {
+            "name": "LineBillingReference",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.LineBillingReference",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.LineBillingReference",
+                "vortexType": "invoiceRequest/LineBillingReference,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "invoiceDocumentReference",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "invoiceDocumentReferenceTypeCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "invoiceDocumentReferenceIssueDate",
+                "javaType": "java.time.LocalDate",
+                "vortexType": "date",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "billingReferenceLine",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/LineBuyerAccounting",
+        "identity": {
+            "name": "LineBuyerAccounting",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.LineBuyerAccounting",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.LineBuyerAccounting",
+                "vortexType": "invoiceRequest/LineBuyerAccounting,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "accountingCost",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "analyticAxis5",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "analyticAxis6",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/LineDiscount",
+        "identity": {
+            "name": "LineDiscount",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.LineDiscount",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.LineDiscount",
+                "vortexType": "invoiceRequest/LineDiscount,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "discountAmountExcludingTaxes",
+                "javaType": "java.lang.Double",
+                "vortexType": "double",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "discountPercentage",
+                "javaType": "java.lang.Double",
+                "vortexType": "double",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "discountReason",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "discountReasonCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/LineInvoicingPeriod",
+        "identity": {
+            "name": "LineInvoicingPeriod",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.LineInvoicingPeriod",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.LineInvoicingPeriod",
+                "vortexType": "invoiceRequest/LineInvoicingPeriod,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "startDate",
+                "javaType": "java.time.LocalDate",
+                "vortexType": "date",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "endDate",
+                "javaType": "java.time.LocalDate",
+                "vortexType": "date",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/LineItemClassificationInformation",
+        "identity": {
+            "name": "LineItemClassificationInformation",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.LineItemClassificationInformation",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.LineItemClassificationInformation",
+                "vortexType": "invoiceRequest/LineItemClassificationInformation,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "itemClassificationCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "itemClassificationSchema",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/LineItemInformation",
+        "identity": {
+            "name": "LineItemInformation",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.LineItemInformation",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.LineItemInformation",
+                "vortexType": "invoiceRequest/LineItemInformation,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "itemName",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "itemDescription",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "itemSellerCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "itemBuyerCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "itemCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "itemSchema",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "classificationInformation",
+                "javaType": "java.util.List",
+                "vortexType": "list:invoiceRequest/LineItemClassificationInformation",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "originCountry",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "additionalItemProperties",
+                "javaType": "java.util.List",
+                "vortexType": "list:invoiceRequest/AdditionalItemProperty",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/LinePriceDetail",
+        "identity": {
+            "name": "LinePriceDetail",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.LinePriceDetail",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.LinePriceDetail",
+                "vortexType": "invoiceRequest/LinePriceDetail,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "priceAmount",
+                "javaType": "java.lang.Double",
+                "vortexType": "double",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "allowanceChargeAmount",
+                "javaType": "java.lang.Double",
+                "vortexType": "double",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "allowanceChargeAmountBase",
+                "javaType": "java.lang.Double",
+                "vortexType": "double",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/LineSellerAccounting",
+        "identity": {
+            "name": "LineSellerAccounting",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.LineSellerAccounting",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.LineSellerAccounting",
+                "vortexType": "invoiceRequest/LineSellerAccounting,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "analyticAxis1",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "analyticAxis2",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "analyticAxis3",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/LineShipmentDetail",
+        "identity": {
+            "name": "LineShipmentDetail",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.LineShipmentDetail",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.LineShipmentDetail",
+                "vortexType": "invoiceRequest/LineShipmentDetail,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "lineShippingWeight",
+                "javaType": "java.lang.Float",
+                "vortexType": "float",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "lineNetShippingWeight",
+                "javaType": "java.lang.Float",
+                "vortexType": "float",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "lineShippingVolume",
+                "javaType": "java.lang.Float",
+                "vortexType": "float",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/LineTaxesInformation",
+        "identity": {
+            "name": "LineTaxesInformation",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.LineTaxesInformation",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.LineTaxesInformation",
+                "vortexType": "invoiceRequest/LineTaxesInformation,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "taxCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "taxRate",
+                "javaType": "java.lang.Double",
+                "vortexType": "double",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/PaymentBankTransfer",
+        "identity": {
+            "name": "PaymentBankTransfer",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.PaymentBankTransfer",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.PaymentBankTransfer",
+                "vortexType": "invoiceRequest/PaymentBankTransfer,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "accountIdentifier",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "accountName",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "serviceProviderIdentifier",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/PaymentCard",
+        "identity": {
+            "name": "PaymentCard",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.PaymentCard",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.PaymentCard",
+                "vortexType": "invoiceRequest/PaymentCard,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "accountIdentifier",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "accountName",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/ProcessControl",
+        "identity": {
+            "name": "ProcessControl",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.ProcessControl",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.ProcessControl",
+                "vortexType": "invoiceRequest/ProcessControl,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "businessProcessType",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "businessProfileType",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/SellerAddress",
+        "identity": {
+            "name": "SellerAddress",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.SellerAddress",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.SellerAddress",
+                "vortexType": "invoiceRequest/SellerAddress,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "addressLine1",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "addressLine2",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "addressLine3",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "addressLocality",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "addressPostalCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "addressCountrySubdivision",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "addressCountryCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/SellerContact",
+        "identity": {
+            "name": "SellerContact",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.SellerContact",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.SellerContact",
+                "vortexType": "invoiceRequest/SellerContact,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "sellerContactPoint",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "sellerContactPhone",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "sellerContactEmail",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/SellerEstablishment",
+        "identity": {
+            "name": "SellerEstablishment",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.SellerEstablishment",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.SellerEstablishment",
+                "vortexType": "invoiceRequest/SellerEstablishment,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "code",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "schema",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "siret",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/SellerInvoicingCompany",
+        "identity": {
+            "name": "SellerInvoicingCompany",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.SellerInvoicingCompany",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.SellerInvoicingCompany",
+                "vortexType": "invoiceRequest/SellerInvoicingCompany,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "code",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "schema",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/TaxSubtotalPart",
+        "identity": {
+            "name": "TaxSubtotalPart",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.TaxSubtotalPart",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.TaxSubtotalPart",
+                "vortexType": "invoiceRequest/TaxSubtotalPart,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "taxableAmount",
+                "javaType": "double",
+                "vortexType": "double",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "taxAmount",
+                "javaType": "double",
+                "vortexType": "double",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "taxCategoryId",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "vatCodeDescription",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "taxCategoryPercent",
+                "javaType": "java.lang.Float",
+                "vortexType": "float",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "taxExemptionReason",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "taxExemptionReasonCode",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/TestMap",
+        "identity": {
+            "name": "TestMap",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.TestMap",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.TestMap",
+                "vortexType": "invoiceRequest/TestMap,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "name",
+                "javaType": "java.lang.String",
+                "vortexType": "string",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "totalParts",
+                "javaType": "java.util.List",
+                "vortexType": "list:invoiceRequest/TotalPart",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "contacts",
+                "javaType": "java.util.Map",
+                "vortexType": "map:invoice/PartyContact",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    },
+    {
+        "title": "invoiceRequest/TotalPart",
+        "identity": {
+            "name": "TotalPart",
+            "domain": "invoiceRequest",
+            "category": "model"
+        },
+        "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.TotalPart",
+        "fields": [
+            {
+                "name": "_Self",
+                "javaType": "com.adeo.cashfit.ledger.business.domain.invoicerequest.TotalPart",
+                "vortexType": "invoiceRequest/TotalPart,model_output",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "netAmountOfInvoiceLines",
+                "javaType": "java.lang.Double",
+                "vortexType": "double",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "discounts",
+                "javaType": "java.lang.Double",
+                "vortexType": "double",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "chargesOrFees",
+                "javaType": "java.lang.Double",
+                "vortexType": "double",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "amountExcludingVat",
+                "javaType": "double",
+                "vortexType": "double",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "vatAmount",
+                "javaType": "java.lang.Double",
+                "vortexType": "double",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "vatAmountInAccountingCurrency",
+                "javaType": "java.lang.Double",
+                "vortexType": "double",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "amountIncludingVat",
+                "javaType": "double",
+                "vortexType": "double",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "prepaidAmount",
+                "javaType": "java.lang.Double",
+                "vortexType": "double",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "payableRoundingAmount",
+                "javaType": "java.lang.Double",
+                "vortexType": "double",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            },
+            {
+                "name": "payableAmount",
+                "javaType": "double",
+                "vortexType": "double",
+                "hasIn": true,
+                "hasOut": true,
+                "enumValues": null
+            }
+        ]
+    }
+]
