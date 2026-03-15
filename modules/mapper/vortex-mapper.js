@@ -9,6 +9,7 @@ import { loadModelsFromApi } from '../../vortex-api-loader.js';
 import { registerUtilityNodes } from '../../nodes/vortex-utility-nodes.js';
 import * as sidebar from '../../components/sidebar/sidebar.js';
 import * as radial from '../../components/radial/radial.js';
+import {registerTransformerGroupNode} from '../../nodes/vortex-transformer-group-node.js';
 
 export class VortexMapperModule {
   constructor(canvas, world, svg) {
@@ -31,6 +32,7 @@ export class VortexMapperModule {
     registerStringNodes();
     registerNumberNodes();
     registerUtilityNodes();
+    registerTransformerGroupNode()
     await loadModelsFromApi();
     this.viewport.registerEvents();
     this.registerKeyboardEvents();

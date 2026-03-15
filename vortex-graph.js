@@ -20,6 +20,11 @@ export class VortexGraph {
 
     dropSelector.install();
     this.registerMouseDownEvent();
+
+    this.world.addEventListener('vortex-ports-changed', (e) => {
+      const nodeEl = e.target.closest('.vortex-node');
+      if (nodeEl) this.redrawPorts(nodeEl.dataset.id);
+    });
   }
 
   notifyChange() {
@@ -541,7 +546,11 @@ export class VortexGraph {
       const connectedPorts = this.links
           .filter(l => l.toNode === toNode)
           .map(l => l.toName);
-      if (targetNode.onPortConnected(toName, connectedPorts)) {
+      // Résoudre le type du port source
+      const sourceNode = this.nodes.get(fromNode);
+      const sourcePort = sourceNode?.ports.find(p => p.name === fromName);
+      const fromType = sourcePort?.type || 'raw';
+      if (targetNode.onPortConnected(toName, connectedPorts, fromType)) {
         this.redrawPorts(toNode);
       }
     }
@@ -887,7 +896,7 @@ export class VortexGraph {
       // Exécution scalaire normale
       if (highlightEnabled) {
         nodeEl.classList.add("executing");
-        await this.wait(50);
+        // await this.wait(50);
       }
 
       let outputs = {};
@@ -910,7 +919,7 @@ export class VortexGraph {
 
       nodeData.set(nodeId, { inputs, outputs: outputs || {} });
 
-      if (highlightEnabled) await this.wait(50);
+      if (highlightEnabled) await this.wait(10);
     }
   }
 

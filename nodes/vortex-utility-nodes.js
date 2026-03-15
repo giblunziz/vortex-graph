@@ -27,7 +27,9 @@ class LineCounterNode extends AbstractNode {
         textInput.value = wv.gap ?? '1';
         textInput.addEventListener('mousedown', (e) => e.stopPropagation());
         textInput.addEventListener('input', (e) => {
-            wv.gap = parseInt(e.target.value) || 1;
+            // wv.gap = parseInt(e.target.value) || 1;
+            const parsed = parseInt(e.target.value);
+            wv.gap = Number.isNaN(parsed) ? 1 : parsed;
         });
         container.appendChild(textDom);
     }

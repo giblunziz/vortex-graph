@@ -72,13 +72,17 @@ export function registerStringNodes() {
         domain: 'string',
         inputType: 'string',
         params: [
-            { name: 'start', type: 'integer', default: 0, port: true },
+            { name: 'start', type: 'integer', default: null, port: true },
             { name: 'end',   type: 'integer', default: null, port: true },
         ],
         apply: (value, params) => {
+            console.log(`start: ${params.start}, end: ${params.end}`)
             if (value == null) return null;
             const s = String(value);
-            return params.end != null ? s.substring(params.start, params.end) : s.substring(params.start);
+            if (params.start != null && params.end != null) return s.slice(params.start, params.end);
+            if (params.start != null) return s.slice(params.start);
+            if (params.end != null) return s.slice(params.end);
+            return s;
         },
     });
 
