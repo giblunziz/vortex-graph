@@ -1,12 +1,14 @@
 import { vortexRegistry } from "./vortex-registry.js";
 import * as dropSelector from "./components/drop-selector/drop-selector.js";
+import { FoldNode } from "./nodes/vortex-fold-node.js";
 
 // Le modèle — source de vérité
 export class VortexGraph {
   constructor(world, canvas, viewport) {
     this.nodes = new Map();
     this.selection = new Set();
-    this.links = [];
+    this.links = [];        // liens du modèle d'exécution — Kahn les parcourt
+    this.visualLinks = [];  // liens de façade des FoldNodes — DOM uniquement, jamais dans Kahn
     this.nodeCount = 0;
     this.world = world;
     this.canvas = canvas;
@@ -456,6 +458,9 @@ export class VortexGraph {
       alert(`Invalid graph, node ${id} missing!`);
       return;
     }
+    // Les nodes folded existent dans le modèle mais n'ont pas de représentation DOM
+    if (node.mode === 'folded') return;
+
     const tpl = document.getElementById("vortex-node");
     const clone = tpl.content.cloneNode(true);
     const nodeEl = clone.querySelector(".vortex-node");
@@ -530,14 +535,17 @@ export class VortexGraph {
 
   // --- Links ---
 
-  createLink(fromNode, fromName, toNode, toName) {
-    const alreadyLinked = this.links.some(
-        (l) => l.toNode === toNode && l.toName === toName,
-    );
+  createLink(fromNode, fromName, toNode, toName, visual = false) {
+    const collection = visual ? this.visualLinks : this.links;
+    const alreadyLinked = collection.some(l => l.toNode === toNode && l.toName === toName);
     if (alreadyLinked) return null;
 
     const link = { fromNode, fromName, toNode, toName };
-    this.links.push(link);
+    if (visual) {
+      this.visualLinks.push(link);
+    } else {
+      this.links.push(link);
+    }
     this.drawLink(link);
 
     // Callback ports dynamiques — le node cible peut réagir à la connexion
@@ -560,6 +568,11 @@ export class VortexGraph {
   }
 
   drawLink(link) {
+    // Ne pas rendre les liens dont un endpoint est folded (pas de DOM)
+    const fromNode = this.nodes.get(link.fromNode);
+    const toNode   = this.nodes.get(link.toNode);
+    if (fromNode?.mode === 'folded' || toNode?.mode === 'folded') return;
+
     const fromPort = this.findPort(link.fromNode, link.fromName, "out");
     const toPort = this.findPort(link.toNode, link.toName, "in");
     if (!fromPort || !toPort) return;
@@ -600,8 +613,13 @@ export class VortexGraph {
   }
 
   removeLink(link) {
-    const idx = this.links.indexOf(link);
-    if (idx !== -1) this.links.splice(idx, 1);
+    let idx = this.links.indexOf(link);
+    if (idx !== -1) {
+      this.links.splice(idx, 1);
+    } else {
+      idx = this.visualLinks.indexOf(link);
+      if (idx !== -1) this.visualLinks.splice(idx, 1);
+    }
     if (link._path) link._path.remove();
 
     // Callback ports dynamiques — le node cible peut réagir à la déconnexion
@@ -623,6 +641,7 @@ export class VortexGraph {
 
   updateLinks() {
     for (const link of this.links) this.updateLink(link);
+    for (const link of this.visualLinks) this.updateLink(link);
   }
 
   getPortCenter(port) {
@@ -679,6 +698,10 @@ export class VortexGraph {
         fromNode: l.fromNode, fromName: l.fromName,
         toNode: l.toNode, toName: l.toName,
       })),
+      visualLinks: this.visualLinks.map(l => ({
+        fromNode: l.fromNode, fromName: l.fromName,
+        toNode: l.toNode, toName: l.toName,
+      })),
     };
   }
 
@@ -701,10 +724,14 @@ export class VortexGraph {
     for (const l of data.links) {
       this.createLink(l.fromNode, l.fromName, l.toNode, l.toName);
     }
+    for (const l of (data.visualLinks || [])) {
+      this.createLink(l.fromNode, l.fromName, l.toNode, l.toName, true);
+    }
   }
 
   clearGraph() {
     for (const link of [...this.links]) this.removeLink(link);
+    for (const link of [...this.visualLinks]) this.removeLink(link);
     this.world.querySelectorAll('.vortex-node').forEach(el => el.remove());
     this.nodes.clear();
     this.selection.clear();
@@ -714,7 +741,8 @@ export class VortexGraph {
   // --- Execution engine ---
 
   buildExecutionPlan() {
-    const nodeIds = [...this.nodes.keys()];
+    // const nodeIds = [...this.nodes.keys()];
+    const nodeIds = [...this.nodes.keys()].filter(id => this.nodes.get(id).mode !== 'virtual');
     const inDegree = new Map();
     const dependents = new Map();
 
@@ -785,9 +813,13 @@ export class VortexGraph {
     const subtreePlan = plan.filter(id => subtreeIds.has(id));
 
     for (const nodeId of subtreePlan) {
-      const nodeEl = this.world.querySelector(`.vortex-node[data-id="${nodeId}"]`);
+      // const nodeEl = this.world.querySelector(`.vortex-node[data-id="${nodeId}"]`);
+      // const node = this.nodes.get(nodeId);
+      // if (!nodeEl || !node) continue;
+
       const node = this.nodes.get(nodeId);
-      if (!nodeEl || !node) continue;
+      if (!node) continue;
+      const nodeEl = this.world.querySelector(`.vortex-node[data-id="${nodeId}"]`); // null si folded — ok
 
       // Collecter les inputs depuis les liens (outputs des nodes déjà exécutés)
       const inputs = {};
@@ -894,7 +926,7 @@ export class VortexGraph {
       }
 
       // Exécution scalaire normale
-      if (highlightEnabled) {
+      if (highlightEnabled && nodeEl) {
         nodeEl.classList.add("executing");
         // await this.wait(50);
       }
@@ -905,13 +937,13 @@ export class VortexGraph {
           const result = node.execute(inputs, nodeEl, node);
           outputs = result instanceof Promise ? await result : result;
         }
-        if (highlightEnabled) {
+        if (highlightEnabled && nodeEl) {
           nodeEl.classList.remove("executing");
           nodeEl.classList.add("executed");
         }
       } catch (err) {
         console.error(`Error executing ${nodeId}:`, err);
-        if (highlightEnabled) {
+        if (highlightEnabled && nodeEl) {
           nodeEl.classList.remove("executing");
           nodeEl.classList.add("execute-error");
         }
@@ -919,7 +951,7 @@ export class VortexGraph {
 
       nodeData.set(nodeId, { inputs, outputs: outputs || {} });
 
-      if (highlightEnabled) await this.wait(10);
+      if (highlightEnabled && nodeEl) await this.wait(10);
     }
   }
 
@@ -941,6 +973,17 @@ export class VortexGraph {
   }
 
   wait(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+  // --- Fold / Unfold — délégation au FoldNode ---
+
+  fold(nodeIdA, nodeIdB) {
+    return FoldNode.fold(this, nodeIdA, nodeIdB);
+  }
+
+  unfold(foldNodeId) {
+    const node = this.nodes.get(foldNodeId);
+    if (node instanceof FoldNode) node.unfold(this, foldNodeId);
+  }
 
   autoWire(sourceNodeId, targetNodeId) {
     const src = this.nodes.get(sourceNodeId);

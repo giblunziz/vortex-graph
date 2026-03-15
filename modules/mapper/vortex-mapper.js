@@ -10,6 +10,8 @@ import { registerUtilityNodes } from '../../nodes/vortex-utility-nodes.js';
 import * as sidebar from '../../components/sidebar/sidebar.js';
 import * as radial from '../../components/radial/radial.js';
 import {registerTransformerGroupNode} from '../../nodes/vortex-transformer-group-node.js';
+import { registerFoldNode } from '../../nodes/vortex-fold-node.js';
+import { FoldNode } from '../../nodes/vortex-fold-node.js';
 
 export class VortexMapperModule {
   constructor(canvas, world, svg) {
@@ -33,6 +35,7 @@ export class VortexMapperModule {
     registerNumberNodes();
     registerUtilityNodes();
     registerTransformerGroupNode()
+    registerFoldNode()
     await loadModelsFromApi();
     this.viewport.registerEvents();
     this.registerKeyboardEvents();
@@ -82,9 +85,9 @@ export class VortexMapperModule {
       case 'node': {
         const actions = [
           { id: 'delete', label: 'Delete', icon: '✕', callback: () => {
-            graph.selection.add(target.nodeId);
-            graph.deleteSelectedNodes();
-          }},
+              graph.selection.add(target.nodeId);
+              graph.deleteSelectedNodes();
+            }},
         ];
         const node = graph.nodes.get(target.nodeId);
         if (node && node.contextActions) {
@@ -96,6 +99,7 @@ export class VortexMapperModule {
       case 'selection':
         return [
           { id: 'delete', label: 'Delete', icon: '✕', callback: () => graph.deleteSelectedNodes() },
+          ...this._selectionContextActions(graph),
         ];
 
       case 'link':
@@ -106,6 +110,27 @@ export class VortexMapperModule {
       default:
         return [];
     }
+  }
+
+  // Fallback contextActionsGroup — contributions des nodes de la sélection
+  _selectionContextActions(graph) {
+    const selected = [...graph.selection];
+
+    // Chaque node instance peut contribuer via contextActionsGroup
+    const actions = [];
+    for (const id of selected) {
+      const node = graph.nodes.get(id);
+      if (node && node.contextActionsGroup) {
+        actions.push(...node.contextActionsGroup(selected, graph));
+      }
+    }
+
+    // Classes statiques peuvent aussi contribuer — FoldNode.contextActionsGroup
+    if (FoldNode.contextActionsGroup) {
+      actions.push(...FoldNode.contextActionsGroup(selected, graph));
+    }
+
+    return actions;
   }
 
   // --- Keyboard (métier mapper) ---
