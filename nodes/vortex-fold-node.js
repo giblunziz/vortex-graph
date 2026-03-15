@@ -1,5 +1,4 @@
 import { AbstractNode } from '../common/vortex-abstract-node.js';
-import { vortexRegistry } from '../vortex-registry.js';
 import { ModelNode } from '../common/vortex-model-node.js';
 
 export class FoldNode extends AbstractNode {
@@ -135,18 +134,23 @@ export class FoldNode extends AbstractNode {
             return null;
         }
 
-        // Sync positions avant fold
-        for (const id of innerIds) graph.syncNodePosition(id);
+        // Sync positions avant fold — uniquement les nodes avec un DOM
+        for (const id of innerIds) {
+            const nodeEl = graph.world.querySelector(`.vortex-node[data-id="${id}"]`);
+            if (nodeEl) graph.syncNodePosition(id);
+        }
 
         // Centroïde pour positionner le FoldNode
-        let sumX = 0, sumY = 0;
+        let sumX = 0, sumY = 0, count = 0;
         for (const id of innerIds) {
             const node = graph.nodes.get(id);
-            sumX += node.x;
-            sumY += node.y;
+            if (!node) continue;
+            sumX += node.x || 0;
+            sumY += node.y || 0;
+            count++;
         }
-        const centroidX = sumX / innerIds.size;
-        const centroidY = sumY / innerIds.size;
+        const centroidX = count > 0 ? sumX / count : 0;
+        const centroidY = count > 0 ? sumY / count : 0;
 
         // Résoudre les types des ports in/out via les premiers liens externes trouvés
         let inType = 'raw', outType = 'raw';
@@ -179,7 +183,14 @@ export class FoldNode extends AbstractNode {
 
         // Marquer les nodes internes comme folded — retirer leur DOM
         for (const id of innerIds) {
-            graph.nodes.get(id).mode = 'folded';
+            const innerNode = graph.nodes.get(id);
+            // Si c'est un FoldNode imbriqué (virtual), nettoyer ses visualLinks d'abord
+            if (innerNode instanceof FoldNode) {
+                const vLinks = graph.visualLinks.filter(l => l.fromNode === id || l.toNode === id);
+                for (const l of vLinks) { if (l._path) { l._path.remove(); l._path = null; } }
+                graph.visualLinks = graph.visualLinks.filter(l => l.fromNode !== id && l.toNode !== id);
+            }
+            innerNode.mode = 'folded';
             const nodeEl = graph.world.querySelector(`.vortex-node[data-id="${id}"]`);
             if (nodeEl) nodeEl.remove();
         }
@@ -214,6 +225,7 @@ export class FoldNode extends AbstractNode {
     }
 
     // BFS forward — tous les nodes atteignables depuis startId
+    // Post-traitement : ajoute les FoldNodes virtuels dont tous les foldedNodes sont dans le résultat
     static _bfsForward(graph, startId) {
         const visited = new Set();
         const queue = [startId];
@@ -225,10 +237,17 @@ export class FoldNode extends AbstractNode {
                 if (link.fromNode === id && !visited.has(link.toNode)) queue.push(link.toNode);
             }
         }
+        // Ajouter les FoldNodes virtuels dont tous les foldedNodes sont dans visited
+        for (const [id, node] of graph.nodes) {
+            if (node instanceof FoldNode && node.mode === 'virtual') {
+                if (node.data.foldedNodes?.every(fid => visited.has(fid))) visited.add(id);
+            }
+        }
         return visited;
     }
 
     // BFS backward — tous les nodes depuis lesquels endId est atteignable
+    // Post-traitement : ajoute les FoldNodes virtuels dont tous les foldedNodes sont dans le résultat
     static _bfsBackward(graph, endId) {
         const visited = new Set();
         const queue = [endId];
@@ -240,10 +259,21 @@ export class FoldNode extends AbstractNode {
                 if (link.toNode === id && !visited.has(link.fromNode)) queue.push(link.fromNode);
             }
         }
+        // Ajouter les FoldNodes virtuels dont tous les foldedNodes sont dans visited
+        for (const [id, node] of graph.nodes) {
+            if (node instanceof FoldNode && node.mode === 'virtual') {
+                if (node.data.foldedNodes?.every(fid => visited.has(fid))) visited.add(id);
+            }
+        }
         return visited;
     }
 }
 
 export function registerFoldNode() {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = './nodes/vortex-fold-node.css';
+    document.head.appendChild(link);
+
     new FoldNode().register();
 }

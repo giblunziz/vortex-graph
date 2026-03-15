@@ -1,0 +1,23 @@
+/* FoldNode — violet/purple theme */
+.vortex-node[data-type="vortex/FoldNode"] {
+    background: linear-gradient(135deg, #1a0a2e 0%, #16082a 100%);
+    border: 1px solid #7c3aed;
+    box-shadow: 0 0 8px rgba(124, 58, 237, 0.3);
+}
+
+.vortex-node[data-type="vortex/FoldNode"] .node-header {
+    background: linear-gradient(90deg, #7c3aed 0%, #5b21b6 100%);
+}
+
+.vortex-node[data-type="vortex/FoldNode"]:hover {
+    box-shadow: 0 0 14px rgba(124, 58, 237, 0.5);
+}
+
+.vortex-node[data-type="vortex/FoldNode"] .port.in,
+.vortex-node[data-type="vortex/FoldNode"] .port.out {
+    background: #a78bfa;
+}
+
+.vortex-node[data-type="vortex/FoldNode"] .domain-label {
+    color: #c4b5fd;
+}
