@@ -70,7 +70,7 @@ export class VortexGraph {
     for (const nodeId of [...this.selection]) {
       this.selection.delete(nodeId);
       const connectedLinks = this.links.filter(
-        (l) => l.fromNode === nodeId || l.toNode === nodeId,
+          (l) => l.fromNode === nodeId || l.toNode === nodeId,
       );
       for (const link of connectedLinks) this.removeLink(link);
       const nodeEl = this.world.querySelector(`.vortex-node[data-id="${nodeId}"]`);
@@ -118,7 +118,7 @@ export class VortexGraph {
         if (port.classList.contains('in')) {
           const pd = this.portData(port);
           const existingLink = this.links.find(
-            (l) => l.toNode === pd.nodeId && l.toName === pd.portName,
+              (l) => l.toNode === pd.nodeId && l.toName === pd.portName,
           );
           if (existingLink) {
             this.startLinkRedirect(existingLink, e);
@@ -174,7 +174,7 @@ export class VortexGraph {
     const nodeIds = selected.includes(node.dataset.id) ? selected : [node.dataset.id];
 
     const nodeEls = nodeIds.map(id =>
-      this.world.querySelector(`.vortex-node[data-id="${id}"]`)
+        this.world.querySelector(`.vortex-node[data-id="${id}"]`)
     ).filter(Boolean);
 
     const vp = this.viewport;
@@ -229,7 +229,7 @@ export class VortexGraph {
       const to = isOutput ? { x: mouseX, y: mouseY } : startCenter;
       const dx = Math.abs(to.x - from.x) * 0.5;
       tempPath.setAttribute('d',
-        `M ${from.x} ${from.y} C ${from.x + dx} ${from.y}, ${to.x - dx} ${to.y}, ${to.x} ${to.y}`);
+          `M ${from.x} ${from.y} C ${from.x + dx} ${from.y}, ${to.x - dx} ${to.y}, ${to.x} ${to.y}`);
     };
 
     const onUp = (ev) => {
@@ -274,7 +274,7 @@ export class VortexGraph {
       const mouseY = (ev.clientY - rect.top) / this.viewport.zoomLevel;
       const dx = Math.abs(mouseX - startCenter.x) * 0.5;
       tempPath.setAttribute('d',
-        `M ${startCenter.x} ${startCenter.y} C ${startCenter.x + dx} ${startCenter.y}, ${mouseX - dx} ${mouseY}, ${mouseX} ${mouseY}`);
+          `M ${startCenter.x} ${startCenter.y} C ${startCenter.x + dx} ${startCenter.y}, ${mouseX - dx} ${mouseY}, ${mouseX} ${mouseY}`);
     };
 
     const onUp = (ev) => {
@@ -337,13 +337,13 @@ export class VortexGraph {
 
       let targetName = null;
       const matchByName = newDesc.ports.find(
-        (p) => p.name === source.portName && p.type === type && (direction === 'in' ? p.hasIn : p.hasOut),
+          (p) => p.name === source.portName && p.type === type && (direction === 'in' ? p.hasIn : p.hasOut),
       );
       if (matchByName) {
         targetName = matchByName.name;
       } else {
         const matchBySelf = newDesc.ports.find(
-          (p) => p.name === '_Self' && p.type === type && (direction === 'in' ? p.hasIn : p.hasOut),
+            (p) => p.name === '_Self' && p.type === type && (direction === 'in' ? p.hasIn : p.hasOut),
         );
         if (matchBySelf) targetName = '_Self';
       }
@@ -485,7 +485,7 @@ export class VortexGraph {
 
   createLink(fromNode, fromName, toNode, toName) {
     const alreadyLinked = this.links.some(
-      (l) => l.toNode === toNode && l.toName === toName,
+        (l) => l.toNode === toNode && l.toName === toName,
     );
     if (alreadyLinked) return null;
 
@@ -533,7 +533,7 @@ export class VortexGraph {
     const to = this.getPortCenter(link._toPort);
     const dx = Math.abs(to.x - from.x) * 0.5;
     link._path.setAttribute("d",
-      `M ${from.x} ${from.y} C ${from.x + dx} ${from.y}, ${to.x - dx} ${to.y}, ${to.x} ${to.y}`);
+        `M ${from.x} ${from.y} C ${from.x + dx} ${from.y}, ${to.x - dx} ${to.y}, ${to.x} ${to.y}`);
   }
 
   removeLink(link) {
@@ -668,15 +668,50 @@ export class VortexGraph {
     return plan;
   }
 
-  async executePlan() {
-    const plan = this.buildExecutionPlan();
-    const nodeData = new Map();
+  // Trouve le sous-arbre en aval d'un node (tous les descendants via les liens)
+  // S'arrête quand un lien sort vers un port list: d'un node extérieur au sous-arbre
+  _findSubtree(startNodeId) {
+    const subtree = new Set();
+    const queue = [startNodeId];
 
-    for (const nodeId of plan) {
+    while (queue.length > 0) {
+      const nodeId = queue.shift();
+      if (subtree.has(nodeId)) continue;
+      subtree.add(nodeId);
+
+      // Trouver les nodes en aval via les liens
+      for (const link of this.links) {
+        if (link.fromNode !== nodeId) continue;
+
+        // Si le lien va vers un port list: d'un node HORS du sous-arbre,
+        // c'est la sortie de la collection — on ne descend pas plus loin
+        const targetNode = this.nodes.get(link.toNode);
+        if (targetNode) {
+          const targetPort = targetNode.ports.find(p => p.name === link.toName);
+          if (targetPort && targetPort.collection === 'list' && !subtree.has(link.toNode)) {
+            continue; // C'est le point de retour — ne pas inclure le parent
+          }
+        }
+
+        queue.push(link.toNode);
+      }
+    }
+
+    return subtree;
+  }
+
+  // Exécute un sous-arbre de nodes en ordre topologique avec des inputs donnés
+  // Retourne les outputs de chaque node dans le sous-arbre
+  async _executeSubtree(subtreeIds, plan, overrideInputs, nodeData, highlightEnabled) {
+    // Filtrer le plan pour ne garder que les nodes du sous-arbre, dans l'ordre topologique
+    const subtreePlan = plan.filter(id => subtreeIds.has(id));
+
+    for (const nodeId of subtreePlan) {
       const nodeEl = this.world.querySelector(`.vortex-node[data-id="${nodeId}"]`);
       const node = this.nodes.get(nodeId);
       if (!nodeEl || !node) continue;
 
+      // Collecter les inputs depuis les liens (outputs des nodes déjà exécutés)
       const inputs = {};
       for (const link of this.links) {
         if (link.toNode !== nodeId) continue;
@@ -686,8 +721,105 @@ export class VortexGraph {
         }
       }
 
-      nodeEl.classList.add("executing");
-      await this.wait(50);
+      // Appliquer les overrides (pour le premier node du sous-arbre qui reçoit l'item)
+      if (overrideInputs[nodeId]) {
+        Object.assign(inputs, overrideInputs[nodeId]);
+      }
+
+      // Propager l'index d'itération à tous les nodes du sous-arbre
+      if (overrideInputs._iterationIndex !== undefined) {
+        inputs._iterationIndex = overrideInputs._iterationIndex;
+      }
+
+      // Détection : est-ce que le _Self est un array ET ce node n'attend PAS un array ?
+      // → Itération récursive
+      if (Array.isArray(inputs._Self)) {
+        const results = [];
+        const items = inputs._Self;
+
+        for (let i = 0; i < items.length; i++) {
+          const item = items[i];
+          if (item == null) { results.push(null); continue; }
+
+          // Créer un nodeData isolé pour cette itération
+          const iterationData = new Map(nodeData);
+
+          // Override le _Self avec l'item scalaire + injecter l'index d'itération
+          const iterOverrides = { ...overrideInputs };
+          iterOverrides[nodeId] = { _Self: item, _iterationIndex: i };
+          iterOverrides._iterationIndex = i;
+
+          // Trouver le sous-arbre de CE node
+          const innerSubtree = this._findSubtree(nodeId);
+
+          // Exécuter récursivement le sous-arbre pour cet item
+          await this._executeSubtree(innerSubtree, plan, iterOverrides, iterationData, false);
+
+          // Collecter le résultat du dernier node du sous-arbre
+          // Chercher les liens qui sortent du sous-arbre vers un port list:
+          // Le résultat à collecter est le _Self du node qui fait le push
+          const lastNodeOutputs = iterationData.get(nodeId);
+          if (lastNodeOutputs) {
+            results.push(lastNodeOutputs.outputs._Self);
+          }
+
+          // Propager les outputs des nodes du sous-arbre vers le nodeData principal
+          // pour les liens qui sortent vers des ports list: hors du sous-arbre
+          for (const innerId of innerSubtree) {
+            const innerOutputs = iterationData.get(innerId);
+            if (!innerOutputs) continue;
+
+            for (const link of this.links) {
+              if (link.fromNode !== innerId) continue;
+              if (innerSubtree.has(link.toNode)) continue; // lien interne au sous-arbre
+
+              // Lien qui sort du sous-arbre → accumuler dans le port list: du parent
+              const targetNode = this.nodes.get(link.toNode);
+              if (!targetNode) continue;
+              const targetPort = targetNode.ports.find(p => p.name === link.toName);
+
+              if (targetPort && targetPort.collection === 'list') {
+                // Accumuler : le port list du parent collecte un item par itération
+                if (!nodeData.has(link.toNode + ':list_accumulator')) {
+                  nodeData.set(link.toNode + ':list_accumulator', {});
+                }
+                const acc = nodeData.get(link.toNode + ':list_accumulator');
+                if (!acc[link.toName]) acc[link.toName] = [];
+                const outputVal = innerOutputs.outputs[link.fromName];
+                if (outputVal != null) acc[link.toName].push(outputVal);
+              }
+            }
+          }
+        }
+
+        // Stocker les résultats agrégés pour ce node
+        nodeData.set(nodeId, { inputs, outputs: { _Self: results } });
+
+        // Marquer les nodes du sous-arbre comme traités
+        // (ils seront skippés dans le plan principal)
+        const innerSubtree = this._findSubtree(nodeId);
+        for (const id of innerSubtree) {
+          if (id !== nodeId && !nodeData.has(id)) {
+            nodeData.set(id, { inputs: {}, outputs: {} });
+          }
+        }
+
+        continue; // Passer au node suivant dans le plan
+      }
+
+      // Injecter les accumulateurs de listes dans les inputs
+      const listAcc = nodeData.get(nodeId + ':list_accumulator');
+      if (listAcc) {
+        for (const [portName, accumulated] of Object.entries(listAcc)) {
+          inputs[portName] = accumulated;
+        }
+      }
+
+      // Exécution scalaire normale
+      if (highlightEnabled) {
+        nodeEl.classList.add("executing");
+        await this.wait(50);
+      }
 
       let outputs = {};
       try {
@@ -695,17 +827,31 @@ export class VortexGraph {
           const result = node.execute(inputs, nodeEl, node);
           outputs = result instanceof Promise ? await result : result;
         }
-        nodeEl.classList.remove("executing");
-        nodeEl.classList.add("executed");
+        if (highlightEnabled) {
+          nodeEl.classList.remove("executing");
+          nodeEl.classList.add("executed");
+        }
       } catch (err) {
         console.error(`Error executing ${nodeId}:`, err);
-        nodeEl.classList.remove("executing");
-        nodeEl.classList.add("execute-error");
+        if (highlightEnabled) {
+          nodeEl.classList.remove("executing");
+          nodeEl.classList.add("execute-error");
+        }
       }
 
       nodeData.set(nodeId, { inputs, outputs: outputs || {} });
-      await this.wait(50);
+
+      if (highlightEnabled) await this.wait(50);
     }
+  }
+
+  async executePlan() {
+    const plan = this.buildExecutionPlan();
+    const nodeData = new Map();
+    const allNodeIds = new Set(plan);
+
+    // Exécuter tout le plan via _executeSubtree avec le set complet
+    await this._executeSubtree(allNodeIds, plan, {}, nodeData, true);
 
     setTimeout(() => {
       this.world.querySelectorAll(".executed, .execute-error").forEach(el => {

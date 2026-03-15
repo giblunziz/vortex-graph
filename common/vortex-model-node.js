@@ -35,61 +35,55 @@ export class ModelNode extends AbstractNode {
 
 
   execute(inputs, nodeEl, node) {
-    // 1. Build knownFields = tous les ports INPUT du node (sauf _Self)
-    console.log("execute in: ", node.id, inputs);
+    // 1. Build knownFields = tous les ports du node (sauf _Self)
     const knownFields = new Set(
-      node.ports
-        .filter(p => p.hasIn && p.name !== '_Self')
-        .map(p => p.name)
+        node.ports
+            .filter(p => p.name !== '_Self')
+            .map(p => p.name)
     );
 
     const _data = {};
 
-    // 2. Si _Self est connecté, filtrer ses data par knownFields
-    if (inputs._Self !== undefined) {
+    // 2. Si _Self est connecté, spread ses champs filtrés par knownFields
+    if (inputs._Self != null) {
       for (const [key, value] of Object.entries(inputs._Self)) {
         if (knownFields.has(key)) {
-          _data[key] = value;  // Propager SEULEMENT ce qu'on connaît
+          _data[key] = value;
         }
       }
     }
 
-    // 3. Itérer sur tous les ports INPUT
+    // 3. Override par les inputs connectés (port par port)
     for (const field of node.ports) {
       if (!field.hasIn || field.name === '_Self') continue;
 
       const fieldName = field.name;
 
-      // 3a. Si input connecté, prendre la data du input
       if (inputs[fieldName] !== undefined) {
         _data[fieldName] = inputs[fieldName];
       }
-      // 3b. Sinon si widget avec valeur, utiliser la valeur du widget
+      // Widget fallback
       else if (node.data.widgetValues && node.data.widgetValues[fieldName] !== undefined) {
         _data[fieldName] = node.data.widgetValues[fieldName];
       }
     }
 
-    // Fallback port widgets — si pas de donnée en input, prendre la valeur par défaut du widget du port
+    // 4. Fallback port widgets
     for (const port of node.ports) {
       if (port.widget && _data[port.name] === undefined && port.widget.value !== undefined) {
         _data[port.name] = port.widget.value;
       }
     }
 
-    // Propager _data à tous les outputs (y compris _Self)
+    // 5. Propager _data à tous les outputs (y compris _Self)
     const outputs = {};
-    
-    // _Self sortie = la donnée complète
     outputs._Self = _data;
-    
-    // Chaque field avec hasOut reçoit sa valeur
+
     for (const field of node.ports) {
       if (!field.hasOut || field.name === '_Self') continue;
       outputs[field.name] = _data[field.name] ?? null;
     }
-    
-    console.log("result out: ", node.id, outputs);
+
     return outputs;
   }
 

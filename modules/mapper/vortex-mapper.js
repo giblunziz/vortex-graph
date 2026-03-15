@@ -6,6 +6,7 @@ import { registerPreviewNodes } from '../../nodes/vortex-preview-nodes.js';
 import { registerStringNodes } from '../../nodes/vortex-string-nodes.js';
 import { registerNumberNodes } from '../../nodes/vortex-number-nodes.js';
 import { loadModelsFromApi } from '../../vortex-api-loader.js';
+import { registerUtilityNodes } from '../../nodes/vortex-utility-nodes.js';
 import * as sidebar from '../../components/sidebar/sidebar.js';
 import * as radial from '../../components/radial/radial.js';
 
@@ -29,6 +30,7 @@ export class VortexMapperModule {
     registerPreviewNodes();
     registerStringNodes();
     registerNumberNodes();
+    registerUtilityNodes();
     await loadModelsFromApi();
     this.viewport.registerEvents();
     this.registerKeyboardEvents();
