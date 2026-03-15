@@ -399,6 +399,48 @@ export class VortexGraph {
     nodeEl.querySelector(".node-ports").appendChild(row);
   }
 
+  // Redessine les ports d'un node (après ajout/suppression de ports dynamiques)
+  redrawPorts(nodeId) {
+    const node = this.nodes.get(nodeId);
+    const nodeEl = this.world.querySelector(`.vortex-node[data-id="${nodeId}"]`);
+    if (!node || !nodeEl) return;
+
+    // Vider les ports existants
+    const portsContainer = nodeEl.querySelector(".node-ports");
+    portsContainer.innerHTML = '';
+
+    // Redessiner depuis le modèle
+    for (const port of node.ports) {
+      this.addPort(node, port, nodeEl, port.name, port.type, port.hasIn, port.hasOut, port.businessTerm, port.widget);
+    }
+
+    // Recâbler les liens visuels (les _fromPort/_toPort DOM ont changé)
+    for (const link of this.links) {
+      if (link.fromNode === nodeId || link.toNode === nodeId) {
+        if (link._path) link._path.remove();
+        this.drawLink(link);
+      }
+    }
+  }
+
+  // Met à jour les noms de ports dans les liens après renumérotation
+  // Le node fournit un mapping oldName → newName via _portRenameMap
+  _syncLinkNames(nodeId, node) {
+    const renameMap = node._portRenameMap;
+    if (!renameMap || renameMap.size === 0) return;
+
+    for (const link of this.links) {
+      if (link.toNode === nodeId && renameMap.has(link.toName)) {
+        link.toName = renameMap.get(link.toName);
+      }
+      if (link.fromNode === nodeId && renameMap.has(link.fromName)) {
+        link.fromName = renameMap.get(link.fromName);
+      }
+    }
+
+    node._portRenameMap = null;
+  }
+
   setText(el, selector, value) {
     el.querySelector(selector).textContent = value;
   }
@@ -492,6 +534,18 @@ export class VortexGraph {
     const link = { fromNode, fromName, toNode, toName };
     this.links.push(link);
     this.drawLink(link);
+
+    // Callback ports dynamiques — le node cible peut réagir à la connexion
+    const targetNode = this.nodes.get(toNode);
+    if (targetNode && targetNode.onPortConnected) {
+      const connectedPorts = this.links
+          .filter(l => l.toNode === toNode)
+          .map(l => l.toName);
+      if (targetNode.onPortConnected(toName, connectedPorts)) {
+        this.redrawPorts(toNode);
+      }
+    }
+
     this.notifyChange();
     return link;
   }
@@ -540,6 +594,21 @@ export class VortexGraph {
     const idx = this.links.indexOf(link);
     if (idx !== -1) this.links.splice(idx, 1);
     if (link._path) link._path.remove();
+
+    // Callback ports dynamiques — le node cible peut réagir à la déconnexion
+    const targetNode = this.nodes.get(link.toNode);
+    if (targetNode && targetNode.onPortDisconnected) {
+      const connectedPorts = this.links
+          .filter(l => l.toNode === link.toNode)
+          .map(l => l.toName);
+      if (targetNode.onPortDisconnected(link.toName, connectedPorts)) {
+        // Mettre à jour les noms de liens si les ports ont été renumérotés
+        this._syncLinkNames(link.toNode, targetNode);
+        this.redrawPorts(link.toNode);
+        this.updateLinks();
+      }
+    }
+
     this.notifyChange();
   }
 
