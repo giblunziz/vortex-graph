@@ -1,0 +1,32 @@
+<template id="vortex-picker-screen">
+    <div class="vortex-picker-overlay">
+        <div class="vortex-picker">
+            <div class="picker-header">
+                <div>
+                    <h2 class="picker-title"></h2>
+                    <p class="picker-subtitle"></p>
+                </div>
+                <button class="picker-close">✕</button>
+            </div>
+            <div class="picker-search">
+                <input type="text" class="picker-search-input" placeholder="Search..." />
+            </div>
+            <div class="picker-items"></div>
+            <div class="picker-footer">
+                <button class="picker-cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="vortex-picker-card">
+    <div class="picker-card">
+        <div class="picker-card-icon"></div>
+        <div class="picker-card-body">
+            <div class="picker-card-title"></div>
+            <div class="picker-card-description"></div>
+            <div class="picker-card-badges"></div>
+        </div>
+        <button class="picker-card-action">Select</button>
+    </div>
+</template>

@@ -57,8 +57,10 @@ function apiModelToNode(model) {
       field.hasIn,
       field.hasOut,
       type || "object",
+      field.bt?.name || "",
     );
     port.collection = collection;
+    port.bt = field.bt;
 
     // Enum → widget dropdown inline sur le port
     if (field.enumValues && field.enumValues.length > 0) {

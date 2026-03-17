@@ -7,11 +7,15 @@ import { registerStringNodes } from '../../nodes/vortex-string-nodes.js';
 import { registerNumberNodes } from '../../nodes/vortex-number-nodes.js';
 import { loadModelsFromApi } from '../../vortex-api-loader.js';
 import { registerUtilityNodes } from '../../nodes/vortex-utility-nodes.js';
-import * as sidebar from '../../components/sidebar/sidebar.js';
-import * as radial from '../../components/radial/radial.js';
 import {registerTransformerGroupNode} from '../../nodes/vortex-transformer-group-node.js';
 import { registerFoldNode } from '../../nodes/vortex-fold-node.js';
+import * as sidebar from '../../components/sidebar/sidebar.js';
+import * as radial from '../../components/radial/radial.js';
+import * as picker from '../../components/picker/picker.js';
 import { FoldNode } from '../../nodes/vortex-fold-node.js';
+import {MapperReportManager} from "./mapper-report-manager.js";
+
+import {MappingReport} from "./reports/mapping-report.js";
 
 export class VortexMapperModule {
   constructor(canvas, world, svg) {
@@ -42,7 +46,18 @@ export class VortexMapperModule {
     this.autoLoad();
     sidebar.install(this);
     radial.install(this);
+
+    await this.initReport();
+
     console.log('VorteX Mapper ready');
+  }
+
+  async initReport() {
+    await picker.install();
+    this.reportManager = new MapperReportManager(this.graph);
+
+    this.reportManager.register(MappingReport);
+    console.log(`Reports loaded: ${this.reportManager.reports.length}`)
   }
 
   bootstrapWidgets() {
@@ -76,10 +91,11 @@ export class VortexMapperModule {
     switch (target.type) {
       case 'canvas':
         return [
-          { id: 'run',  label: 'Run',       icon: '▶', callback: () => graph.executePlan() },
-          { id: 'save', label: 'Save',      icon: '💾', callback: () => this.save() },
-          { id: 'load', label: 'Load',      icon: '📂', callback: () => this.load() },
-          { id: 'new',  label: 'New Graph', icon: '➕', callback: () => this.newGraph() },
+          { id: 'run',    label: 'Run',       icon: '▶',  callback: () => graph.executePlan() },
+          { id: 'save',   label: 'Save',      icon: '💾', callback: () => this.save() },
+          { id: 'load',   label: 'Load',      icon: '📂', callback: () => this.load() },
+          { id: 'new',    label: 'New Graph', icon: '➕', callback: () => this.newGraph() },
+          ...this.reportManager.getContextActions(target),
         ];
 
       case 'node': {
@@ -88,6 +104,7 @@ export class VortexMapperModule {
               graph.selection.add(target.nodeId);
               graph.deleteSelectedNodes();
             }},
+          ...this.reportManager.getContextActions(target),
         ];
         const node = graph.nodes.get(target.nodeId);
         if (node && node.contextActions) {
@@ -100,6 +117,7 @@ export class VortexMapperModule {
         return [
           { id: 'delete', label: 'Delete', icon: '✕', callback: () => graph.deleteSelectedNodes() },
           ...this._selectionContextActions(graph),
+          ...this.reportManager.getContextActions(target),
         ];
 
       case 'link':
