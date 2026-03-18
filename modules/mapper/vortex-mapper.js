@@ -16,6 +16,9 @@ import { FoldNode } from '../../nodes/vortex-fold-node.js';
 import {MapperReportManager} from "./mapper-report-manager.js";
 
 import {MappingReport} from "./reports/mapping-report.js";
+import {MappedOutConnectedReport, MappedOutReport} from "./reports/mapped-out-report.js";
+
+import {ExpandInAction, ExpandOutAction} from './actions/expand-action.js';
 
 export class VortexMapperModule {
   constructor(canvas, world, svg) {
@@ -57,6 +60,8 @@ export class VortexMapperModule {
     this.reportManager = new MapperReportManager(this.graph);
 
     this.reportManager.register(MappingReport);
+    this.reportManager.register(MappedOutReport);
+    this.reportManager.register(MappedOutConnectedReport);
     console.log(`Reports loaded: ${this.reportManager.reports.length}`)
   }
 
@@ -100,7 +105,7 @@ export class VortexMapperModule {
 
       case 'node': {
         const actions = [
-          { id: 'delete', label: 'Delete', icon: '✕', callback: () => {
+          { id: 'delete', label: 'Delete', icon: '❌', callback: () => {
               graph.selection.add(target.nodeId);
               graph.deleteSelectedNodes();
             }},
@@ -110,19 +115,21 @@ export class VortexMapperModule {
         if (node && node.contextActions) {
           actions.push(...node.contextActions(target.nodeId, graph));
         }
+        actions.push(...ExpandOutAction.getContextActions(target.nodeId, node, graph));
+        actions.push(...ExpandInAction.getContextActions(target.nodeId, node, graph));
         return actions;
       }
 
       case 'selection':
         return [
-          { id: 'delete', label: 'Delete', icon: '✕', callback: () => graph.deleteSelectedNodes() },
+          { id: 'delete', label: 'Delete', icon: '❌', callback: () => graph.deleteSelectedNodes() },
           ...this._selectionContextActions(graph),
           ...this.reportManager.getContextActions(target),
         ];
 
       case 'link':
         return [
-          { id: 'delete', label: 'Delete', icon: '✕', callback: () => graph.removeLink(target.link) },
+          { id: 'delete', label: 'Delete', icon: '❌', callback: () => graph.removeLink(target.link) },
         ];
 
       default:

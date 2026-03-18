@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VORTEX Studio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --blue:   #4a9eff;
+            --purple: #a855f7;
+            --gold:   #f59e0b;
+            --teal:   #06d6c0;
+            --bg:     #04070f;
+        }
+
+        body {
+            background: var(--bg);
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* ── ANIMATED BACKGROUND ── */
+        canvas#bg {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        /* ── LAYOUT ── */
+        .page {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            min-height: calc(100vh - 48px);
+            padding: 2rem;
+            gap: 3rem;
+        }
+
+        /* ── LOGO ── */
+        .logo-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4rem;
+            animation: fadeDown 0.8s ease both;
+        }
+
+        .logo-row {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .logo-icon {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 16px rgba(74,158,255,0.7)) drop-shadow(0 0 32px rgba(74,158,255,0.3));
+            animation: spinSlow 8s linear infinite;
+        }
+
+        @keyframes spinSlow {
+            from { filter: drop-shadow(0 0 16px rgba(74,158,255,0.7)) drop-shadow(0 0 32px rgba(74,158,255,0.3)) hue-rotate(0deg); }
+            to   { filter: drop-shadow(0 0 16px rgba(74,158,255,0.7)) drop-shadow(0 0 32px rgba(74,158,255,0.3)) hue-rotate(360deg); }
+        }
+
+        .logo-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2.2rem, 5vw, 3.6rem);
+            font-weight: 900;
+            letter-spacing: 0.25em;
+            background: linear-gradient(135deg, #fff 30%, var(--blue) 70%, #c9e8ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+            text-transform: capitalize;
+        }
+
+        .logo-subtitle {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 0.6em;
+            color: rgba(255,255,255,0.45);
+            text-transform: uppercase;
+        }
+
+        .logo-line {
+            width: 260px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            margin-top: 0.2rem;
+        }
+
+        /* ── CARDS ── */
+        .modules {
+            display: flex;
+            align-items: stretch;
+            gap: 0;
+            position: relative;
+            animation: fadeUp 0.9s 0.2s ease both;
+        }
+
+        .connector {
+            width: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .connector-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .connector-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            position: relative;
+            z-index: 2;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50%       { transform: scale(1.5); opacity: 0.6; }
+        }
+
+        .card {
+            width: 220px;
+            background: rgba(8, 15, 30, 0.75);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 2rem 1.5rem 1.8rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.2rem;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(12px);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+        }
+
+        .card:hover::before { opacity: 1; }
+
+        /* ── Per-card colors ── */
+        .card.blue  { --c: var(--blue); }
+        .card.purple{ --c: var(--purple); }
+        .card.gold  { --c: var(--gold); }
+        .card.teal  { --c: var(--teal); }
+
+        .card:hover {
+            border-color: var(--c);
+            box-shadow: 0 0 30px -4px var(--c), 0 0 60px -10px var(--c), inset 0 0 40px -20px var(--c);
+        }
+
+        .card::before {
+            background: radial-gradient(ellipse at top, color-mix(in srgb, var(--c) 10%, transparent), transparent 70%);
+        }
+
+        /* ── CARD TOP GLOW PLATFORM ── */
+        .card-platform {
+            width: 110px;
+            height: 110px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-platform::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 8px;
+            background: var(--c);
+            border-radius: 50%;
+            filter: blur(10px);
+            opacity: 0.6;
+        }
+
+        .card-platform svg {
+            width: 72px;
+            height: 72px;
+            filter: drop-shadow(0 0 10px var(--c)) drop-shadow(0 0 20px color-mix(in srgb, var(--c) 50%, transparent));
+            transition: transform 0.7s ease;
+            transform-style: preserve-3d;
+        }
+
+        .card:hover .card-platform svg {
+            transform: rotateY(360deg);
+        }
+
+        /* Circular dashed ring */
+        .card-ring {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 1px dashed color-mix(in srgb, var(--c) 30%, transparent);
+            animation: rotateSlow 12s linear infinite;
+        }
+
+        @keyframes rotateSlow {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
+
+        .card-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-align: center;
+            color: #fff;
+            line-height: 1.4;
+        }
+
+        .card-desc {
+            font-size: 0.85rem;
+            font-weight: 300;
+            color: rgba(255,255,255,0.45);
+            text-align: center;
+            letter-spacing: 0.04em;
+        }
+
+        .card-coming {
+            font-size: 0.72rem;
+            font-style: italic;
+            color: color-mix(in srgb, var(--c) 70%, transparent);
+            letter-spacing: 0.08em;
+        }
+
+        /* Bottom separator */
+        .card-sep {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--c), transparent);
+            opacity: 0.3;
+        }
+
+        /* ── BOTTOM CONNECTOR GLOW DOTS ── */
+        .card-bottom-dot {
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 8px;
+            background: var(--c);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--c), 0 0 16px var(--c);
+        }
+
+        .card-top-dot {
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 8px;
+            background: var(--c);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--c), 0 0 16px var(--c);
+        }
+
+        /* ── SELECT BAR ── */
+        .select-bar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            animation: fadeUp 1s 0.4s ease both;
+        }
+
+        .select-text {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            color: rgba(255,255,255,0.35);
+            padding: 0.7rem 2.5rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            background: rgba(255,255,255,0.03);
+            min-width: 380px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .select-text.active {
+            color: rgba(255,255,255,0.7);
+            border-color: rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.06);
+        }
+
+        .chevron {
+            color: rgba(255,255,255,0.3);
+            font-size: 1.2rem;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50%       { transform: translateY(4px); }
+        }
+
+        /* ── STATUS BAR ── */
+        .statusbar {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            height: 40px;
+            background: rgba(4, 7, 15, 0.85);
+            border-top: 1px solid rgba(255,255,255,0.07);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.5rem;
+            backdrop-filter: blur(8px);
+            z-index: 10;
+        }
+
+        .status-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.82rem;
+            color: rgba(255,255,255,0.4);
+            letter-spacing: 0.08em;
+        }
+
+        .status-version { color: rgba(255,255,255,0.5); }
+
+        .status-ready {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: #4ade80;
+        }
+
+        .status-ready::before {
+            content: '→';
+            font-size: 0.9rem;
+        }
+
+        .status-icons {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: rgba(255,255,255,0.3);
+        }
+
+        .status-icons span {
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .status-icons span:hover { color: rgba(255,255,255,0.7); }
+
+        /* ── KEYFRAMES ── */
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="bg"></canvas>
+
+<div class="page">
+
+    <!-- LOGO -->
+    <div class="logo-block">
+        <div class="logo-row">
+            <img class="logo-icon" src="./images/vortex_circular_swirl.png" alt="VorteX">
+            <div class="logo-title">VorteX</div>
+        </div>
+        <div class="logo-subtitle">Studio</div>
+        <div class="logo-line"></div>
+    </div>
+
+    <!-- MODULES -->
+    <div class="modules">
+
+        <!-- CARD 1: Objects Mapper -->
+        <div class="card blue" onclick="selectModule('Objects Mapper')" >
+            <div class="card-top-dot"></div>
+            <div class="card-platform">
+                <div class="card-ring"></div>
+                <svg viewBox="0 0 80 80" fill="none">
+                    <!-- 3D cubes icon -->
+                    <g transform="translate(10,8)">
+                        <!-- back-right cube -->
+                        <polygon points="30,8 50,18 50,38 30,28" fill="#2563eb" opacity="0.7"/>
+                        <polygon points="30,8 10,18 10,38 30,28" fill="#3b82f6" opacity="0.7"/>
+                        <polygon points="10,18 30,8 50,18 30,28" fill="#60a5fa"/>
+                        <!-- front cube -->
+                        <polygon points="10,34 30,24 50,34 30,44" fill="#93c5fd"/>
+                        <polygon points="10,34 10,54 30,64 30,44" fill="#3b82f6"/>
+                        <polygon points="50,34 50,54 30,64 30,44" fill="#1d4ed8"/>
+                        <!-- connector dots -->
+                        <circle cx="50" cy="18" r="2.5" fill="#bfdbfe"/>
+                        <circle cx="10" cy="38" r="2.5" fill="#bfdbfe"/>
+                    </g>
+                </svg>
+            </div>
+            <div class="card-sep"></div>
+            <div class="card-name">OBJECTS<br>MAPPER</div>
+            <div class="card-desc">Design & Transform</div>
+            <div class="card-bottom-dot"></div>
+        </div>
+
+        <!-- CONNECTOR blue→purple -->
+        <div class="connector">
+            <div class="connector-line" style="background: linear-gradient(90deg, var(--blue), var(--purple));"></div>
+            <div class="connector-dot" style="background: var(--purple); box-shadow: 0 0 8px var(--purple);"></div>
+        </div>
+
+        <!-- CARD 2: Rules Validator -->
+        <div class="card purple" onclick="selectModule('Rules Validator')">
+            <div class="card-top-dot"></div>
+            <div class="card-platform">
+                <div class="card-ring"></div>
+                <svg viewBox="0 0 80 80" fill="none">
+                    <g transform="translate(12,8)">
+                        <!-- shield -->
+                        <path d="M28 4 L52 14 L52 34 C52 46 40 56 28 60 C16 56 4 46 4 34 L4 14 Z"
+                              fill="#7c3aed" stroke="#a855f7" stroke-width="1.5"/>
+                        <path d="M28 10 L46 18 L46 34 C46 43 36 51 28 54 C20 51 10 43 10 34 L10 18 Z"
+                              fill="#6d28d9" opacity="0.5"/>
+                        <!-- checkmark -->
+                        <path d="M16 32 L24 40 L40 22" stroke="#c4b5fd" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        <!-- lines below -->
+                        <line x1="14" y1="52" x2="42" y2="52" stroke="#a855f7" stroke-width="1.5" opacity="0.6"/>
+                        <line x1="18" y1="57" x2="38" y2="57" stroke="#a855f7" stroke-width="1.5" opacity="0.4"/>
+                    </g>
+                </svg>
+            </div>
+            <div class="card-sep"></div>
+            <div class="card-name">RULES<br>VALIDATOR</div>
+            <div class="card-desc">Validate & Control</div>
+            <div class="card-coming">Coming Soon</div>
+            <div class="card-bottom-dot"></div>
+        </div>
+
+        <!-- CONNECTOR purple→gold -->
+        <div class="connector">
+            <div class="connector-line" style="background: linear-gradient(90deg, var(--purple), var(--gold));"></div>
+            <div class="connector-dot" style="background: var(--gold); box-shadow: 0 0 8px var(--gold);"></div>
+        </div>
+
+        <!-- CARD 3: Usecases Assembler -->
+        <div class="card gold" onclick="selectModule('Usecases Assembler')">
+            <div class="card-top-dot"></div>
+            <div class="card-platform">
+                <div class="card-ring"></div>
+                <svg viewBox="0 0 80 80" fill="none">
+                    <g transform="translate(8,8)">
+                        <!-- puzzle pieces -->
+                        <path d="M10 10 L30 10 L30 20 C30 20 36 16 36 22 C36 28 30 24 30 24 L30 44 L10 44 L10 34 C10 34 4 38 4 32 C4 26 10 30 10 30 Z"
+                              fill="#d97706" stroke="#f59e0b" stroke-width="1"/>
+                        <path d="M34 10 L54 10 L54 30 L44 30 C44 30 48 36 42 36 C36 36 40 30 40 30 L34 30 Z"
+                              fill="#b45309" stroke="#f59e0b" stroke-width="1"/>
+                        <path d="M34 34 L40 34 C40 34 36 28 42 28 C48 28 44 34 44 34 L54 34 L54 54 L34 54 Z"
+                              fill="#92400e" stroke="#fbbf24" stroke-width="1"/>
+                        <path d="M10 48 L30 48 L30 54 L10 54 Z" fill="#78350f" stroke="#f59e0b" stroke-width="1" opacity="0.5"/>
+                    </g>
+                </svg>
+            </div>
+            <div class="card-sep"></div>
+            <div class="card-name">USECASES<br>ASSEMBLER</div>
+            <div class="card-desc">Compose & Orchestrate</div>
+            <div class="card-coming">Coming Soon</div>
+            <div class="card-bottom-dot"></div>
+        </div>
+
+        <!-- CONNECTOR gold→teal -->
+        <div class="connector">
+            <div class="connector-line" style="background: linear-gradient(90deg, var(--gold), var(--teal));"></div>
+            <div class="connector-dot" style="background: var(--teal); box-shadow: 0 0 8px var(--teal);"></div>
+        </div>
+
+        <!-- CARD 4: Orchestrator -->
+        <div class="card teal" onclick="selectModule('Orchestrator')">
+            <div class="card-top-dot"></div>
+            <div class="card-platform">
+                <div class="card-ring"></div>
+                <svg viewBox="0 0 80 80" fill="none">
+                    <g transform="translate(8,8)">
+                        <!-- network graph -->
+                        <circle cx="32" cy="16" r="8" fill="#0d9488" stroke="#06d6c0" stroke-width="1.5"/>
+                        <circle cx="10" cy="48" r="7" fill="#0f766e" stroke="#06d6c0" stroke-width="1.5"/>
+                        <circle cx="54" cy="48" r="7" fill="#0f766e" stroke="#06d6c0" stroke-width="1.5"/>
+                        <circle cx="32" cy="56" r="6" fill="#115e59" stroke="#2dd4bf" stroke-width="1.5"/>
+                        <line x1="32" y1="24" x2="14" y2="42" stroke="#06d6c0" stroke-width="1.5" opacity="0.7"/>
+                        <line x1="32" y1="24" x2="50" y2="42" stroke="#06d6c0" stroke-width="1.5" opacity="0.7"/>
+                        <line x1="17" y1="52" x2="27" y2="54" stroke="#2dd4bf" stroke-width="1.5" opacity="0.5"/>
+                        <line x1="47" y1="52" x2="37" y2="54" stroke="#2dd4bf" stroke-width="1.5" opacity="0.5"/>
+                        <!-- node dots -->
+                        <circle cx="32" cy="16" r="3" fill="#99f6e4"/>
+                        <circle cx="10" cy="48" r="2.5" fill="#5eead4"/>
+                        <circle cx="54" cy="48" r="2.5" fill="#5eead4"/>
+                    </g>
+                </svg>
+            </div>
+            <div class="card-sep"></div>
+            <div class="card-name">ORCHESTRATOR</div>
+            <div class="card-desc">Execute & Monitor</div>
+            <div class="card-coming">Coming Soon</div>
+            <div class="card-bottom-dot"></div>
+        </div>
+
+    </div>
+
+    <!-- SELECT BAR -->
+    <div class="select-bar">
+        <div class="select-text" id="selectText">Select a module to continue</div>
+        <div class="chevron">⌄</div>
+    </div>
+
+</div>
+
+<!-- STATUS BAR -->
+<div class="statusbar">
+    <div class="status-left">
+        <span class="status-version">v26.2</span>
+        <span style="color:rgba(255,255,255,0.15)">|</span>
+        <span class="status-ready">System Ready</span>
+    </div>
+    <div class="status-icons">
+        <span title="Settings">⚙</span>
+        <span title="Layers">❖</span>
+        <span title="Help">?</span>
+    </div>
+</div>
+
+<script>
+    // ── NEBULA BACKGROUND ──
+    const canvas = document.getElementById('bg');
+    const ctx = canvas.getContext('2d');
+
+    function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    const orbs = [
+        { x: 0.15, y: 0.25, r: 320, color: '74,158,255',  speed: 0.0001 },
+        { x: 0.85, y: 0.20, r: 280, color: '168,85,247',  speed: 0.0004 },
+        { x: 0.50, y: 0.80, r: 300, color: '6,214,192',   speed: 0.00035 },
+        { x: 0.30, y: 0.70, r: 200, color: '245,158,11',  speed: 0.0005 },
+    ];
+
+    let t = 0;
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#04070f';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // orbs.forEach(o => {
+        //     const cx = (o.x + Math.sin(t * o.speed * 1000) * 0.06) * canvas.width;
+        //     const cy = (o.y + Math.cos(t * o.speed * 800) * 0.05) * canvas.height;
+        //     const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, o.r);
+        //     g.addColorStop(0,   `rgba(${o.color},0.15)`);
+        //     g.addColorStop(0.5, `rgba(${o.color},0.05)`);
+        //     g.addColorStop(1,   `rgba(${o.color},0)`);
+        //     ctx.beginPath();
+        //     ctx.arc(cx, cy, o.r, 0, Math.PI * 2);
+        //     ctx.fillStyle = g;
+        //     ctx.fill();
+        // });
+
+        // subtle grid
+        ctx.strokeStyle = 'rgba(255,255,255,0.025)';
+        ctx.lineWidth = 1;
+        const step = 60;
+        for (let x = 0; x < canvas.width; x += step) {
+            ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+        }
+        for (let y = 0; y < canvas.height; y += step) {
+            ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+        }
+
+        t++;
+        requestAnimationFrame(draw);
+    }
+    draw();
+
+    // ── MODULE SELECT ──
+    function selectModule(name) {
+
+        const el = document.getElementById('selectText');
+        el.textContent = `Opening ${name}...`;
+        el.classList.add('active');
+        setTimeout(() => {
+            el.textContent = 'Select a module to continue';
+            el.classList.remove('active');
+            if( name === 'Objects Mapper' ) {
+                window.location.href='./index.html'
+            }
+
+        }, 2000);
+    }
+</script>
+</body>
+</html>

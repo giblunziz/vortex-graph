@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>VorteX Studio</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-deep: #050510;
+            --bg-card: rgba(15, 15, 35, 0.7);
+            --border-card: rgba(100, 100, 255, 0.15);
+            --text-main: #e0e0e8;
+            --text-dim: rgba(255, 255, 255, 0.35);
+            --text-label: rgba(255, 255, 255, 0.55);
+            --glow-blue: #00BFFF;
+            --glow-purple: #9B59B6;
+            --glow-orange: #E67E22;
+            --glow-teal: #1ABC9C;
+            --glow-green: #2ECC71;
+        }
+
+        body {
+            background: var(--bg-deep);
+            color: var(--text-main);
+            font-family: 'Rajdhani', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Background nebula effect */
+        body::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                    radial-gradient(ellipse at 30% 20%, rgba(0, 50, 120, 0.15) 0%, transparent 60%),
+                    radial-gradient(ellipse at 70% 80%, rgba(40, 0, 80, 0.1) 0%, transparent 50%),
+                    radial-gradient(ellipse at 50% 50%, rgba(10, 10, 30, 1) 0%, rgba(5, 5, 16, 1) 100%);
+            z-index: 0;
+        }
+
+        /* Subtle animated particles */
+        body::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                    radial-gradient(1px 1px at 10% 20%, rgba(100, 140, 255, 0.3), transparent),
+                    radial-gradient(1px 1px at 30% 70%, rgba(100, 200, 255, 0.2), transparent),
+                    radial-gradient(1px 1px at 60% 30%, rgba(150, 100, 255, 0.25), transparent),
+                    radial-gradient(1px 1px at 80% 60%, rgba(100, 255, 200, 0.2), transparent),
+                    radial-gradient(1px 1px at 90% 10%, rgba(200, 150, 255, 0.15), transparent),
+                    radial-gradient(1.5px 1.5px at 45% 85%, rgba(100, 180, 255, 0.3), transparent),
+                    radial-gradient(1px 1px at 15% 55%, rgba(120, 100, 255, 0.2), transparent),
+                    radial-gradient(1px 1px at 75% 45%, rgba(100, 255, 180, 0.15), transparent);
+            animation: drift 60s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes drift {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-20px); }
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 50px;
+        }
+
+        /* Logo */
+        .logo {
+            text-align: center;
+        }
+
+        .logo-icon {
+            font-size: 64px;
+            margin-bottom: 8px;
+            animation: spin-slow 20s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin-slow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .logo-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 56px;
+            font-weight: 900;
+            letter-spacing: 12px;
+            color: #fff;
+            text-shadow: 0 0 30px rgba(100, 140, 255, 0.3);
+        }
+
+        .logo-subtitle {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 22px;
+            font-weight: 300;
+            letter-spacing: 8px;
+            color: var(--text-dim);
+            margin-top: 4px;
+        }
+
+        /* Cards container */
+        .modules {
+            display: flex;
+            gap: 24px;
+            align-items: stretch;
+        }
+
+        /* Module card */
+        .module-card {
+            width: 200px;
+            padding: 32px 20px 24px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 14px;
+            text-align: center;
+            cursor: default;
+            transition: border-color 0.4s, box-shadow 0.4s, transform 0.3s;
+            position: relative;
+            backdrop-filter: blur(8px);
+        }
+
+        .module-card.active {
+            cursor: pointer;
+        }
+
+        .module-card.active:hover {
+            transform: translateY(-6px);
+        }
+
+        .module-card.active[data-glow="blue"]:hover {
+            border-color: var(--glow-blue);
+            box-shadow: 0 0 30px rgba(0, 191, 255, 0.2), 0 0 60px rgba(0, 191, 255, 0.08);
+        }
+
+        .module-card.active[data-glow="purple"]:hover {
+            border-color: var(--glow-purple);
+            box-shadow: 0 0 30px rgba(155, 89, 182, 0.2), 0 0 60px rgba(155, 89, 182, 0.08);
+        }
+
+        .module-card.active[data-glow="orange"]:hover {
+            border-color: var(--glow-orange);
+            box-shadow: 0 0 30px rgba(230, 126, 34, 0.2), 0 0 60px rgba(230, 126, 34, 0.08);
+        }
+
+        .module-card.active[data-glow="teal"]:hover {
+            border-color: var(--glow-teal);
+            box-shadow: 0 0 30px rgba(26, 188, 156, 0.2), 0 0 60px rgba(26, 188, 156, 0.08);
+        }
+
+        .module-card:not(.active) {
+            opacity: 0.45;
+        }
+
+        .module-card:not(.active) .module-status {
+            display: block;
+        }
+
+        /* Card icon */
+        .module-icon {
+            font-size: 48px;
+            display: inline-block;
+            margin-bottom: 16px;
+            transition: transform 0.6s ease;
+            transform-style: preserve-3d;
+        }
+
+        .module-card.active:hover .module-icon {
+            transform: rotateY(360deg);
+        }
+
+        /* Card text */
+        .module-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #fff;
+            line-height: 1.4;
+            margin-bottom: 10px;
+        }
+
+        .module-tagline {
+            font-size: 13px;
+            color: var(--text-label);
+            font-weight: 300;
+        }
+
+        .module-status {
+            display: none;
+            font-size: 11px;
+            color: var(--text-dim);
+            margin-top: 12px;
+            font-style: italic;
+            letter-spacing: 1px;
+        }
+
+        /* Connection line between cards */
+        .connector {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            margin-top: -20px;
+            margin-bottom: -20px;
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .connector-line {
+            flex: 1;
+            height: 1px;
+            position: relative;
+        }
+
+        .connector-line::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(0, 191, 255, 0.4) 15%,
+            rgba(155, 89, 182, 0.4) 40%,
+            rgba(230, 126, 34, 0.4) 65%,
+            rgba(26, 188, 156, 0.4) 85%,
+            transparent 100%
+            );
+        }
+
+        .connector-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .connector-dot.blue { background: var(--glow-blue); box-shadow: 0 0 8px var(--glow-blue); }
+        .connector-dot.purple { background: var(--glow-purple); box-shadow: 0 0 8px var(--glow-purple); }
+        .connector-dot.orange { background: var(--glow-orange); box-shadow: 0 0 8px var(--glow-orange); }
+        .connector-dot.teal { background: var(--glow-teal); box-shadow: 0 0 8px var(--glow-teal); }
+
+        /* Prompt */
+        .prompt {
+            text-align: center;
+        }
+
+        .prompt-text {
+            font-size: 18px;
+            color: var(--text-dim);
+            letter-spacing: 2px;
+            font-weight: 300;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 14px 60px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .prompt-chevron {
+            margin-top: 12px;
+            font-size: 20px;
+            color: rgba(100, 140, 255, 0.4);
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(6px); }
+        }
+
+        /* Footer */
+        .footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 16px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1;
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 13px;
+        }
+
+        .footer-version {
+            color: var(--text-dim);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 11px;
+            letter-spacing: 1px;
+        }
+
+        .footer-separator {
+            color: rgba(255, 255, 255, 0.15);
+        }
+
+        .footer-status {
+            color: var(--glow-green);
+            font-weight: 500;
+            font-size: 13px;
+            letter-spacing: 1px;
+        }
+
+        .footer-status::before {
+            content: '→ ';
+            font-style: italic;
+        }
+
+        .footer-right {
+            display: flex;
+            gap: 16px;
+        }
+
+        .footer-icon {
+            font-size: 18px;
+            color: var(--text-dim);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .footer-icon:hover {
+            color: var(--text-main);
+        }
+
+        /* Fade in animation */
+        .content {
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .module-card {
+            animation: slideUp 0.8s ease-out both;
+        }
+
+        .module-card:nth-child(1) { animation-delay: 0.3s; }
+        .module-card:nth-child(2) { animation-delay: 0.5s; }
+        .module-card:nth-child(3) { animation-delay: 0.7s; }
+        .module-card:nth-child(4) { animation-delay: 0.9s; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="content">
+    <div class="logo">
+        <div class="logo-icon">🌀</div>
+        <div class="logo-title">VORTEX</div>
+        <div class="logo-subtitle">Studio</div>
+    </div>
+
+    <div class="modules">
+        <div class="module-card active" data-glow="blue" onclick="window.location.href='./index.html'">
+            <div class="module-icon">📦</div>
+            <div class="module-name">Objects<br>Mapper</div>
+            <div class="module-tagline">Design & Transform</div>
+        </div>
+
+        <div class="module-card" data-glow="purple">
+            <div class="module-icon">🛡️</div>
+            <div class="module-name">Rules<br>Validator</div>
+            <div class="module-tagline">Validate & Control</div>
+            <div class="module-status">Coming Soon</div>
+        </div>
+
+        <div class="module-card" data-glow="orange">
+            <div class="module-icon">🧩</div>
+            <div class="module-name">Usecases<br>Assembler</div>
+            <div class="module-tagline">Compose & Orchestrate</div>
+            <div class="module-status">Coming Soon</div>
+        </div>
+
+        <div class="module-card" data-glow="teal">
+            <div class="module-icon">🔗</div>
+            <div class="module-name">Orchestrator</div>
+            <div class="module-tagline">Execute & Monitor</div>
+            <div class="module-status">Coming Soon</div>
+        </div>
+    </div>
+
+    <div class="prompt">
+        <div class="prompt-text">Select a module to continue</div>
+        <div class="prompt-chevron">⌄</div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="footer-left">
+        <span class="footer-version">v26.2</span>
+        <span class="footer-separator">|</span>
+        <span class="footer-status">System Ready</span>
+    </div>
+    <div class="footer-right">
+        <span class="footer-icon">⚙️</span>
+        <span class="footer-icon">📧</span>
+        <span class="footer-icon">❓</span>
+    </div>
+</div>
+
+</body>
+</html>
