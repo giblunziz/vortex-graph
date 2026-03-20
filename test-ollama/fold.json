@@ -1,0 +1,542 @@
+{
+  "application": "VorteX",
+  "module": "Mapper",
+  "viewport": {
+    "panX": 126.7864080364061,
+    "panY": 165.72272172271994,
+    "zoomLevel": 1
+  },
+  "version": 1,
+  "nodeCount": 45,
+  "nodes": [
+    {
+      "x": 12,
+      "y": 70,
+      "width": null,
+      "height": null,
+      "collapsed": true,
+      "mode": "active",
+      "properties": {
+        "type": "JsonLoader",
+        "domain": "json",
+        "category": "vortex"
+      },
+      "data": {
+        "widgetValues": {
+          "file": "test.json",
+          "root": ""
+        },
+        "jsonRaw": "{\r\n  \"invoiceRequestDate\": \"2025-11-14\",\r\n  \"desiredInvoicingDate\": \"2025-11-14\",\r\n  \"businessUnitCode\": \"LMFR\",\r\n  \"origin\": \"RT_ACC\",\r\n  \"documentType\": \"invoice\",\r\n  \"currencyCode\": \"EUR\",\r\n  \"dueDate\": \"2025-08-05\",\r\n  \"identifier\": \"123456789\",\r\n  \"identifierSchema\": \"AGI\",\r\n  \"goodsInformations\": {\r\n    \"incotermPlace\": \"HERE I'AM\",\r\n    \"numberOfParcels\": 25\r\n\r\n  },\r\n  \"notes\": [\r\n    {\r\n      \"noteSubject\": \"AAI\",\r\n      \"noteComment\": \"Téléphone client : +33628950964\"\r\n    },\r\n    {\r\n      \"noteSubject\": \"AAI\",\r\n      \"noteComment\": \"Conditions de vente : prix départ magasin (ou franco domicile après réglt des frais de transport).\"\r\n    },\r\n    {\r\n      \"noteSubject\": \"AAI\",\r\n      \"noteComment\": \"Nos produits bénéficient auprès du vendeur d'une garantie légale de conformité de deux ans à compter de sa remise au consommateur\"\r\n    },\r\n    {\r\n      \"noteSubject\": \"AAI\",\r\n      \"noteComment\": \"S.A. LEROY MERLIN FRANCE - Capital de 100 000 000 - 384 560 942 RCS LILLE - FR49 384 560 942\"\r\n    },\r\n    {\r\n      \"noteSubject\": \"AAI\",\r\n      \"noteComment\": \"SIEGE SOCIAL - LEZENNES RUE CHANZY - 59712 LILLE CEDEX 9\"\r\n    },\r\n    {\r\n      \"noteSubject\": \"AAI\",\r\n      \"noteComment\": \"Conformément à l'article 27 de la loi Informatique et Libertés, vous disposez d'un droit d'accès et de rectification des données vous concernant et dont nous sommes les seuls utilisateurs.\"\r\n    },\r\n    {\r\n      \"noteSubject\": \"AAB\",\r\n      \"noteComment\": \"Conditions de réglement : prix comptant sans escompte.\"\r\n    },\r\n    {\r\n      \"noteSubject\": \"PMD\",\r\n      \"noteComment\": \"Pénalité de retard : Trois fois le taux d'intérêt\"\r\n    },\r\n    {\r\n      \"noteSubject\": \"PMT\",\r\n      \"noteComment\": \"ainsi qu'une indemnité forfaitaire pour frais de recouvrement de 40 euros.\"\r\n    },\r\n    {\r\n      \"noteSubject\": \"BAR\",\r\n      \"noteComment\": \"B2B\"\r\n    },\r\n    {\r\n      \"noteSubject\": \"ABL\",\r\n      \"noteComment\": \"384 560 942 RCS LILLE\"\r\n    }\r\n  ],\r\n  \"processControl\": {\r\n    \"businessProcessType\": \"B2\"\r\n  },\r\n  \"seller\": {\r\n    \"companyName\": \"Leroy Merlin Franca SA\",\r\n    \"tradingName\": \"Leroy Merlin France\",\r\n    \"companySubdivision\": {\r\n      \"identifier\": \"seller.companySubdivision.identifier\",\r\n      \"schemaIdentifier\": \"seller.companySubdivision.schemaIdentifier\"\r\n    },\r\n    \"additionalIdentifiers\": [\r\n      {\r\n        \"identifier\": \"seller.additionalIdentifiers.identifier.1\",\r\n        \"schema\": \"seller.additionalIdentifiers.schema.1\"\r\n      },\r\n      {\r\n        \"identifier\": \"seller.additionalIdentifiers.identifier.2\",\r\n        \"schema\": \"seller.additionalIdentifiers.schema.2\"\r\n      }\r\n    ],\r\n    \"routing\": {\r\n      \"code\": \"seller.routing.code\",\r\n      \"schema\": \"seller.routing.schema\"\r\n    },\r\n    \"siren\": \"seller.siren\",\r\n    \"establishment\": {\r\n      \"code\": \"001\",\r\n      \"schema\": \"BASEGEN\"\r\n    },\r\n    \"taxIdentifier\": \"seller.taxIdentifier\",\r\n    \"companyLegalForm\": \"SA\",\r\n    \"invoicingCompany\": {\r\n      \"code\": \"FR001\",\r\n      \"schema\": \"FIT\"\r\n    },\r\n    \"sellerAddress\": {\r\n      \"addressLine1\": \"seller.addressLine1\",\r\n      \"addressLine2\": \"seller.addressLine2\",\r\n      \"addressLine3\": \"seller.addressLine3\",\r\n      \"addressLocality\": \"seller.addressLocality\",\r\n      \"addressPostalCode\": \"seller.addressPostalCode\",\r\n      \"addressCountrySubdivision\": \"seller.addressCountrySubdivision\",\r\n      \"addressCountryCode\": \"FR\"\r\n    },\r\n    \"sellerContact\": {\r\n      \"sellerContactPoint\": \"seller.sellerContactPoint\",\r\n      \"sellerContactPhone\": \"seller.sellerContactPhone\",\r\n      \"sellerContactEmail\": \"relationclient.rouen@leroymerlin.fr\"\r\n    }\r\n  },\r\n  \"buyer\": {\r\n    \"companyName\": \"NC RENOVATION\",\r\n    \"tradingName\": \"NC RENOVATION\",\r\n    \"additionalIdentifier\": \"\",\r\n    \"buyerRoutingSiret\": \"\",\r\n    \"routing\": {\r\n      \"code\": \"941137473\",\r\n      \"schema\": \"SIREN\"\r\n    },\r\n    \"taxIdentifier\": \"FR63941137473\",\r\n    \"endPoint\": {\r\n      \"endpointId\": \"941137473\"\r\n    },\r\n    \"buyerAddress\": {\r\n      \"addressLine1\": \"4 RUE DU CAPITAINE ARRACHARD\",\r\n      \"addressLocality\": \"ST ETIENNE DU ROUVRAY\",\r\n      \"addressPostalCode\": \"76800\",\r\n      \"addressCountryCode\": \"FR\"\r\n    }\r\n  },\r\n  \"payment\": {\r\n    \"methodTypeCode\": \"48\",\r\n    \"methodName\": \"CARTE BANCAIRE (EUR)\"\r\n  },\r\n  \"total\": {\r\n    \"netAmountOfInvoiceLines\": 149.80,\r\n    \"chargesOrFees\": 0.00,\r\n    \"vatAmount\": 29.99,\r\n    \"amountIncludingVat\": 179.79,\r\n    \"prepaidAmount\": 179.79,\r\n    \"payableAmount\": 0\r\n  },\r\n  \"taxSubtotal\": [\r\n    {\r\n      \"taxableAmount\": 149.80,\r\n      \"taxAmount\": 29.99,\r\n      \"taxCategoryId\": \"S\",\r\n      \"taxCategoryPercent\": 20.00\r\n    }\r\n  ],\r\n  \"lines\": [\r\n    {\r\n      \"itemQuantity\": 1.00,\r\n      \"excludingTaxesAmount\": 7.82,\r\n      \"sellerAccounting\": {\r\n        \"analyticAxis1\": \"axe-01\",\r\n        \"analyticAxis2\": \"axe-02\",\r\n        \"analyticAxis3\": \"axe-03\"\r\n      },\r\n      \"notes\": [\r\n        {\r\n          \"noteSubject\": \"BLU\",\r\n          \"noteComment\": \"Dont éco-part. au recyclage des DEEE. Coût TTC : 1.44 € / HT : 1.25 € / TTC 1.44 €\"\r\n        }\r\n      ],\r\n      \"priceDetail\": {\r\n        \"priceAmount\": 8.32\r\n      },\r\n      \"taxesInformation\": {\r\n        \"taxCode\": \"s\",\r\n        \"taxRate\": 20.00\r\n      },\r\n      \"itemInformation\": {\r\n        \"itemName\": \"LOT5 REFL LED VERRE GU10 35W 4000K OSRAM\",\r\n        \"itemDescription\": \"Tx TVA : 20.0 Montant TVA : 1.57 € Montant HT: 7.82 €\",\r\n        \"itemCode\": \"80153913\",\r\n        \"additionalItemProperties\": [\r\n          {\r\n            \"name\": \"Rayon:\",\r\n            \"value\": \"ECLAIRAGE\"\r\n          }\r\n        ]\r\n      },\r\n      \"discounts\": {\r\n        \"discountAmountExcludingTaxes\": 0.5,\r\n        \"discountReason\": \"Remise fidélité\"\r\n      }\r\n    },\r\n{\r\n      \"itemQuantity\": 2.00,\r\n      \"excludingTaxesAmount\": 10.00,\r\n      \"sellerAccounting\": {\r\n        \"analyticAxis1\": \"axe-01\",\r\n        \"analyticAxis2\": \"axe-02\",\r\n        \"analyticAxis3\": \"axe-03\"\r\n      },\r\n      \"priceDetail\": {\r\n        \"priceAmount\": 21.25\r\n      },\r\n      \"taxesInformation\": {\r\n        \"taxCode\": \"s\",\r\n        \"taxRate\": 20.00\r\n      },\r\n      \"itemInformation\": {\r\n        \"itemName\": \"Item 2\",\r\n        \"itemDescription\": \"Description 2\",\r\n        \"itemCode\": \"itemCode.2\",\r\n        \"additionalItemProperties\": [\r\n          {\r\n            \"name\": \"Rayon:\",\r\n            \"value\": \"rayon 2\"\r\n          }\r\n        ]\r\n      }\r\n    }    \r\n  ]\r\n}",
+        "jsonData": {
+          "invoiceRequestDate": "2025-11-14",
+          "desiredInvoicingDate": "2025-11-14",
+          "businessUnitCode": "LMFR",
+          "origin": "RT_ACC",
+          "documentType": "invoice",
+          "currencyCode": "EUR",
+          "dueDate": "2025-08-05",
+          "identifier": "123456789",
+          "identifierSchema": "AGI",
+          "goodsInformations": {
+            "incotermPlace": "HERE I'AM",
+            "numberOfParcels": 25
+          },
+          "notes": [
+            {
+              "noteSubject": "AAI",
+              "noteComment": "Téléphone client : +33628950964"
+            },
+            {
+              "noteSubject": "AAI",
+              "noteComment": "Conditions de vente : prix départ magasin (ou franco domicile après réglt des frais de transport)."
+            },
+            {
+              "noteSubject": "AAI",
+              "noteComment": "Nos produits bénéficient auprès du vendeur d'une garantie légale de conformité de deux ans à compter de sa remise au consommateur"
+            },
+            {
+              "noteSubject": "AAI",
+              "noteComment": "S.A. LEROY MERLIN FRANCE - Capital de 100 000 000 - 384 560 942 RCS LILLE - FR49 384 560 942"
+            },
+            {
+              "noteSubject": "AAI",
+              "noteComment": "SIEGE SOCIAL - LEZENNES RUE CHANZY - 59712 LILLE CEDEX 9"
+            },
+            {
+              "noteSubject": "AAI",
+              "noteComment": "Conformément à l'article 27 de la loi Informatique et Libertés, vous disposez d'un droit d'accès et de rectification des données vous concernant et dont nous sommes les seuls utilisateurs."
+            },
+            {
+              "noteSubject": "AAB",
+              "noteComment": "Conditions de réglement : prix comptant sans escompte."
+            },
+            {
+              "noteSubject": "PMD",
+              "noteComment": "Pénalité de retard : Trois fois le taux d'intérêt"
+            },
+            {
+              "noteSubject": "PMT",
+              "noteComment": "ainsi qu'une indemnité forfaitaire pour frais de recouvrement de 40 euros."
+            },
+            {
+              "noteSubject": "BAR",
+              "noteComment": "B2B"
+            },
+            {
+              "noteSubject": "ABL",
+              "noteComment": "384 560 942 RCS LILLE"
+            }
+          ],
+          "processControl": {
+            "businessProcessType": "B2"
+          },
+          "seller": {
+            "companyName": "Leroy Merlin Franca SA",
+            "tradingName": "Leroy Merlin France",
+            "companySubdivision": {
+              "identifier": "seller.companySubdivision.identifier",
+              "schemaIdentifier": "seller.companySubdivision.schemaIdentifier"
+            },
+            "additionalIdentifiers": [
+              {
+                "identifier": "seller.additionalIdentifiers.identifier.1",
+                "schema": "seller.additionalIdentifiers.schema.1"
+              },
+              {
+                "identifier": "seller.additionalIdentifiers.identifier.2",
+                "schema": "seller.additionalIdentifiers.schema.2"
+              }
+            ],
+            "routing": {
+              "code": "seller.routing.code",
+              "schema": "seller.routing.schema"
+            },
+            "siren": "seller.siren",
+            "establishment": {
+              "code": "001",
+              "schema": "BASEGEN"
+            },
+            "taxIdentifier": "seller.taxIdentifier",
+            "companyLegalForm": "SA",
+            "invoicingCompany": {
+              "code": "FR001",
+              "schema": "FIT"
+            },
+            "sellerAddress": {
+              "addressLine1": "seller.addressLine1",
+              "addressLine2": "seller.addressLine2",
+              "addressLine3": "seller.addressLine3",
+              "addressLocality": "seller.addressLocality",
+              "addressPostalCode": "seller.addressPostalCode",
+              "addressCountrySubdivision": "seller.addressCountrySubdivision",
+              "addressCountryCode": "FR"
+            },
+            "sellerContact": {
+              "sellerContactPoint": "seller.sellerContactPoint",
+              "sellerContactPhone": "seller.sellerContactPhone",
+              "sellerContactEmail": "relationclient.rouen@leroymerlin.fr"
+            }
+          },
+          "buyer": {
+            "companyName": "NC RENOVATION",
+            "tradingName": "NC RENOVATION",
+            "additionalIdentifier": "",
+            "buyerRoutingSiret": "",
+            "routing": {
+              "code": "941137473",
+              "schema": "SIREN"
+            },
+            "taxIdentifier": "FR63941137473",
+            "endPoint": {
+              "endpointId": "941137473"
+            },
+            "buyerAddress": {
+              "addressLine1": "4 RUE DU CAPITAINE ARRACHARD",
+              "addressLocality": "ST ETIENNE DU ROUVRAY",
+              "addressPostalCode": "76800",
+              "addressCountryCode": "FR"
+            }
+          },
+          "payment": {
+            "methodTypeCode": "48",
+            "methodName": "CARTE BANCAIRE (EUR)"
+          },
+          "total": {
+            "netAmountOfInvoiceLines": 149.8,
+            "chargesOrFees": 0,
+            "vatAmount": 29.99,
+            "amountIncludingVat": 179.79,
+            "prepaidAmount": 179.79,
+            "payableAmount": 0
+          },
+          "taxSubtotal": [
+            {
+              "taxableAmount": 149.8,
+              "taxAmount": 29.99,
+              "taxCategoryId": "S",
+              "taxCategoryPercent": 20
+            }
+          ],
+          "lines": [
+            {
+              "itemQuantity": 1,
+              "excludingTaxesAmount": 7.82,
+              "sellerAccounting": {
+                "analyticAxis1": "axe-01",
+                "analyticAxis2": "axe-02",
+                "analyticAxis3": "axe-03"
+              },
+              "notes": [
+                {
+                  "noteSubject": "BLU",
+                  "noteComment": "Dont éco-part. au recyclage des DEEE. Coût TTC : 1.44 € / HT : 1.25 € / TTC 1.44 €"
+                }
+              ],
+              "priceDetail": {
+                "priceAmount": 8.32
+              },
+              "taxesInformation": {
+                "taxCode": "s",
+                "taxRate": 20
+              },
+              "itemInformation": {
+                "itemName": "LOT5 REFL LED VERRE GU10 35W 4000K OSRAM",
+                "itemDescription": "Tx TVA : 20.0 Montant TVA : 1.57 € Montant HT: 7.82 €",
+                "itemCode": "80153913",
+                "additionalItemProperties": [
+                  {
+                    "name": "Rayon:",
+                    "value": "ECLAIRAGE"
+                  }
+                ]
+              },
+              "discounts": {
+                "discountAmountExcludingTaxes": 0.5,
+                "discountReason": "Remise fidélité"
+              }
+            },
+            {
+              "itemQuantity": 2,
+              "excludingTaxesAmount": 10,
+              "sellerAccounting": {
+                "analyticAxis1": "axe-01",
+                "analyticAxis2": "axe-02",
+                "analyticAxis3": "axe-03"
+              },
+              "priceDetail": {
+                "priceAmount": 21.25
+              },
+              "taxesInformation": {
+                "taxCode": "s",
+                "taxRate": 20
+              },
+              "itemInformation": {
+                "itemName": "Item 2",
+                "itemDescription": "Description 2",
+                "itemCode": "itemCode.2",
+                "additionalItemProperties": [
+                  {
+                    "name": "Rayon:",
+                    "value": "rayon 2"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "type": "vortex/JsonLoader",
+      "id": "vn_1"
+    },
+    {
+      "x": 138.953,
+      "y": 67.9531,
+      "width": null,
+      "height": null,
+      "collapsed": false,
+      "mode": "folded",
+      "properties": {
+        "type": "InvoiceRequestSeller",
+        "domain": "invoiceRequest",
+        "category": "model",
+        "businessTerm": null
+      },
+      "data": null,
+      "type": "invoiceRequest/InvoiceRequestSeller",
+      "id": "vn_2"
+    },
+    {
+      "x": 581.5,
+      "y": 233.667,
+      "width": 350,
+      "height": 250,
+      "collapsed": false,
+      "mode": "active",
+      "properties": {
+        "type": "ModelPreview",
+        "domain": "preview",
+        "category": "vortex"
+      },
+      "data": {
+        "widgetValues": {
+          "hideEmpty": true
+        }
+      },
+      "type": "vortex/ModelPreview",
+      "id": "vn_3"
+    },
+    {
+      "x": 339.682,
+      "y": 70.6825,
+      "width": null,
+      "height": null,
+      "collapsed": false,
+      "mode": "folded",
+      "properties": {
+        "type": "PartyPart",
+        "domain": "invoice",
+        "category": "model",
+        "businessTerm": null
+      },
+      "data": null,
+      "type": "invoice/PartyPart",
+      "id": "vn_4"
+    },
+    {
+      "x": 583.833,
+      "y": 68.1667,
+      "width": null,
+      "height": null,
+      "collapsed": false,
+      "mode": "active",
+      "properties": {
+        "type": "PartyHolder",
+        "domain": "invoice",
+        "category": "model",
+        "businessTerm": null
+      },
+      "data": {
+        "widgetValues": {}
+      },
+      "type": "invoice/PartyHolder",
+      "id": "vn_5"
+    },
+    {
+      "x": 155.682,
+      "y": 437.682,
+      "width": null,
+      "height": null,
+      "collapsed": true,
+      "mode": "folded",
+      "properties": {
+        "type": "SellerAddress",
+        "domain": "invoiceRequest",
+        "category": "model",
+        "businessTerm": null
+      },
+      "data": null,
+      "type": "invoiceRequest/SellerAddress",
+      "id": "vn_6"
+    },
+    {
+      "x": 337.682,
+      "y": 439.682,
+      "width": null,
+      "height": null,
+      "collapsed": true,
+      "mode": "folded",
+      "properties": {
+        "type": "PartyAddress",
+        "domain": "invoice",
+        "category": "model",
+        "businessTerm": null
+      },
+      "data": null,
+      "type": "invoice/PartyAddress",
+      "id": "vn_7"
+    },
+    {
+      "x": 11,
+      "y": 127,
+      "width": null,
+      "height": null,
+      "collapsed": true,
+      "mode": "active",
+      "properties": {
+        "type": "JsonPath",
+        "domain": "json",
+        "category": "vortex"
+      },
+      "data": {
+        "widgetValues": {
+          "path": "seller"
+        }
+      },
+      "type": "vortex/JsonPath",
+      "id": "vn_8"
+    },
+    {
+      "x": 243,
+      "y": 254,
+      "width": null,
+      "height": null,
+      "collapsed": false,
+      "mode": "virtual",
+      "properties": {
+        "type": "InvoiceRequestSellerToPartyPart",
+        "domain": "fold",
+        "category": "vortex"
+      },
+      "data": {
+        "foldedNodes": [
+          "vn_2",
+          "vn_4",
+          "vn_6",
+          "vn_7"
+        ],
+        "originalPosition": {
+          "x": 242.99975,
+          "y": 253.99990000000003
+        }
+      },
+      "ports": [
+        {
+          "name": "in",
+          "hasIn": true,
+          "hasOut": false,
+          "type": "raw",
+          "businessTerm": null,
+          "widget": null
+        },
+        {
+          "name": "out",
+          "hasIn": false,
+          "hasOut": true,
+          "type": "invoice/PartyPart",
+          "businessTerm": null,
+          "widget": null
+        }
+      ],
+      "type": "vortex/FoldNode",
+      "id": "vn_45"
+    }
+  ],
+  "links": [
+    {
+      "fromNode": "vn_4",
+      "fromName": "_Self",
+      "toNode": "vn_5",
+      "toName": "party"
+    },
+    {
+      "fromNode": "vn_2",
+      "fromName": "companyName",
+      "toNode": "vn_4",
+      "toName": "companyName"
+    },
+    {
+      "fromNode": "vn_2",
+      "fromName": "tradingName",
+      "toNode": "vn_4",
+      "toName": "tradingName"
+    },
+    {
+      "fromNode": "vn_2",
+      "fromName": "companyLegalForm",
+      "toNode": "vn_4",
+      "toName": "companyLegalForm"
+    },
+    {
+      "fromNode": "vn_2",
+      "fromName": "sellerAddress",
+      "toNode": "vn_6",
+      "toName": "_Self"
+    },
+    {
+      "fromNode": "vn_7",
+      "fromName": "_Self",
+      "toNode": "vn_4",
+      "toName": "address"
+    },
+    {
+      "fromNode": "vn_6",
+      "fromName": "addressLine1",
+      "toNode": "vn_7",
+      "toName": "addressLine1"
+    },
+    {
+      "fromNode": "vn_6",
+      "fromName": "addressLine2",
+      "toNode": "vn_7",
+      "toName": "addressLine2"
+    },
+    {
+      "fromNode": "vn_6",
+      "fromName": "addressLine3",
+      "toNode": "vn_7",
+      "toName": "addressLine3"
+    },
+    {
+      "fromNode": "vn_6",
+      "fromName": "addressLocality",
+      "toNode": "vn_7",
+      "toName": "addressLocality"
+    },
+    {
+      "fromNode": "vn_6",
+      "fromName": "addressPostalCode",
+      "toNode": "vn_7",
+      "toName": "addressPostalCode"
+    },
+    {
+      "fromNode": "vn_6",
+      "fromName": "addressCountrySubdivision",
+      "toNode": "vn_7",
+      "toName": "addressCountrySubdivision"
+    },
+    {
+      "fromNode": "vn_6",
+      "fromName": "addressCountryCode",
+      "toNode": "vn_7",
+      "toName": "addressCountryCode"
+    },
+    {
+      "fromNode": "vn_8",
+      "fromName": "out",
+      "toNode": "vn_2",
+      "toName": "_Self"
+    },
+    {
+      "fromNode": "vn_1",
+      "fromName": "data",
+      "toNode": "vn_8",
+      "toName": "data"
+    },
+    {
+      "fromNode": "vn_8",
+      "fromName": "out",
+      "toNode": "vn_35",
+      "toName": "in"
+    },
+    {
+      "fromNode": "vn_5",
+      "fromName": "_Self",
+      "toNode": "vn_3",
+      "toName": "data"
+    }
+  ],
+  "visualLinks": [
+    {
+      "fromNode": "vn_8",
+      "fromName": "out",
+      "toNode": "vn_45",
+      "toName": "in"
+    },
+    {
+      "fromNode": "vn_45",
+      "fromName": "out",
+      "toNode": "vn_5",
+      "toName": "party"
+    }
+  ]
+}
