@@ -4,6 +4,7 @@ import { ModelNode } from '../common/vortex-model-node.js';
 export class FoldNode extends AbstractNode {
     constructor() {
         super('vortex/FoldNode');
+        this.nodeType = 'vortex/FoldNode';
         this.properties = {
             type: 'FoldNode',
             domain: 'fold',
@@ -208,6 +209,7 @@ export class FoldNode extends AbstractNode {
 
         // Ajouter le FoldNode au graph et le rendre
         const foldId = graph.nextId();
+        foldNode.id = foldId;
         graph.nodes.set(foldId, foldNode);
         graph.drawNode(foldId);
 

@@ -280,4 +280,27 @@ export function registerNumberNodes() {
             return String(value);
         },
     });
+
+    // --- Bridges & null guards ---
+
+    registerTransformer({
+        id: 'number/AsString',
+        label: 'AsString',
+        domain: 'math',
+        inputType: 'double',
+        outputType: 'string',
+        apply: (value) => value != null ? String(value) : null,
+    });
+
+    registerTransformer({
+        id: 'number/OrElse',
+        label: 'OrElse',
+        domain: 'math',
+        inputType: 'double',
+        params: [
+            { name: 'fallback', type: 'double', default: 0, port: true },
+        ],
+        apply: (value, params) => value != null ? value : (params.fallback ?? 0),
+    });
+
 }

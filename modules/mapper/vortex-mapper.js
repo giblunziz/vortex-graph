@@ -19,6 +19,7 @@ import {MappingReport} from "./reports/mapping-report.js";
 import {MappedOutConnectedReport, MappedOutReport} from "./reports/mapped-out-report.js";
 
 import {ExpandInAction, ExpandOutAction} from './actions/expand-action.js';
+import {BuildMapperAction} from "./actions/build-action.js";
 
 export class VortexMapperModule {
   constructor(canvas, world, svg) {
@@ -117,6 +118,7 @@ export class VortexMapperModule {
         }
         actions.push(...ExpandOutAction.getContextActions(target.nodeId, node, graph));
         actions.push(...ExpandInAction.getContextActions(target.nodeId, node, graph));
+        actions.push(...BuildMapperAction.getContextActions(target.nodeId, node, graph));
         return actions;
       }
 

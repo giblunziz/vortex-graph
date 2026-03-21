@@ -466,7 +466,7 @@ export class VortexGraph {
     const nodeEl = clone.querySelector(".vortex-node");
 
     nodeEl.dataset.id = id;
-    nodeEl.dataset.type = node.id;
+    nodeEl.dataset.type = node.nodeType ?? node.id;
     this.setText(nodeEl, ".node-title", node.properties.type);
     this.setText(nodeEl, ".node-footer", node.properties.domain || '');
 

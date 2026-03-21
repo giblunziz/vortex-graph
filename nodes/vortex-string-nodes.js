@@ -263,6 +263,45 @@ export function registerStringNodes() {
         },
     });
 
+    // --- Bridges & null guards ---
+
+    registerTransformer({
+        id: 'string/ToNumber',
+        label: 'ToNumber',
+        domain: 'string',
+        inputType: 'string',
+        outputType: 'double',
+        apply: (value) => {
+            if (value == null) return null;
+            const n = parseFloat(String(value));
+            return isNaN(n) ? null : n;
+        },
+    });
+
+    registerTransformer({
+        id: 'string/ToInt',
+        label: 'ToInt',
+        domain: 'string',
+        inputType: 'string',
+        outputType: 'integer',
+        apply: (value) => {
+            if (value == null) return null;
+            const n = parseInt(String(value), 10);
+            return isNaN(n) ? null : n;
+        },
+    });
+
+    registerTransformer({
+        id: 'string/OrElse',
+        label: 'OrElse',
+        domain: 'string',
+        inputType: 'string',
+        params: [
+            { name: 'fallback', type: 'string', default: '', port: true },
+        ],
+        apply: (value, params) => value != null ? value : (params.fallback ?? ''),
+    });
+
     // --- Case transformers ---
 
     registerTransformer({
