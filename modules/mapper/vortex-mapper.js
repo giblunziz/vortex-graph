@@ -5,7 +5,7 @@ import { registerJsonNodes } from '../../nodes/vortex-json-nodes.js';
 import { registerPreviewNodes } from '../../nodes/vortex-preview-nodes.js';
 import { registerStringNodes } from '../../nodes/vortex-string-nodes.js';
 import { registerNumberNodes } from '../../nodes/vortex-number-nodes.js';
-import { loadModelsFromApi } from '../../vortex-api-loader.js';
+import { loadModelsFromApi, loadMappersFromApi } from '../../vortex-api-loader.js';
 import { registerUtilityNodes } from '../../nodes/vortex-utility-nodes.js';
 import {registerTransformerGroupNode} from '../../nodes/vortex-transformer-group-node.js';
 import { registerFoldNode } from '../../nodes/vortex-fold-node.js';
@@ -22,12 +22,13 @@ import {ExpandInAction, ExpandOutAction} from './actions/expand-action.js';
 import {BuildMapperAction} from "./actions/build-action.js";
 
 export class VortexMapperModule {
-  constructor(canvas, world, svg) {
+  constructor(canvas, world, svg, baseUrl = "http://localhost:8080") {
     this.canvas = canvas;
     this.world = world;
     this.svg = svg;
     this.viewport = new VortexViewport(canvas, world);
-    this.graph = new VortexGraph(world, canvas, this.viewport);
+    this.baseUrl = baseUrl;
+    this.graph = new VortexGraph(world, canvas, this.viewport, this.baseUrl);
 
     this.graph.onChange = () => this.scheduleAutoSave();
     this.graph.onLinkDrop = (from, to) => this.handleLinkDrop(from, to);
@@ -44,7 +45,8 @@ export class VortexMapperModule {
     registerUtilityNodes();
     registerTransformerGroupNode()
     registerFoldNode()
-    await loadModelsFromApi();
+    await loadModelsFromApi(this.baseUrl);
+    await loadMappersFromApi(this.baseUrl);
     this.viewport.registerEvents();
     this.registerKeyboardEvents();
     this.autoLoad();

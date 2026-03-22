@@ -5,6 +5,7 @@ export class FoldNode extends AbstractNode {
     constructor() {
         super('vortex/FoldNode');
         this.nodeType = 'vortex/FoldNode';
+        this.type = 'vortex/FoldNode';
         this.properties = {
             type: 'FoldNode',
             domain: 'fold',

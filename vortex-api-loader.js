@@ -1,4 +1,5 @@
 import { ModelNode } from "./common/vortex-model-node.js";
+import { MapperNode } from "./common/vortex-mapper-node.js";
 
 // Charge les ModelNodes depuis l'API backend
 export async function loadModelsFromApi(baseUrl = "http://localhost:8080") {
@@ -24,6 +25,52 @@ export async function loadModelsFromApi(baseUrl = "http://localhost:8080") {
     console.error("Failed to load models from API:", err);
     return 0;
   }
+}
+
+// Charge les MapperNodes depuis l'API backend
+export async function loadMappersFromApi(baseUrl = "http://localhost:8080") {
+  try {
+    const response = await fetch(`${baseUrl}/api/vortex/mappers`);
+    if (!response.ok) {
+      console.error(`API error: ${response.status} ${response.statusText}`);
+      return 0;
+    }
+
+    const mappers = await response.json();
+    let count = 0;
+
+    for (const mapper of mappers) {
+      const node = apiMapperToNode(mapper);
+      node.register();
+      count++;
+    }
+
+    console.log(`Loaded ${count} mappers from API`);
+    return count;
+  } catch (err) {
+    console.error("Failed to load mappers from API:", err);
+    return 0;
+  }
+}
+
+// Convertit un mapper API en MapperNode
+function apiMapperToNode(mapper) {
+  const node = new MapperNode(
+    mapper.identity.name,
+    mapper.identity.domain,
+    mapper.identity.category,
+    mapper.source,
+    mapper.target,
+    mapper.ready,
+    mapper.javaType,
+    mapper.identity,
+  );
+
+  for (const field of mapper.fields) {
+    node.addPort(field.name, field.hasIn, field.hasOut, field.vortexType || 'raw');
+  }
+
+  return node;
 }
 
 // Convertit un model API en ModelNode

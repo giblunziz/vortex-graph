@@ -4,7 +4,8 @@ import { FoldNode } from "./nodes/vortex-fold-node.js";
 
 // Le modèle — source de vérité
 export class VortexGraph {
-  constructor(world, canvas, viewport) {
+  constructor(world, canvas, viewport, baseUrl) {
+    this.baseUrl = baseUrl;
     this.nodes = new Map();
     this.selection = new Set();
     this.links = [];        // liens du modèle d'exécution — Kahn les parcourt
@@ -934,7 +935,7 @@ export class VortexGraph {
       let outputs = {};
       try {
         if (node.execute) {
-          const result = node.execute(inputs, nodeEl, node);
+          const result = node.execute(inputs, nodeEl, node, this);
           outputs = result instanceof Promise ? await result : result;
         }
         if (highlightEnabled && nodeEl) {

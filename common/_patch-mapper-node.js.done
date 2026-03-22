@@ -1,0 +1,29 @@
+// PATCH vortex-mapper-node.js
+// 2 changements :
+
+// ① constructor — ajouter javaType + identity
+constructor(type, domain, category, source, target, ready, javaType, identity) {
+    super(type || '');
+    this.properties = {
+        type:     type     || '',
+        domain:   domain   || '',
+        category: category || 'mapper',
+        nodeType: 'mapper',
+        source,
+        target,
+        ready:    ready    ?? false,
+        javaType: javaType || '',
+        identity: identity || null,
+    };
+
+// ② dans apiMapperToNode (vortex-api-loader.js) — passer javaType + identity
+const node = new MapperNode(
+    mapper.identity.name,
+    mapper.identity.domain,
+    mapper.identity.category,
+    mapper.source,
+    mapper.target,
+    mapper.ready,
+    mapper.javaType,   // ← nouveau
+    mapper.identity,   // ← nouveau
+);
